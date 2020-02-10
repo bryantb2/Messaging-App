@@ -8,8 +8,7 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<div asp-validation-summary="All" class="text-danger"></div>
-				<form class="login100-form validate-form">
+				<form class="login100-form validate-form" method="post" asp-controller="Login" asp-action="Login">
 					<span class="login100-form-title p-b-26">
 						Welcome
 					</span>
@@ -17,7 +16,7 @@
 						<i class="fa fa-comments"></i>
 					</span>
 
-					<div class="wrap-input100 validate-input" data-validate="Valid email is: a@b.c">
+					<div class="wrap-input100 validate-input" data-validate="Valid email is: abc@something.com">
 						<input class="input100" type="text" asp-for="Email">
 						<span class="focus-input100" data-placeholder="Email"></span>
 					</div>
@@ -30,10 +29,12 @@
 						<span class="focus-input100" data-placeholder="Password"></span>
 					</div>
 
+					<div asp-validation-summary="All" class="text-danger my-1 text-center"></div>
+
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
-							<button class="login100-form-btn">
+							<button class="login100-form-btn" type="submit">
 								Login
 							</button>
 						</div>
