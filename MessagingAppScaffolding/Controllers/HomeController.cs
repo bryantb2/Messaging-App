@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MessagingAppScaffolding.Models;
+using MessagingApp.Models;
 
-namespace MessagingAppScaffolding.Controllers
+namespace MessagingApp.Controllers
 {
     public class HomeController : Controller
     {

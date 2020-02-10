@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
-namespace CommunityWebsite.Models
+namespace MessagingApp.Models
 {
     public class Message
     {
@@ -24,7 +20,7 @@ namespace CommunityWebsite.Models
             get { return this.topic; }
             set { this.topic = value; }
         }
-        
+
         public int MessageID
         {
             get { return this.messageID; }
@@ -43,7 +39,7 @@ namespace CommunityWebsite.Models
 
         public void RemoveReplyHistory(int replyID)
         {
-            foreach(Reply r in replies)
+            foreach (Reply r in replies)
             {
                 if (r.ReplyID == replyID)
                     replies.Remove(r);

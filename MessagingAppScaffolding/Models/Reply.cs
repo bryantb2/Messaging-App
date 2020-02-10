@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace CommunityWebsite.Models
+namespace MessagingApp.Models
 {
     public class Reply
     {

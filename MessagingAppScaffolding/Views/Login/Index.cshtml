@@ -2,14 +2,14 @@
 	Layout = "_LoginLayout";
 	ViewData["Title"] = "Login";
 }
-@model MessagingAppScaffolding.ViewModels.LoginViewModel
+@model MessagingApp.ViewModels.LoginViewModel
 
 <section>
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
+				<div asp-validation-summary="All" class="text-danger"></div>
 				<form class="login100-form validate-form">
-					<div asp-validation-summary="All" class="text-danger"></div>
 					<span class="login100-form-title p-b-26">
 						Welcome
 					</span>

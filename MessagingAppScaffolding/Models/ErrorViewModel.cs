@@ -1,6 +1,6 @@
 using System;
 
-namespace MessagingAppScaffolding.Models
+namespace MessagingApp.Models
 {
     public class ErrorViewModel
     {

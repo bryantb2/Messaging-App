@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MessagingAppScaffolding.Repositories
+namespace MessagingApp.Repositories
 {
     public class RealMessageRepo
     {

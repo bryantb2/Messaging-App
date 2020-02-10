@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using CommunityWebsite.Models;
-using MessagingAppScaffolding.Data;
+using MessagingApp.Models;
+using MessagingApp.Data;
 
-namespace MessagingAppScaffolding.Controllers
+namespace MessagingApp.Controllers
 {
     public class MessagesController : Controller
     {

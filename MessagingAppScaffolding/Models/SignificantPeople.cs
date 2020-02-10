@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CommunityWebsite.Models
+namespace MessagingApp.Models
 {
     public class SignificantPeople
     {

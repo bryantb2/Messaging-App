@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using CommunityWebsite.Models;
+using MessagingApp.Models;
 
-namespace MessagingAppScaffolding.Data
+namespace MessagingApp.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {

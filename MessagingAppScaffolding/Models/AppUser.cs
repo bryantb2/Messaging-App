@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace CommunityWebsite.Models
+namespace MessagingApp.Models
 {
     public class AppUser : IdentityUser  
     {
