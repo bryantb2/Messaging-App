@@ -51,12 +51,48 @@ namespace MessagingApp.Controllers
                     var result = await signInManager.PasswordSignInAsync(user, model.Password, false, false);
                     if (result.Succeeded)
                     {
-                        return Redirect(returnUrl ?? "/");
+                        return Redirect(returnUrl ?? "/Home/Index");
                     }
                 }
                 ModelState.AddModelError(nameof(LoginViewModel.Email), "Invalid email or password");
             }
             return View("Index",model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Signup(CreateUserViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                if(model.ConfirmPassword == model.Password)
+                {
+                    AppUser user = new AppUser
+                    {
+                        UserName = model.Username,
+                        Email = model.Email
+                    };
+                    IdentityResult result
+                        = await userManager.CreateAsync(user, model.Password);
+
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        foreach (IdentityError error in result.Errors)
+                        {
+                            ModelState.AddModelError("", error.Description);
+                        }
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(nameof(CreateUserViewModel.ConfirmPassword), "Passwords must match");
+                }
+            }
+            return View(model);
         }
     }
 }
