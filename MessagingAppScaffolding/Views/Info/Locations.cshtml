@@ -1,0 +1,38 @@
+﻿@model Locations
+@{
+    ViewData["Title"] = "Locations";
+}
+
+<section class="pageContainerCenter justify-content-center">
+    <article class="contextBoxRestricted text-light">
+        <div class="d-flex p-4 justify-content-left darkParagraphBackground"><h1 class="pageHeaderCustom">@Model.TitleText</h1></div>
+        <p class="d-flex mb-5 p-4 pageParagraph darkParagraphBackground">
+            @Model.MainDescription
+        </p>
+        <ul class="list-group mt-2 text-light">
+            @{
+                String[,] locationArray = Model.LocationsDataList;
+                for (int j = 0; j < 5; j++)
+                {
+                    <li class="list-group-item customListItemStyle darkParagraphBackground"><a class="locationListItemAnchor" href="@locationArray[1,j]">@locationArray[0, j]</a></li>
+                }
+            }
+        </ul>
+        <div class="d-flex p-4 justify-content-left">
+            <div class="pageSelectorContainer pr-4">
+                <p class="d-flex pt-2">
+                    Please select an option from the dropdown menu to visit more of our site!
+                </p>
+            </div>
+            <div class="dropdown">
+                <button class="dropdownMenuButton btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Go to
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" asp-controller="Info" asp-action="Locations">Locations</a>
+                    <a class="dropdown-item" asp-controller="Info" asp-action="SignificantPeople">Important People</a>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>

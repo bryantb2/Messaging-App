@@ -1,0 +1,72 @@
+﻿@model Message
+@{
+    ViewData["Title"] = "Reply Form";
+}
+<section class="homePageContainer">
+    <div class="row">
+        <div class="col-6">
+            <article class="contextBoxRestricted text-light">
+                <!--Form design borrowed from https://codepen.io/juff03/pen/OXaXRG -->
+                <form class="well form-horizontal" asp-controller="Messaging" asp-action="GenerateReply" method="post" id="contact_form">
+                    <fieldset>
+
+                        <!-- Form Name -->
+                        <legend><span class="p-3 pageHeaderCustom">Write a Reply</span></legend><br>
+
+                        <!-- Text input-->
+
+                        <div class="form-group">
+                            <label for="poster" class="col-md-6 control-label text-light">Your Username</label>
+                            <div class="col-md-6 inputGroupContainer">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input name="poster" placeholder="Username" class="form-control" type="text">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Text input-->
+
+                        <div class="form-group">
+                            <label for="replyMessageContent" class="col-md-6 control-label text-light">Message</label>
+                            <div class="col-md-6 inputGroupContainer">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                    <textarea name="replyMessageContent" placeholder="Write message here" class="form-control limitedInputTextArea" type="text"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Select Basic -->
+                        <!-- Success message -->
+                        <div class="alert alert-success halfWidthLimiter" role="alert" id="success_message">Success! <i class="glyphicon glyphicon-thumbs-up"></i></div>
+
+                        <!-- Button -->
+                        <div class="form-group">
+                            <label class="col-md-6 control-label"></label>
+                            <div class="col-md-6">
+                                <br>
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<button type="submit" class="btn btn-warning">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspSUBMIT <span class="glyphicon glyphicon-send"></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</button>
+                            </div>
+                        </div>
+
+                        <!-- Hidden fields used for matching the reply with the original comment-->
+                        <input name="chatGenre" value="@Model.Topic" class="form-control" type="hidden">
+                        <input name="parentMessageID" value="@Model.MessageID" class="form-control" type="hidden">
+                    </fieldset>
+                </form>
+            </article>
+        </div>
+        <div class="col-6">
+            <article class="contextBoxRestricted text-light darkParagraphBackground p-4">
+                <h1 class="messageTitle">Responding to @Model.UserNameSignature's message, titled "@Model.MessageTitle", that read's:</h1>
+                <br />
+                <p class="pageParagraph">@Model.MessageContent</p>
+            </article>
+            <div class="row justify-content-end">
+                <a asp-controller="Home" asp-action="Home" class="navigationButton btn btn-light btn-small active m-2 mr-4" role="button" aria-pressed="true">Go Home</a>
+                <a asp-controller="Home" asp-action="Forum" class="navigationButton btn btn-light btn-small active m-2" role="button" aria-pressed="true">Go Back</a>
+            </div>
+        </div>
+    </div>
+</section>

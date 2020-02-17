@@ -11,7 +11,7 @@ namespace MessagingApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        /*private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -32,6 +32,22 @@ namespace MessagingApp.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }*/
+
+        public ViewResult Index()
+        {
+            ViewBag.BackgroundStyle = "pageContainer";
+            return View();
+        }
+
+        public ViewResult Contact()
+        {
+            return View();
+        }
+
+        public ViewResult History()
+        {
+            return View();
         }
     }
 }

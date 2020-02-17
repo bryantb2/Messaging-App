@@ -1,0 +1,43 @@
+﻿@model SignificantPeople
+@{
+    ViewData["Title"] = "Significant People";
+}
+
+<section class="pageContainerCenter justify-content-center">
+    <article class="contextBoxRestricted text-light">
+        <div class="d-flex p-4 justify-content-left darkParagraphBackground"><h1 class="pageHeaderCustom">Significant People</h1></div>
+        <p class="d-flex mb-5 py-2 pr-4 pageParagraph darkParagraphBackground">
+            Below is a short section on people who have had a major impact on our community.
+        </p>
+        <div class="d-flex justify-content-left darkParagraphBackground">
+
+            @{
+                String[,] figuresArray = Model.FigureArray;
+                for (int j = 0; j < 3; j++)
+                {
+                    <figure class="figure p-4">
+                        <img width="300px" src="@figuresArray[0,j]" class="figure-img img-fluid rounded" alt="">
+                        <figcaption class="text-light figure-caption">@figuresArray[1,j]</figcaption>
+                    </figure>
+                }
+            }
+
+        </div>
+        <div class="d-flex p-4 justify-content-left">
+            <div class="pageSelectorContainer pr-4">
+                <p class="d-flex pt-2">
+                    Please select an option from the dropdown menu to visit more of our site!
+                </p>
+            </div>
+            <div class="dropdown">
+                <button class="dropdownMenuButton btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Go to
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" asp-controller="Info" asp-action="Locations">Locations</a>
+                    <a class="dropdown-item" asp-controller="Info" asp-action="SignificantPeople">Important People</a>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>

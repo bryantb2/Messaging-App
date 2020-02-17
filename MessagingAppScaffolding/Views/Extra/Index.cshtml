@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+<Section class="text-light">
+    <br />
+    <h2>Useless page</h2>
+    <br />
+    <br />
+    <p>This will direct you to a new page and display custom network results (before clicking on these, open your inspector and then navigate to the network tab):</p>
+    <a asp-controller="Extra" asp-action="Okay" class="navigationButton btn btn-light btn-small active mr-4" role="button" aria-pressed="true">Okay String</a>
+    <a asp-controller="Extra" asp-action="BadSignin" class="navigationButton btn btn-light btn-small active m-2" role="button" aria-pressed="true">Bad Sign in Result</a>
+    <a asp-controller="Extra" asp-action="GoodResult" class="navigationButton btn btn-light btn-small active m-2" role="button" aria-pressed="true">Acceptable Input Result</a>
+    <br />
+    <br />
+    <p>This will direct you to a new page and display the JSON results:</p>
+    <a asp-controller="Extra" asp-action="ReturnUsers" class="navigationButton btn btn-light btn-small active m-2" role="button" aria-pressed="true">Return Userlist as JSON</a>
+
+    </Section>

@@ -1,0 +1,20 @@
+﻿.contactFormContainer {
+    margin-top: 5% !important;
+}
+.messageContentBoxRestricted {
+    margin-top: 25% !important;
+}
+
+.halfWidthLimiter {
+    max-width: 50%;
+}
+
+div#success_message {
+    display: none;
+}
+
+.limitedInputTextArea {
+    min-height: 130px;
+    max-height: 130px;
+    height: 130px;
+}

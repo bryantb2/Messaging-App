@@ -1,0 +1,12 @@
+﻿/*ANCHOR STYLING*/
+a.locationListItemAnchor {
+    color: white;
+}
+li.customListItemStyle:hover {
+    background-color: white !important;
+    color: grey !important;
+}
+li.customListItemStyle a.locationListItemAnchor:hover {
+    text-decoration: none !important;
+}
+
