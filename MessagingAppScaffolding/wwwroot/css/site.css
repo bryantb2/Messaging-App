@@ -124,11 +124,13 @@ a.navigationAnchor:hover {
 }
 
 /*OVERWRITTING BACKGROUND STYLES*/
-.pageContainer2 {
+.parallaxEffect {
     min-height: 100% !important;
     background-image: url("../images/backgroundImages/roadLandscape.jpg");
     background-size: cover;
     background-repeat: no-repeat;
+    background-attachment:fixed;
+    background-position: center;
 }
 
 .pageContainer3 {
