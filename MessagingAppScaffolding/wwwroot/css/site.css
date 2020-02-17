@@ -126,20 +126,20 @@ a.navigationAnchor:hover {
 /*OVERWRITTING BACKGROUND STYLES*/
 .pageContainer2 {
     min-height: 100% !important;
-    background-image: url(http://getwallpapers.com/wallpaper/full/e/7/3/34863.jpg);
+    background-image: url("../images/backgroundImages/roadLandscape.jpg");
     background-size: cover;
     background-repeat: no-repeat;
 }
 
 .pageContainer3 {
     min-height: 100% !important;
-    background-image: url(http://i.imgur.com/mSnK3yN.jpg);
+    background-image: url("../images/backgroundImages/blueSky.jpg");
     background-size: cover;
     background-repeat: no-repeat;
 }
 .pageContainer4 {
     min-height: 100% !important;
-    background-image: url(https://i.imgur.com/OuSizUw.jpg);
+    background-image: url("../images/backgroundImages/riceFarm.jpg");
     background-size: cover;
     background-repeat: no-repeat;
 }

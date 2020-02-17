@@ -11,42 +11,27 @@ namespace MessagingApp.Controllers
 {
     public class HomeController : Controller
     {
-        /*private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }*/
-
         public ViewResult Index()
         {
             ViewBag.BackgroundStyle = "pageContainer";
             return View();
         }
 
-        public ViewResult Contact()
+        public ViewResult Forum()
         {
+            ViewBag.BackgroundStyle = "pageContainer2";
             return View();
         }
 
-        public ViewResult History()
+        public ViewResult Contact()
         {
+            ViewBag.BackgroundStyle = "pageContainer3";
+            return View();
+        }
+
+        public ViewResult About()
+        {
+            ViewBag.BackgroundStyle = "pageContainer4";
             return View();
         }
     }
