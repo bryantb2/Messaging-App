@@ -5,37 +5,22 @@ namespace MessagingApp.Models
 {
     public class Message
     {
-        //CLASS FIELDS (instance variables)
-        private string messageContent;
-        private string topic;
-        private Int32 unixTimeStamp;
-        private int messageID;
-        private string userNameSignature; //name of user who inputted the message
-        private string messageTitle;
         private List<Reply> replies = new List<Reply>();
 
         //PROPERTIES    
-        public string Topic
-        {
-            get { return this.topic; }
-            set { this.topic = value; }
-        }
+        public string Topic { get; set; }
 
-        public int MessageID
-        {
-            get { return this.messageID; }
-            set { this.messageID = value; }
-        }
+        public int MessageID { get; set; }
 
-        public List<Reply> GetReplyHistory
-        {
-            get { return this.replies; }
-        }
+        public AppUser Poster { get; set; }
 
-        public void AddToReplyHistory(Reply reply)
-        {
-            this.replies.Add(reply);
-        }
+        public string MessageTitle { get; set; }
+
+        public string MessageContent { get; set; }
+
+        public List<Reply> GetReplyHistory => this.replies;
+
+        public void AddToReplyHistory(Reply reply) => this.replies.Add(reply);
 
         public void RemoveReplyHistory(int replyID)
         {
@@ -46,17 +31,7 @@ namespace MessagingApp.Models
             }
         }
 
-        public Int32 UnixTimeStamp
-        {
-            get { return unixTimeStamp; }
-            set { this.unixTimeStamp = value; }
-        }
-
-        public string MessageContent
-        {
-            get { return this.messageContent; }
-            set { this.messageContent = value; }
-        }
+        public Int32 UnixTimeStamp { get; set; }
 
         public DateTime GetTimePosted
         {
@@ -65,22 +40,9 @@ namespace MessagingApp.Models
             get
             {
                 DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
-                long unixTimeStampInTicks = (long)(this.unixTimeStamp * TimeSpan.TicksPerSecond);
+                long unixTimeStampInTicks = (long)(this.UnixTimeStamp * TimeSpan.TicksPerSecond);
                 return new DateTime(unixStart.Ticks + unixTimeStampInTicks, System.DateTimeKind.Utc);
             }
         }
-
-        public string MessageTitle
-        {
-            get { return this.messageTitle; }
-            set { this.messageTitle = value; }
-        }
-
-        public string UserNameSignature
-        {
-            get { return this.userNameSignature; }
-            set { this.userNameSignature = value; }
-        }
-
     }
 }
