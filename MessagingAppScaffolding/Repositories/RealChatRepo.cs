@@ -27,22 +27,18 @@ namespace MessagingApp.Repositories
             }
         }
 
-        public void CreateChatRoom(String chatName)
+        public void CreateChatRoom(ChatRoom chat)
         {
             var chats = this.context.ChatRooms;
             var alreadyExists = false;
             foreach(ChatRoom c in chats)
             {
-                if (c.ChatName.ToLower() == chatName.ToLower())
+                if (c.ChatName.ToLower() == chat.ChatName.ToLower())
                     alreadyExists = true;
             }
             if(!alreadyExists)
             {
-                ChatRoom chat = new ChatRoom()
-                {
-                    ChatName = chatName,
-                };
-                var addedChat = this.context.ChatRooms.Add(chat);
+                this.context.ChatRooms.Add(chat);
                 this.context.SaveChanges();
             }
         }

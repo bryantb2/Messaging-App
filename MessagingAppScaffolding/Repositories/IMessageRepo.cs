@@ -6,12 +6,12 @@ using MessagingApp.Models;
 
 namespace MessagingApp.Repositories
 {
-    public interface IChatRepo
+    public interface IMessageRepo
     {
-        List<ChatRoom> ChatRoomList { get; }
+        List<Message> MessageList { get; }
 
-        void CreateChatRoom(ChatRoom chat);
+        void AddMsgToRepo(Message msg);
 
-        ChatRoom DeleteChatRoom(int chatRoomID);
+        Message DeleteMsgFromRepo(int msgId);
     }
 }
