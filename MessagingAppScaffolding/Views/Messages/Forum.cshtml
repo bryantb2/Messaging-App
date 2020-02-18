@@ -1,49 +1,117 @@
-﻿@model List<Message>
+﻿
 @{
-    ViewData["Title"] = "Community Forum";
+    ViewData["Title"] = "Home";
 }
-<section class="p-4">
-    <h2 class="text-light py-4">@ViewBag.TitleText</h2>
-    @foreach (Message message in Model)
-    {
-        <div class="overflow-auto mt-4">
-            <div class="userMessage text-light darkParagraphBackground p-4">
-                <h1 class="messageTitle">@message.MessageTitle</h1>
-                <p class="pageParagraph"> @message.MessageContent</p>
-                <div class="d-flex flex-row">
-                    <p class="digitalSignature">Post by @message.UserNameSignature on @message.GetTimePosted</p>
-                </div>
-            </div>
-            <form asp-action="ReplyButtonSubmit" asp-controller="Messaging">
-                <fieldset>
-                    <input name="chatGenre" value="@ViewBag.SelectedChat" class="form-control" type="hidden">
-                    <input name="parentMessageID" value="@message.MessageID" class="form-control" type="hidden">
-                    <button type="submit" class="btn btn-link text-light">Reply</button>
-                </fieldset>
-            </form>
+
+
+<div class="overflow-auto mt-4">
+    <div class="userMessage text-light darkParagraphBackground p-4">
+        <h1 class="messageTitle">Hello There</h1>
+        <p class="pageParagraph"> My name is bob dylan and I am here to rock your world</p>
+        <div class="d-flex flex-row">
+            <p class="digitalSignature">Post by DylanD2 on 2/4/20 at 3:40pm</p>
         </div>
+    </div>
+    <form asp-action="ReplyButtonSubmit" asp-controller="Messaging">
+        <fieldset>
+            <input name="chatGenre" class="form-control" type="hidden">
+            <input name="parentMessageID" class="form-control" type="hidden">
+            <button type="submit" class="btn btn-link text-light">Reply</button>
+        </fieldset>
+    </form>
+</div>
 
-        @if (message.GetReplyHistory != null)
-            {
-                <div class="pt-4 container">
-                    @foreach (Reply r in message.GetReplyHistory)
-                    {
-                        <div class="row justify-content-end">
-                            <div class="col-6 reply p-2 my-3 bg-dark p-4">
-                                <p class="pageParagraph text-light">@r.ReplyContent</p>
-                                <div class="d-flex flex-row">
-                                    <p class="digitalSignature text-light">Post by @r.UserNameSignature on @r.GetTimePosted</p>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-            }
-        }
-    }
-    <br />
-    <a asp-controller="Home" asp-action="Home" class="navigationButton btn btn-light btn-small active mr-4" role="button" aria-pressed="true">Go Home</a>
-    <a asp-controller="Home" asp-action="Contact" class="navigationButton btn btn-light btn-small active m-2" role="button" aria-pressed="true">Go Back</a>
-</section>
+<div class="pt-4 container">
+    <div class="row justify-content-end">
+        <div class="col-6 reply p-2 my-3 bg-dark p-4">
+            <p class="pageParagraph text-light">Your music sucks dude</p>
+            <div class="d-flex flex-row">
+                <p class="digitalSignature text-light">Post by DylanHater69 on 2/6/20 at 8:50pm</p>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div class="overflow-auto mt-4">
+    <div class="userMessage text-light darkParagraphBackground p-4">
+        <h1 class="messageTitle">Hello There</h1>
+        <p class="pageParagraph"> My name is bob dylan and I am here to rock your world</p>
+        <div class="d-flex flex-row">
+            <p class="digitalSignature">Post by DylanD2 on 2/4/20 at 3:40pm</p>
+        </div>
+    </div>
+    <form asp-action="ReplyButtonSubmit" asp-controller="Messaging">
+        <fieldset>
+            <input name="chatGenre" class="form-control" type="hidden">
+            <input name="parentMessageID" class="form-control" type="hidden">
+            <button type="submit" class="btn btn-link text-light">Reply</button>
+        </fieldset>
+    </form>
+</div>
 
+<div class="pt-4 container">
+    <div class="row justify-content-end">
+        <div class="col-6 reply p-2 my-3 bg-dark p-4">
+            <p class="pageParagraph text-light">Your music sucks dude</p>
+            <div class="d-flex flex-row">
+                <p class="digitalSignature text-light">Post by DylanHater69 on 2/6/20 at 8:50pm</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="overflow-auto mt-4">
+    <div class="userMessage text-light darkParagraphBackground p-4">
+        <h1 class="messageTitle">Hello There</h1>
+        <p class="pageParagraph"> My name is bob dylan and I am here to rock your world</p>
+        <div class="d-flex flex-row">
+            <p class="digitalSignature">Post by DylanD2 on 2/4/20 at 3:40pm</p>
+        </div>
+    </div>
+    <form asp-action="ReplyButtonSubmit" asp-controller="Messaging">
+        <fieldset>
+            <input name="chatGenre" class="form-control" type="hidden">
+            <input name="parentMessageID" class="form-control" type="hidden">
+            <button type="submit" class="btn btn-link text-light">Reply</button>
+        </fieldset>
+    </form>
+</div>
+
+<div class="pt-4 container">
+    <div class="row justify-content-end">
+        <div class="col-6 reply p-2 my-3 bg-dark p-4">
+            <p class="pageParagraph text-light">Your music sucks dude</p>
+            <div class="d-flex flex-row">
+                <p class="digitalSignature text-light">Post by DylanHater69 on 2/6/20 at 8:50pm</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="overflow-auto mt-4">
+    <div class="userMessage text-light darkParagraphBackground p-4">
+        <h1 class="messageTitle">Hello There</h1>
+        <p class="pageParagraph"> My name is bob dylan and I am here to rock your world</p>
+        <div class="d-flex flex-row">
+            <p class="digitalSignature">Post by DylanD2 on 2/4/20 at 3:40pm</p>
+        </div>
+    </div>
+    <form asp-action="ReplyButtonSubmit" asp-controller="Messaging">
+        <fieldset>
+            <input name="chatGenre" class="form-control" type="hidden">
+            <input name="parentMessageID" class="form-control" type="hidden">
+            <button type="submit" class="btn btn-link text-light">Reply</button>
+        </fieldset>
+    </form>
+</div>
+
+<div class="pt-4 container">
+    <div class="row justify-content-end">
+        <div class="col-6 reply p-2 my-3 bg-dark p-4">
+            <p class="pageParagraph text-light">Your music sucks dude</p>
+            <div class="d-flex flex-row">
+                <p class="digitalSignature text-light">Post by DylanHater69 on 2/6/20 at 8:50pm</p>
+            </div>
+        </div>
+    </div>
+</div>

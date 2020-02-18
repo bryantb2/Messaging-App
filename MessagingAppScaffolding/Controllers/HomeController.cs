@@ -17,12 +17,6 @@ namespace MessagingApp.Controllers
             return View();
         }
 
-        public ViewResult Forum()
-        {
-            ViewBag.BackgroundStyle = "parallaxEffect";
-            return View();
-        }
-
         public ViewResult Contact()
         {
             ViewBag.BackgroundStyle = "pageContainer3";

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MessagingApp.Repositories
+namespace MessagingApp.Models
 {
-    public class IUserRepo
+    public class ChatRoom
     {
     }
 }
