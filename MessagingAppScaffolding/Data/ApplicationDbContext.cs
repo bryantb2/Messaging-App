@@ -15,6 +15,8 @@ namespace MessagingApp.Data
 
         public DbSet<Reply> Replies { get; set; }
 
+        public DbSet<ChatRoom> ChatRooms { get; set; }
+
         // Users is handled by the .NET Core Identity framework
     }
 }

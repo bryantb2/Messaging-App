@@ -8,6 +8,7 @@ namespace MessagingApp.Models
 {
     public class ChatRoom
     {
+        public int ChatRoomID { get; set; }
         public String ChatName { get; set; }
         public List<Message> ChatMessages { get; set; }
 
