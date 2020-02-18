@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MessagingApp.Repositories
 {
-    public class RealMessageRepo
+    public class RealMessageRepo : IMessageRepo
     {
         private ApplicationDbContext context;
 
