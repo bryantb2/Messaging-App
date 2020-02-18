@@ -3,114 +3,171 @@
     ViewData["Title"] = "Home";
 }
 
-<div class="overflow-auto mt-4">
-    <div class="userMessage text-light darkParagraphBackground p-4">
-        <h1 class="messageTitle">Hello There</h1>
-        <p class="pageParagraph"> My name is bob dylan and I am here to rock your world</p>
-        <div class="d-flex flex-row">
-            <p class="digitalSignature">Post by DylanD2 on 2/4/20 at 3:40pm</p>
-        </div>
-    </div>
-    <form asp-action="ReplyButtonSubmit" asp-controller="Messaging">
-        <fieldset>
-            <input name="chatGenre" class="form-control" type="hidden">
-            <input name="parentMessageID" class="form-control" type="hidden">
-            <button type="submit" class="btn btn-link text-light">Reply</button>
-        </fieldset>
-    </form>
-</div>
+<link rel="stylesheet" href="~/css/ModalStyles.css">
 
-<div class="pt-4 container">
-    <div class="row justify-content-end">
-        <div class="col-6 reply p-2 my-3 bg-dark p-4">
-            <p class="pageParagraph text-light">Your music sucks dude</p>
-            <div class="d-flex flex-row">
-                <p class="digitalSignature text-light">Post by DylanHater69 on 2/6/20 at 8:50pm</p>
+<section>
+
+    <!-- MODAL -->
+
+    <div class="modal fade" id="modal-register" role="dialog" aria-labelledby="modal-register-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                    </button>
+                    <h3 class="modal-title" id="modal-register-label">Sign up now</h3>
+                    <p>Fill in the form below to get instant access:</p>
+                </div>
+
+                <div class="modal-body">
+                    <form role="form" action="" method="post" class="registration-form">
+                        <div class="form-group">
+                            <label class="sr-only" for="form-first-name">Message Title</label>
+                            <input type="text" name="form-first-name" placeholder="Message title..." class="form-first-name form-control" id="form-first-name">
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only" for="form-about-yourself">Message Body</label>
+                            <textarea name="form-about-yourself" placeholder="Message body..."
+                                      class="form-about-yourself form-control" id="form-about-yourself"></textarea>
+                        </div>
+                        <button type="submit" class="btn">Post Message</button>
+                    </form>
+                </div>
+
             </div>
         </div>
     </div>
-</div>
 
-<div class="overflow-auto mt-4">
-    <div class="userMessage text-light darkParagraphBackground p-4">
-        <h1 class="messageTitle">Hello There</h1>
-        <p class="pageParagraph"> My name is bob dylan and I am here to rock your world</p>
-        <div class="d-flex flex-row">
-            <p class="digitalSignature">Post by DylanD2 on 2/4/20 at 3:40pm</p>
+    <!-- END OF MODAL -->
+
+    <div class="row mt-5">
+        <div class="col-2">
+            <div class="dropdown">
+                <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Select Chat
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">Auto generated 1</a>
+                    <a class="dropdown-item" href="#">Auto generated 2</a>
+                    <a class="dropdown-item" href="#">Auto generated 3</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-2">
+            <button type="button" href="#" class="btn btn-light" data-toggle="modal" data-target="#modal-register">Make Post</button>
         </div>
     </div>
-    <form asp-action="ReplyButtonSubmit" asp-controller="Messaging">
-        <fieldset>
-            <input name="chatGenre" class="form-control" type="hidden">
-            <input name="parentMessageID" class="form-control" type="hidden">
-            <button type="submit" class="btn btn-link text-light">Reply</button>
-        </fieldset>
-    </form>
-</div>
 
-<div class="pt-4 container">
-    <div class="row justify-content-end">
-        <div class="col-6 reply p-2 my-3 bg-dark p-4">
-            <p class="pageParagraph text-light">Your music sucks dude</p>
+    <div class="overflow-auto mt-4">
+        <div class="userMessage text-light darkParagraphBackground p-4">
+            <h1 class="messageTitle">Hello There</h1>
+            <p class="pageParagraph"> My name is bob dylan and I am here to rock your world</p>
             <div class="d-flex flex-row">
-                <p class="digitalSignature text-light">Post by DylanHater69 on 2/6/20 at 8:50pm</p>
+                <p class="digitalSignature">Post by DylanD2 on 2/4/20 at 3:40pm</p>
+            </div>
+        </div>
+        <form asp-action="ReplyButtonSubmit" asp-controller="Messaging">
+            <fieldset>
+                <input name="chatGenre" class="form-control" type="hidden">
+                <input name="parentMessageID" class="form-control" type="hidden">
+                <button type="submit" class="btn btn-link text-light">Reply</button>
+            </fieldset>
+        </form>
+    </div>
+
+    <div class="pt-4 container">
+        <div class="row justify-content-end">
+            <div class="col-6 reply p-2 my-3 bg-dark p-4">
+                <p class="pageParagraph text-light">Your music sucks dude</p>
+                <div class="d-flex flex-row">
+                    <p class="digitalSignature text-light">Post by DylanHater69 on 2/6/20 at 8:50pm</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="overflow-auto mt-4">
-    <div class="userMessage text-light darkParagraphBackground p-4">
-        <h1 class="messageTitle">Hello There</h1>
-        <p class="pageParagraph"> My name is bob dylan and I am here to rock your world</p>
-        <div class="d-flex flex-row">
-            <p class="digitalSignature">Post by DylanD2 on 2/4/20 at 3:40pm</p>
-        </div>
-    </div>
-    <form asp-action="ReplyButtonSubmit" asp-controller="Messaging">
-        <fieldset>
-            <input name="chatGenre" class="form-control" type="hidden">
-            <input name="parentMessageID" class="form-control" type="hidden">
-            <button type="submit" class="btn btn-link text-light">Reply</button>
-        </fieldset>
-    </form>
-</div>
-
-<div class="pt-4 container">
-    <div class="row justify-content-end">
-        <div class="col-6 reply p-2 my-3 bg-dark p-4">
-            <p class="pageParagraph text-light">Your music sucks dude</p>
+    <div class="overflow-auto mt-4">
+        <div class="userMessage text-light darkParagraphBackground p-4">
+            <h1 class="messageTitle">Hello There</h1>
+            <p class="pageParagraph"> My name is bob dylan and I am here to rock your world</p>
             <div class="d-flex flex-row">
-                <p class="digitalSignature text-light">Post by DylanHater69 on 2/6/20 at 8:50pm</p>
+                <p class="digitalSignature">Post by DylanD2 on 2/4/20 at 3:40pm</p>
+            </div>
+        </div>
+        <form asp-action="ReplyButtonSubmit" asp-controller="Messaging">
+            <fieldset>
+                <input name="chatGenre" class="form-control" type="hidden">
+                <input name="parentMessageID" class="form-control" type="hidden">
+                <button type="submit" class="btn btn-link text-light">Reply</button>
+            </fieldset>
+        </form>
+    </div>
+
+    <div class="pt-4 container">
+        <div class="row justify-content-end">
+            <div class="col-6 reply p-2 my-3 bg-dark p-4">
+                <p class="pageParagraph text-light">Your music sucks dude</p>
+                <div class="d-flex flex-row">
+                    <p class="digitalSignature text-light">Post by DylanHater69 on 2/6/20 at 8:50pm</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="overflow-auto mt-4">
-    <div class="userMessage text-light darkParagraphBackground p-4">
-        <h1 class="messageTitle">Hello There</h1>
-        <p class="pageParagraph"> My name is bob dylan and I am here to rock your world</p>
-        <div class="d-flex flex-row">
-            <p class="digitalSignature">Post by DylanD2 on 2/4/20 at 3:40pm</p>
-        </div>
-    </div>
-    <form asp-action="ReplyButtonSubmit" asp-controller="Messaging">
-        <fieldset>
-            <input name="chatGenre" class="form-control" type="hidden">
-            <input name="parentMessageID" class="form-control" type="hidden">
-            <button type="submit" class="btn btn-link text-light">Reply</button>
-        </fieldset>
-    </form>
-</div>
-
-<div class="pt-4 container">
-    <div class="row justify-content-end">
-        <div class="col-6 reply p-2 my-3 bg-dark p-4">
-            <p class="pageParagraph text-light">Your music sucks dude</p>
+    <div class="overflow-auto mt-4">
+        <div class="userMessage text-light darkParagraphBackground p-4">
+            <h1 class="messageTitle">Hello There</h1>
+            <p class="pageParagraph"> My name is bob dylan and I am here to rock your world</p>
             <div class="d-flex flex-row">
-                <p class="digitalSignature text-light">Post by DylanHater69 on 2/6/20 at 8:50pm</p>
+                <p class="digitalSignature">Post by DylanD2 on 2/4/20 at 3:40pm</p>
+            </div>
+        </div>
+        <form asp-action="ReplyButtonSubmit" asp-controller="Messaging">
+            <fieldset>
+                <input name="chatGenre" class="form-control" type="hidden">
+                <input name="parentMessageID" class="form-control" type="hidden">
+                <button type="submit" class="btn btn-link text-light">Reply</button>
+            </fieldset>
+        </form>
+    </div>
+
+    <div class="pt-4 container">
+        <div class="row justify-content-end">
+            <div class="col-6 reply p-2 my-3 bg-dark p-4">
+                <p class="pageParagraph text-light">Your music sucks dude</p>
+                <div class="d-flex flex-row">
+                    <p class="digitalSignature text-light">Post by DylanHater69 on 2/6/20 at 8:50pm</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    <div class="overflow-auto mt-4">
+        <div class="userMessage text-light darkParagraphBackground p-4">
+            <h1 class="messageTitle">Hello There</h1>
+            <p class="pageParagraph"> My name is bob dylan and I am here to rock your world</p>
+            <div class="d-flex flex-row">
+                <p class="digitalSignature">Post by DylanD2 on 2/4/20 at 3:40pm</p>
+            </div>
+        </div>
+        <form asp-action="ReplyButtonSubmit" asp-controller="Messaging">
+            <fieldset>
+                <input name="chatGenre" class="form-control" type="hidden">
+                <input name="parentMessageID" class="form-control" type="hidden">
+                <button type="submit" class="btn btn-link text-light">Reply</button>
+            </fieldset>
+        </form>
+    </div>
+
+    <div class="pt-4 container">
+        <div class="row justify-content-end">
+            <div class="col-6 reply p-2 my-3 bg-dark p-4">
+                <p class="pageParagraph text-light">Your music sucks dude</p>
+                <div class="d-flex flex-row">
+                    <p class="digitalSignature text-light">Post by DylanHater69 on 2/6/20 at 8:50pm</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

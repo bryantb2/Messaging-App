@@ -7,154 +7,38 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MessagingApp.Models;
 using MessagingApp.Data;
+using MessagingApp.Repositories;
 
 namespace MessagingApp.Controllers
 {
     public class MessagesController : Controller
     {
-        private readonly ApplicationDbContext _context;
-
-        public MessagesController(ApplicationDbContext context)
+        IReplyRepo replyRepo;
+        IMessageRepo messageRepo;
+        IChatRepo chatRepo;
+        public MessagesController(IReplyRepo r, IMessageRepo m, IChatRepo c)
         {
-            _context = context;
+            this.replyRepo = r;
+            this.messageRepo = m;
+            this.chatRepo = c;
         }
 
-        // GET: Messages
-        /* public async Task<IActionResult> Index()
-         {
-             return View(await _context.Messages.ToListAsync());
-         }
-
-         // GET: Messages/Details/5
-         public async Task<IActionResult> Details(int? id)
-         {
-             if (id == null)
-             {
-                 return NotFound();
-             }
-
-             var message = await _context.Messages
-                 .FirstOrDefaultAsync(m => m.MessageID == id);
-             if (message == null)
-             {
-                 return NotFound();
-             }
-
-             return View(message);
-         }
-
-         // GET: Messages/Create
-         public IActionResult Create()
-         {
-             return View();
-         }
-
-         // POST: Messages/Create
-         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-         [HttpPost]
-         [ValidateAntiForgeryToken]
-         public async Task<IActionResult> Create([Bind("Topic,MessageID,UnixTimeStamp,MessageContent,MessageTitle,UserNameSignature")] Message message)
-         {
-             if (ModelState.IsValid)
-             {
-                 _context.Add(message);
-                 await _context.SaveChangesAsync();
-                 return RedirectToAction(nameof(Index));
-             }
-             return View(message);
-         }
-
-         // GET: Messages/Edit/5
-         public async Task<IActionResult> Edit(int? id)
-         {
-             if (id == null)
-             {
-                 return NotFound();
-             }
-
-             var message = await _context.Messages.FindAsync(id);
-             if (message == null)
-             {
-                 return NotFound();
-             }
-             return View(message);
-         }
-
-         // POST: Messages/Edit/5
-         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-         [HttpPost]
-         [ValidateAntiForgeryToken]
-         public async Task<IActionResult> Edit(int id, [Bind("Topic,MessageID,UnixTimeStamp,MessageContent,MessageTitle,UserNameSignature")] Message message)
-         {
-             if (id != message.MessageID)
-             {
-                 return NotFound();
-             }
-
-             if (ModelState.IsValid)
-             {
-                 try
-                 {
-                     _context.Update(message);
-                     await _context.SaveChangesAsync();
-                 }
-                 catch (DbUpdateConcurrencyException)
-                 {
-                     if (!MessageExists(message.MessageID))
-                     {
-                         return NotFound();
-                     }
-                     else
-                     {
-                         throw;
-                     }
-                 }
-                 return RedirectToAction(nameof(Index));
-             }
-             return View(message);
-         }
-
-         // GET: Messages/Delete/5
-         public async Task<IActionResult> Delete(int? id)
-         {
-             if (id == null)
-             {
-                 return NotFound();
-             }
-
-             var message = await _context.Messages
-                 .FirstOrDefaultAsync(m => m.MessageID == id);
-             if (message == null)
-             {
-                 return NotFound();
-             }
-
-             return View(message);
-         }
-
-         // POST: Messages/Delete/5
-         [HttpPost, ActionName("Delete")]
-         [ValidateAntiForgeryToken]
-         public async Task<IActionResult> DeleteConfirmed(int id)
-         {
-             var message = await _context.Messages.FindAsync(id);
-             _context.Messages.Remove(message);
-             await _context.SaveChangesAsync();
-             return RedirectToAction(nameof(Index));
-         }
-
-         private bool MessageExists(int id)
-         {
-             return _context.Messages.Any(e => e.MessageID == id);
-         }*/
-
-
-        public ViewResult Forum()
+        public ViewResult Forum(int? chatRoomID = null)
         {
+            // allows for user to select which chat room they want
             ViewBag.BackgroundStyle = "parallaxEffect";
-            return View();
+            List<ChatRoom> chatRooms = chatRepo.ChatRoomList;
+            ChatRoom selectChatRoom;
+            if (chatRoomID != null)
+                selectChatRoom = chatRooms.Find(chat => chat.ChatRoomID == chatRoomID);
+            else
+                selectChatRoom = chatRooms.Count == 0 ? null : chatRooms[0];
+            return View(selectChatRoom);
         }
+
+        // post message
+
+
+        // post reply
     }
 }

@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MessagingApp.Models;
+using MessagingApp.Repositories;
 
 namespace MessagingAppScaffolding
 {
@@ -31,6 +32,7 @@ namespace MessagingAppScaffolding
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddIdentity<AppUser, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
@@ -41,10 +43,15 @@ namespace MessagingAppScaffolding
                 options.Password.RequireLowercase = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequireDigit = true;
-            })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            }).AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            // injecting repositories into Message controller
+            services.AddTransient<IReplyRepo, RealReplyRepo>();
+            services.AddTransient<IMessageRepo, RealMessageRepo>();
+            services.AddTransient<IChatRepo, RealChatRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

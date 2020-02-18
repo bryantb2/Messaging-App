@@ -44,10 +44,7 @@ namespace MessagingApp.Models
 
         public void AddMessageToHistory(Message message)
         {
-            //if(message.UserNameSignature == this.userName)
-            //{
-                this.messageHistory.Add(message);
-            //}
+            this.messageHistory.Add(message);
         }
 
         public void RemoveMessageFromHistory(int messageID)
@@ -60,35 +57,5 @@ namespace MessagingApp.Models
                 }
             }
         }
-
-        //public void AddReplyToMessage(int messageID, Reply externalReply)
-        //{
-        //    //this methods syncs another person's response to the message itself
-        //    foreach(Message m in messageHistory)
-        //    {
-        //        if(m.MessageID == messageID)
-        //        {
-        //            m.AddToReplyHistory(externalReply);
-        //        }
-        //    }
-        //}
-
-        //public void RemoveReplyFromMessage(int messageID, int replyID)
-        //{
-        //    foreach (Message m in messageHistory)
-        //    {
-        //        if (m.MessageID == messageID)
-        //        {
-        //            List<Reply> replyHistory = m.GetReplyHistory;
-        //            for(int i = 0; i < replyHistory.Count();i++)
-        //            {
-        //                if(replyHistory[i].ReplyID == replyID)
-        //                {
-        //                    m.RemoveReplyHistory(replyID);
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
     }
 }
