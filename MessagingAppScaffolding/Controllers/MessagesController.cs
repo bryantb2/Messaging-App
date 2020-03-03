@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using MessagingApp.Models;
 using MessagingApp.Data;
 using MessagingApp.Repositories;
+using MessagingApp.ViewModels;
 
 namespace MessagingApp.Controllers
 {
@@ -23,7 +24,8 @@ namespace MessagingApp.Controllers
             this.chatRepo = c;
         }
 
-        public ViewResult Forum(int? chatRoomID = null)
+        [HttpGet]
+        public IActionResult Forum(int? chatRoomID = null)
         {
             // allows for user to select which chat room they want
             ViewBag.BackgroundStyle = "parallaxEffect";
@@ -37,7 +39,26 @@ namespace MessagingApp.Controllers
         }
 
         // post message
-
+        [HttpPost]
+        public IActionResult AddMessage(CreateMessageViewModel msg, int chatRoomID)
+        {
+            if(ModelState.IsValid)
+            {
+                List<ChatRoom> chatRooms = chatRepo.ChatRoomList;
+                ChatRoom selectedChatRoom = chatRooms.Find(chat => chat.ChatRoomID == chatRoomID);
+                var newMsg = new Message()
+                {
+                    Topic = selectedChatRoom.ChatName,
+                    MessageTitle = msg.Title,
+                    MessageContent = msg.MessageBody
+                };
+                messageRepo.AddMsgToRepo(newMsg);
+                chatRepo.AddMsgToChat(selectedChatRoom, newMsg);
+            }
+            else
+                ModelState.AddModelError(nameof(CreateMessageViewModel.Title), "Invalid title or body");
+            return Redirect("/Message/Forum/" + chatRoomID.ToString());
+        }
 
         // post reply
     }

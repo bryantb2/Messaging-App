@@ -27,6 +27,7 @@ namespace MessagingApp.Repositories
             }
         }
 
+        // chatroom methods
         public void CreateChatRoom(ChatRoom chat)
         {
             var chats = this.context.ChatRooms;
@@ -58,6 +59,19 @@ namespace MessagingApp.Repositories
                 }
             }
             return removedChat;
+        }
+
+        // messaging methods
+        public void AddMsgToChat(ChatRoom chat, Message msg)
+        {
+            // find chat and add message to it
+            this.context.ChatRooms.Find(chat).AddMessage(msg);
+            this.context.SaveChanges();
+        }
+
+        public Message RemoveMsgFromChat(ChatRoom chat, Message msg)
+        {
+
         }
     }
 }
