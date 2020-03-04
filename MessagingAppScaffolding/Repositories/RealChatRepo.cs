@@ -62,16 +62,32 @@ namespace MessagingApp.Repositories
         }
 
         // messaging methods
-        public void AddMsgToChat(ChatRoom chat, Message msg)
+        public void AddMsgToChat(int chatID, Message msg)
         {
-            // find chat and add message to it
-            this.context.ChatRooms.Find(chat).AddMessage(msg);
+            // add message and then update chat
+            var chats = this.context.ChatRooms.ToList();
+            var selectedChatRoom = chats.Find(chat => chat.ChatRoomID == chatID);
+            selectedChatRoom.AddMessage(msg);
+            this.context.Update(selectedChatRoom);
             this.context.SaveChanges();
         }
 
-        public Message RemoveMsgFromChat(ChatRoom chat, Message msg)
+        public Message RemoveMsgFromChat(int chatID, int msgID)
         {
+            Message foundMessage = null;
+            // find chat
+            var chats = this.context.ChatRooms.ToList();
+            var selectedChatRoom = chats.Find(chat => chat.ChatRoomID == chatID);
+            
+            // find message
+            foundMessage = selectedChatRoom.ChatMessages.Find(msg => msg.MessageID == msgID);
+            
+            // remove message and then update chat
+            selectedChatRoom.RemoveMessage(foundMessage);
+            this.context.Update(selectedChatRoom);
+            this.context.SaveChanges();
 
+            return foundMessage;
         }
     }
 }

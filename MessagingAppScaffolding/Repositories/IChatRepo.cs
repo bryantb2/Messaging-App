@@ -14,8 +14,8 @@ namespace MessagingApp.Repositories
 
         ChatRoom DeleteChatRoom(int chatRoomID);
 
-        void AddMsgToChat(ChatRoom chat, Message msg);
+        void AddMsgToChat(int chatID, Message msg);
 
-        Message RemoveMsgFromChat(ChatRoom chat, Message msg);
+        Message RemoveMsgFromChat(int chatID, int msgID);
     }
 }
