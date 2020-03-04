@@ -48,5 +48,33 @@ namespace MessagingApp.Repositories
             }
             return removedMsg;
         }
+
+        // reply methods
+        public void AddReplytoMsg(Reply rply, int msgID)
+        {
+            var message = this.context.Messages.ToList()
+                .Find(msg => msg.MessageID == msgID);
+            message.AddToReplyHistory(rply);
+            this.context.Messages.Update(message);
+            this.context.SaveChanges();
+        }
+
+        public Reply RemoveReplyFromMsg(int replyID, int msgID)
+        {
+            // find message
+            var selectedMsg = this.context.Messages.ToList()
+                .Find(msg => msg.MessageID == msgID);
+
+            // find reply
+            var foundReply = selectedMsg.GetReplyHistory
+                .Find(rply => rply.ReplyID == replyID);
+
+            // remove message and update context
+            selectedMsg.RemoveReplyHistory(replyID);
+            this.context.Messages.Update(selectedMsg);
+            this.context.SaveChanges();
+
+            return foundReply;
+        }
     }
 }

@@ -61,6 +61,8 @@ namespace MessagingApp.Controllers
         {
             if(ModelState.IsValid)
             {
+                var selectedChatRoom = chatRepo.ChatRoomList
+                    .Find(chat => chat.ChatRoomID == chatRoomID);
                 var newMsg = new Message()
                 {
                     Topic = selectedChatRoom.ChatName,
@@ -72,7 +74,11 @@ namespace MessagingApp.Controllers
                 var user = await userManager.GetUserAsync(HttpContext.User);
                 messageRepo.AddMsgToRepo(newMsg);
                 user.AddMessageToHistory(newMsg);
-                chatRepo.AddMsgToChat(selectedChatRoom, newMsg);
+                chatRepo.AddMsgToChat(chatRoomID, newMsg);
+                var result = await userManager.UpdateAsync(user);
+                // ADD VALIDATION THAT GETS RETURNED TO ACTION METHOD
+                //if (!result.Succeeded)
+                    //return RedirectToAction();
             }
             else
                 ModelState.AddModelError(nameof(CreateMessageViewModel.Title), "Invalid title or body");
@@ -85,8 +91,6 @@ namespace MessagingApp.Controllers
         {
             if(ModelState.IsValid)
             {
-                List<ChatRoom> chatRooms = chatRepo.ChatRoomList;
-                ChatRoom selectedChatRoom = chatRooms.Find(chat => chat.ChatRoomID == chatRoomID);
                 var newRply = new Reply()
                 {
                     ReplyContent = rply.MessageBody,
@@ -95,9 +99,9 @@ namespace MessagingApp.Controllers
                 // add to reply, msg, and user repos
                 var user = await userManager.GetUserAsync(HttpContext.User);
                 replyRepo.AddReplyToRepo(newRply);
-                messageRepo;
-                user.AddMessageToHistory(newMsg);
-                chatRepo.AddMsgToChat(selectedChatRoom, newMsg);
+                messageRepo.AddReplytoMsg(newRply, msgId);
+                user.AddToReplyHistory(newRply);
+                var result = await userManager.UpdateAsync(user);
             }
             else
                 ModelState.AddModelError(nameof(CreateReplyViewModel.MessageBody), "Invalid reply body");

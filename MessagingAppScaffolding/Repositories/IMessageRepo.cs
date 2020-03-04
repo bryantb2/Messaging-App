@@ -13,5 +13,9 @@ namespace MessagingApp.Repositories
         void AddMsgToRepo(Message msg);
 
         Message DeleteMsgFromRepo(int msgId);
+
+        void AddReplytoMsg(Reply rply, int msgID);
+
+        Reply RemoveReplyFromMsg(int replyID, int msgID);
     }
 }
