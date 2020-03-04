@@ -79,6 +79,8 @@ namespace MessagingAppScaffolding
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseCookiePolicy();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

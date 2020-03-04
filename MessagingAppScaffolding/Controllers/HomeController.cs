@@ -7,25 +7,33 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MessagingApp.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace MessagingApp.Controllers
 {
     [Authorize]
     public class HomeController : Controller
     {
-        public ViewResult Index()
+        private UserManager<AppUser> userManager;
+        public HomeController(
+                UserManager<AppUser> usrMgr)
+        {
+            userManager = usrMgr;
+        }
+        public async Task<IActionResult> Index()
         {
             ViewBag.BackgroundStyle = "pageContainer";
-            return View();
+            var user = await userManager.GetUserAsync(HttpContext.User);
+            return View(user);
         }
 
-        public ViewResult Contact()
+        public IActionResult Contact()
         {
             ViewBag.BackgroundStyle = "pageContainer3";
             return View();
         }
 
-        public ViewResult About()
+        public IActionResult About()
         {
             ViewBag.BackgroundStyle = "pageContainer4";
             return View();
