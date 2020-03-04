@@ -14,7 +14,7 @@ namespace MessagingApp.Models
 
         public String ReplyContent { get; set; }
 
-        //public AppUser Poster { get; set; }
+        public String Poster { get; set; }
 
         public Int64 UnixTimeStamp { get; set; }
 

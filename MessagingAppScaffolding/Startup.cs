@@ -48,6 +48,9 @@ namespace MessagingAppScaffolding
             services.AddControllersWithViews();
             services.AddRazorPages();
 
+            // force app to use login if jerk user attempts to use restricted controller
+            services.ConfigureApplicationCookie(option => option.LoginPath = "/Login/Index");
+
             // injecting repositories into Message controller
             services.AddTransient<IReplyRepo, RealReplyRepo>();
             services.AddTransient<IMessageRepo, RealMessageRepo>();

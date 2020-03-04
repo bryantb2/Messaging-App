@@ -22,21 +22,14 @@ namespace MessagingApp.Controllers
         IChatRepo chatRepo;
 
         private UserManager<AppUser> userManager;
-        //private IUserValidator<AppUser> userValidator;
-        //private IPasswordValidator<AppUser> passwordValidator;
-        //private IPasswordHasher<AppUser> passwordHasher;
 
         public MessagesController(UserManager<AppUser> usrMgr,
-                //IUserValidator<AppUser> userValid,
-                //IPasswordValidator<AppUser> passValid,
-                //IPasswordHasher<AppUser> passwordHash,
                 IReplyRepo r, IMessageRepo m, IChatRepo c)
         {
             // repos
             this.replyRepo = r;
             this.messageRepo = m;
             this.chatRepo = c;
-
             // user managers
             this.userManager = usrMgr;
         }
@@ -63,22 +56,20 @@ namespace MessagingApp.Controllers
             {
                 var selectedChatRoom = chatRepo.ChatRoomList
                     .Find(chat => chat.ChatRoomID == chatRoomID);
+                var user = await userManager.GetUserAsync(HttpContext.User);
                 var newMsg = new Message()
                 {
                     Topic = selectedChatRoom.ChatName,
                     MessageTitle = msg.Title,
                     MessageContent = msg.MessageBody,
-                    UnixTimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
+                    UnixTimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+                    Poster = user.UserName
                 };
                 // add to msg, chat, and user repos
-                var user = await userManager.GetUserAsync(HttpContext.User);
                 messageRepo.AddMsgToRepo(newMsg);
                 user.AddMessageToHistory(newMsg);
                 chatRepo.AddMsgToChat(chatRoomID, newMsg);
                 var result = await userManager.UpdateAsync(user);
-                // ADD VALIDATION THAT GETS RETURNED TO ACTION METHOD
-                //if (!result.Succeeded)
-                    //return RedirectToAction();
             }
             else
                 ModelState.AddModelError(nameof(CreateMessageViewModel.Title), "Invalid title or body");
@@ -91,13 +82,14 @@ namespace MessagingApp.Controllers
         {
             if(ModelState.IsValid)
             {
+                var user = await userManager.GetUserAsync(HttpContext.User);
                 var newRply = new Reply()
                 {
                     ReplyContent = rply.MessageBody,
-                    UnixTimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
+                    UnixTimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+                    Poster = user.UserName
                 };
                 // add to reply, msg, and user repos
-                var user = await userManager.GetUserAsync(HttpContext.User);
                 replyRepo.AddReplyToRepo(newRply);
                 messageRepo.AddReplytoMsg(newRply, msgId);
                 user.AddToReplyHistory(newRply);

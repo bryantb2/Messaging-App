@@ -12,7 +12,7 @@ namespace MessagingApp.Models
 
         public int MessageID { get; set; }
 
-        //public AppUser Poster { get; set; }
+        public String Poster { get; set; }
 
         public string MessageTitle { get; set; }
 
