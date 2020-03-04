@@ -14,9 +14,9 @@ namespace MessagingApp.Models
 {
     public class SeedData
     {
-        public static async void SeedDB(IApplicationBuilder app)
+        public static async void SeedDB(ApplicationDbContext c)
         {
-            ApplicationDbContext context = app.ApplicationServices.GetRequiredService<ApplicationDbContext>();
+            ApplicationDbContext context = c;
             context.Database.EnsureCreated();
 
             if(!context.ChatRooms.Any())
@@ -139,6 +139,8 @@ namespace MessagingApp.Models
                     await userStore.UpdateAsync(msgPoster);
                     await userStore.UpdateAsync(rplyPoster);
                 }
+
+                context.SaveChanges(); // just in case :)
             }
         }
     }
