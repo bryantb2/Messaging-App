@@ -43,7 +43,9 @@ namespace MessagingAppScaffolding
                 options.Password.RequireLowercase = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequireDigit = true;
-            }).AddEntityFrameworkStores<ApplicationDbContext>();
+            })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -90,7 +92,7 @@ namespace MessagingAppScaffolding
             });
 
             // call seed data
-            SeedData.SeedDB(context);
+            SeedData.SeedDB(context, app.ApplicationServices); //.GetRequiredService<UserManager<AppUser>>());
         }
     }
 }

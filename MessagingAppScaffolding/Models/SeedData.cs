@@ -12,17 +12,35 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace MessagingApp.Models
 {
-    public class SeedData
+    public static class SeedData
     {
-        public static async void SeedDB(ApplicationDbContext c)
+       /* public static void SeedDBAsync(ApplicationDbContext c, IServiceProvider prov)
         {
-            ApplicationDbContext context = c;
+            SeedDB(c, prov).Wait();
+        }
+        */
+        private static async Task<IdentityResult> AddUserAsync(UserManager<AppUser> userManager, AppUser user)
+        {
+            return await userManager.CreateAsync(user);
+        }
+
+        public static async void SeedDB(ApplicationDbContext c, IServiceProvider prov) //UserManager<AppUser> userManager)
+        {
+            //ApplicationDbContext context = c;
+            ApplicationDbContext context = prov.GetRequiredService<ApplicationDbContext>();
             context.Database.EnsureCreated();
 
             if(!context.ChatRooms.Any())
             {
+                UserManager<AppUser> userManager = null;
+                /*using (var serviceScope = prov.CreateScope())
+                {
+                    userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
+                }*/
+                userManager = prov.GetRequiredService<UserManager<AppUser>>();
                 // repos
-                var userStore = new UserStore<AppUser>(context);
+                //var userStore = new UserStore<AppUser>(context);
+                //var userManager = prov.GetRequiredService<UserManager<AppUser>>();
                 RealChatRepo chatRepo = new RealChatRepo(context);
                 RealMessageRepo msgRepo = new RealMessageRepo(context);
                 RealReplyRepo rplyRepo = new RealReplyRepo(context);
@@ -71,13 +89,15 @@ namespace MessagingApp.Models
                 // building password hashes
                 var userPasswordArr = new String[3] { "WhoaDude123!", "MotherRussia123!", "MeatBallRevolver123!" };
                 var userArr = new AppUser[3] { user1, user2, user3 };
-                for(var i = 0; i < userPasswordArr.Length; i++)
+                //List<Task<IdentityResult>> tasks = new List<Task<IdentityResult>>()
+                for (var i = 0; i < userPasswordArr.Length; i++)
                 {
                     var hasher = new PasswordHasher<AppUser>();
                     var hashedPassword = hasher.HashPassword(userArr[i], userPasswordArr[i]);
                     userArr[i].PasswordHash = hashedPassword;
 
-                    var result = await userStore.CreateAsync(userArr[i]);
+                    // var result = await userManager.CreateAsync(userArr[i]);
+                   await AddUserAsync(userManager, userArr[i]);
                 }
 
                 // adding users and chat rooms to DB
@@ -136,8 +156,8 @@ namespace MessagingApp.Models
 
                     msgPoster.AddMessageToHistory(msg);
                     rplyPoster.AddToReplyHistory(rply);
-                    await userStore.UpdateAsync(msgPoster);
-                    await userStore.UpdateAsync(rplyPoster);
+                    await userManager.UpdateAsync(msgPoster);
+                    await userManager.UpdateAsync(rplyPoster);
                 }
 
                 context.SaveChanges(); // just in case :)
