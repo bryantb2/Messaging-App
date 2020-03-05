@@ -45,6 +45,7 @@ namespace MessagingApp.Controllers
                 selectChatRoom = chatRooms.Find(chat => chat.ChatRoomID == chatRoomID);
             else
                 selectChatRoom = chatRooms.Count == 0 ? null : chatRooms[0];
+            ViewBag.ChatRoomList = chatRooms; // for dropdown
             return View(selectChatRoom);
         }
 

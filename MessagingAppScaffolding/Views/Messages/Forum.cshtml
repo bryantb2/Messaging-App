@@ -49,9 +49,10 @@
                     Select Chat
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">Auto generated 1</a>
-                    <a class="dropdown-item" href="#">Auto generated 2</a>
-                    <a class="dropdown-item" href="#">Auto generated 3</a>
+                    @foreach (ChatRoom c in ViewBag.ChatRoomList)
+                    {
+                        <a class="dropdown-item" asp-action="Forum" asp-controller="Messages" asp-route-chatRoomID=@c.ChatRoomID>@c.ChatName</a>
+                    }
                 </div>
             </div>
         </div>
