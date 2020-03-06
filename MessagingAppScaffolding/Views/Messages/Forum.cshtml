@@ -14,26 +14,32 @@
     <div class="modal fade" id="modal-register" role="dialog" aria-labelledby="modal-register-label" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">
-                        <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                    </button>
-                    <h3 class="modal-title" id="modal-register-label">Sign up now</h3>
-                    <p>Fill in the form below to get instant access:</p>
+                <div class="modal-header row mx-0">
+                    <div class="col-10">
+                        <h3 class="modal-title" id="modal-register-label">Create Message</h3>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                    <div class="col-12">
+                        <p>Fill out the Fields Below:</p>
+                    </div>
                 </div>
 
                 <div class="modal-body">
-                    <form role="form" action="" method="post" class="registration-form">
+                    <form role="form" asp-controller="Messages" asp-action="AddMessage" method="post" class="registration-form">
                         <div class="form-group">
                             <label class="sr-only" for="form-first-name">Message Title</label>
-                            <input type="text" name="form-first-name" placeholder="Message title..." class="form-first-name form-control" id="form-first-name">
+                            <input asp-for="Title" type="text" name="form-first-name" placeholder="Message title..." class="form-first-name form-control" id="form-first-name">
                         </div>
                         <div class="form-group">
                             <label class="sr-only" for="form-about-yourself">Message Body</label>
-                            <textarea name="form-about-yourself" placeholder="Message body..."
+                            <textarea asp-for="MessageBody" name="form-about-yourself" placeholder="Message body..."
                                       class="form-about-yourself form-control" id="form-about-yourself"></textarea>
                         </div>
-                        <button type="submit" class="btn">Post Message</button>
+                        <button type="submit" class="btn btn-primary">Post Message</button>
                     </form>
                 </div>
             </div>
@@ -43,8 +49,7 @@
     <!-- END OF MODAL -->
 
     <div class="row mt-5">
-        <div class="col-2">
-            <div class="dropdown">
+            <div class="dropdown ml-3 mr-5">
                 <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Select Chat
                 </button>
@@ -55,10 +60,7 @@
                     }
                 </div>
             </div>
-        </div>
-        <div class="col-2">
             <button type="button" href="#" class="btn btn-light" data-toggle="modal" data-target="#modal-register">Make Post</button>
-        </div>
     </div>
 
     @if (Model == null)
