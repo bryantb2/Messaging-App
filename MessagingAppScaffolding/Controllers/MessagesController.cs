@@ -35,7 +35,7 @@ namespace MessagingApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Forum(int? chatRoomID = null)
+        public IActionResult Forum(int? chatRoomID = null, CreateMessageViewModel rejectedMsg = null, CreateReplyViewModel rejectedRply = null)
         {
             // allows for user to select which chat room they want
             ViewBag.BackgroundStyle = "parallaxEffect";
@@ -46,12 +46,18 @@ namespace MessagingApp.Controllers
             else
                 selectChatRoom = chatRooms.Count == 0 ? null : chatRooms[0];
             ViewBag.ChatRoomList = chatRooms; // for dropdown
-            return View(selectChatRoom);
+
+            // build forum view model 
+            ForumViewModel forumVM = new ForumViewModel();
+            forumVM.SelectedChat = selectChatRoom;
+            forumVM.MsgViewModel = rejectedMsg == null ? null : rejectedMsg;
+            forumVM.RplyViewModel = rejectedRply == null ? null : rejectedRply;
+            return View(forumVM);
         }
 
         // post message
         [HttpPost]
-        public async Task<IActionResult> AddMessage(CreateMessageViewModel msg, int chatRoomID)
+        public async Task<IActionResult> AddMessage(string Title, CreateMessageViewModel createMessageViewModel, int chatRoomID)
         {
             if(ModelState.IsValid)
             {
@@ -61,8 +67,8 @@ namespace MessagingApp.Controllers
                 var newMsg = new Message()
                 {
                     Topic = selectedChatRoom.ChatName,
-                    MessageTitle = msg.Title,
-                    MessageContent = msg.MessageBody,
+                    MessageTitle = createMessageViewModel.Title,
+                    MessageContent = createMessageViewModel.MessageBody,
                     UnixTimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
                     Poster = user.UserName
                 };

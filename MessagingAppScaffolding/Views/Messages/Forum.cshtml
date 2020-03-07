@@ -3,7 +3,7 @@
     ViewData["Title"] = "Home";
     Layout = "_Layout";
 }
-@model MessagingApp.Models.ChatRoom
+@model ForumViewModel
 
 <link rel="stylesheet" href="~/css/ModalStyles.css">
 
@@ -32,11 +32,11 @@
                     <form role="form" asp-controller="Messages" asp-action="AddMessage" method="post" class="registration-form">
                         <div class="form-group">
                             <label class="sr-only" for="form-first-name">Message Title</label>
-                            <input asp-for="Title" type="text" name="form-first-name" placeholder="Message title..." class="form-first-name form-control" id="form-first-name">
+                            <input for="Title" type="text" name="form-first-name" placeholder="Message title..." class="form-first-name form-control" id="form-first-name">
                         </div>
                         <div class="form-group">
                             <label class="sr-only" for="form-about-yourself">Message Body</label>
-                            <textarea asp-for="MessageBody" name="form-about-yourself" placeholder="Message body..."
+                            <textarea asp-for="MsgViewModel.MessageBody" name="form-about-yourself" placeholder="Message body..."
                                       class="form-about-yourself form-control" id="form-about-yourself"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Post Message</button>
@@ -73,7 +73,7 @@
     }
     else
     {
-        @foreach (MessagingApp.Models.Message msg in Model.ChatMessages)
+        @foreach (MessagingApp.Models.Message msg in Model.SelectedChat.ChatMessages)
         {
             <div class="overflow-auto mt-4">
                 <div class="userMessage text-light darkParagraphBackground p-4">
