@@ -27,11 +27,11 @@ namespace MessagingApp.Controllers
             return View(user);
         }
 
-        public IActionResult Contact()
+        /*public IActionResult Contact()
         {
             ViewBag.BackgroundStyle = "pageContainer3";
             return View();
-        }
+        }*/
 
         public IActionResult About()
         {
