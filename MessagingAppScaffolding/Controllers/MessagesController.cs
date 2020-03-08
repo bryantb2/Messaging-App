@@ -52,8 +52,6 @@ namespace MessagingApp.Controllers
                 // build forum view model 
                 ForumViewModel forumVM = new ForumViewModel();
                 forumVM.SelectedChat = selectChatRoom;
-                //forumVM.MsgViewModel = rejectedMsg == null ? null : rejectedMsg;
-                // forumVM.RplyViewModel = rejectedRply == null ? null : rejectedRply;
                 return View(forumVM);
             }
             else
@@ -91,7 +89,7 @@ namespace MessagingApp.Controllers
             {
                 ModelState.AddModelError(nameof(ForumViewModel.MsgViewModel.Title), "Invalid title or body");
                 return RedirectToAction("Forum", new {
-                    id = chatRoomID,
+                    chatRoomID = chatRoomID,
                     forumViewModel = forumViewModel
                 });
             }
