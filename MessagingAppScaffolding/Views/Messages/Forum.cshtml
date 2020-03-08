@@ -29,14 +29,14 @@
                 </div>
 
                 <div class="modal-body">
-                    <form role="form" asp-controller="Messages" asp-action="AddMessage" method="post" class="registration-form">
+                    <form role="form" asp-route-chatRoomID=@Model.SelectedChat.ChatRoomID asp-controller="Messages" asp-action="AddMessage" method="post" class="registration-form">
                         <div class="form-group">
-                            <label class="sr-only" for="form-first-name">Message Title</label>
-                            <input for="Title" type="text" name="form-first-name" placeholder="Message title..." class="form-first-name form-control" id="form-first-name">
+                            <label class="sr-only" asp-for="MsgViewModel.Title">Message Title</label>
+                            <input asp-for="MsgViewModel.Title" type="text" placeholder="Message title..." class="form-first-name form-control" id="form-first-name">
                         </div>
                         <div class="form-group">
-                            <label class="sr-only" for="form-about-yourself">Message Body</label>
-                            <textarea asp-for="MsgViewModel.MessageBody" name="form-about-yourself" placeholder="Message body..."
+                            <label class="sr-only" asp-for="MsgViewModel.MessageBody">Message Body</label>
+                            <textarea asp-for="MsgViewModel.MessageBody" placeholder="Message body..."
                                       class="form-about-yourself form-control" id="form-about-yourself"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary">Post Message</button>
@@ -47,20 +47,22 @@
     </div>
 
     <!-- END OF MODAL -->
+    <h1 class="text-light text-center mt-5">@Model.SelectedChat.ChatName Chat</h1>
+    <div class="row mt-4">
 
-    <div class="row mt-5">
-            <div class="dropdown ml-3 mr-5">
-                <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Select Chat
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    @foreach (ChatRoom c in ViewBag.ChatRoomList)
-                    {
-                        <a class="dropdown-item" asp-action="Forum" asp-controller="Messages" asp-route-chatRoomID=@c.ChatRoomID>@c.ChatName</a>
-                    }
-                </div>
+        <br />
+        <div class="dropdown ml-3 mr-5">
+            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Select Chat
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                @foreach (ChatRoom c in ViewBag.ChatRoomList)
+                {
+                    <a class="dropdown-item" asp-action="Forum" asp-controller="Messages" asp-route-chatRoomID=@c.ChatRoomID>@c.ChatName</a>
+                }
             </div>
-            <button type="button" href="#" class="btn btn-light" data-toggle="modal" data-target="#modal-register">Make Post</button>
+        </div>
+        <button type="button" href="#" class="btn btn-light" data-toggle="modal" data-target="#modal-register">Make Post</button>
     </div>
 
     @if (Model == null)
@@ -73,7 +75,7 @@
     }
     else
     {
-        @foreach (MessagingApp.Models.Message msg in Model.SelectedChat.ChatMessages)
+        @foreach (Message msg in Model.SelectedChat.ChatMessages)
         {
             <div class="overflow-auto mt-4">
                 <div class="userMessage text-light darkParagraphBackground p-4">
@@ -85,7 +87,7 @@
                 </div>
                 <button type="submit" class="btn btn-link text-light">Reply</button>
             </div>
-            @foreach(MessagingApp.Models.Reply r in msg.GetReplyHistory)
+            @foreach (MessagingApp.Models.Reply r in msg.GetReplyHistory)
             {
                 <div class="pt-4 container">
                     <div class="row justify-content-end">

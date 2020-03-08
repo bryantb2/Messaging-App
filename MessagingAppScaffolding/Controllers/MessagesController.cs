@@ -35,7 +35,7 @@ namespace MessagingApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Forum(int? chatRoomID = null, CreateMessageViewModel rejectedMsg = null, CreateReplyViewModel rejectedRply = null)
+        public IActionResult Forum(int? chatRoomID = null, ForumViewModel forumViewModel = null) //CreateMessageViewModel rejectedMsg = null, CreateReplyViewModel rejectedRply = null)
         {
             // allows for user to select which chat room they want
             ViewBag.BackgroundStyle = "parallaxEffect";
@@ -47,18 +47,26 @@ namespace MessagingApp.Controllers
                 selectChatRoom = chatRooms.Count == 0 ? null : chatRooms[0];
             ViewBag.ChatRoomList = chatRooms; // for dropdown
 
-            // build forum view model 
-            ForumViewModel forumVM = new ForumViewModel();
-            forumVM.SelectedChat = selectChatRoom;
-            forumVM.MsgViewModel = rejectedMsg == null ? null : rejectedMsg;
-            forumVM.RplyViewModel = rejectedRply == null ? null : rejectedRply;
-            return View(forumVM);
+            if(forumViewModel.MsgViewModel == null && forumViewModel.RplyViewModel == null && forumViewModel.SelectedChat == null)
+            {
+                // build forum view model 
+                ForumViewModel forumVM = new ForumViewModel();
+                forumVM.SelectedChat = selectChatRoom;
+                //forumVM.MsgViewModel = rejectedMsg == null ? null : rejectedMsg;
+               // forumVM.RplyViewModel = rejectedRply == null ? null : rejectedRply;
+                return View(forumVM);
+            }
+            else
+            {
+                return View(forumViewModel);
+            }
         }
 
         // post message
         [HttpPost]
-        public async Task<IActionResult> AddMessage(string Title, CreateMessageViewModel createMessageViewModel, int chatRoomID)
+        public async Task<IActionResult> AddMessage(ForumViewModel forumViewModel, int chatRoomID)
         {
+            // forum view model will be used to bind data to msg viewmodel
             if(ModelState.IsValid)
             {
                 var selectedChatRoom = chatRepo.ChatRoomList
@@ -67,8 +75,8 @@ namespace MessagingApp.Controllers
                 var newMsg = new Message()
                 {
                     Topic = selectedChatRoom.ChatName,
-                    MessageTitle = createMessageViewModel.Title,
-                    MessageContent = createMessageViewModel.MessageBody,
+                    MessageTitle = forumViewModel.MsgViewModel.Title,
+                    MessageContent = forumViewModel.MsgViewModel.MessageBody,
                     UnixTimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
                     Poster = user.UserName
                 };
@@ -77,10 +85,16 @@ namespace MessagingApp.Controllers
                 user.AddMessageToHistory(newMsg);
                 chatRepo.AddMsgToChat(chatRoomID, newMsg);
                 var result = await userManager.UpdateAsync(user);
+                return RedirectToAction("Forum", new { id = chatRoomID });
             }
             else
-                ModelState.AddModelError(nameof(CreateMessageViewModel.Title), "Invalid title or body");
-            return Redirect("/Message/Forum/" + chatRoomID.ToString());
+            {
+                ModelState.AddModelError(nameof(ForumViewModel.MsgViewModel.Title), "Invalid title or body");
+                return RedirectToAction("Forum", new { 
+                    id = chatRoomID,
+                    forumViewModel = forumViewModel
+                });
+            } 
         }
 
         // post reply
