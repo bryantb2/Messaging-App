@@ -12,6 +12,22 @@ namespace MessagingApp.Controllers
     {
         public IActionResult Index()
         {
+            ViewBag.BackgroundStyle = "pageContainer5";
+            return View();
+        }
+
+        public IActionResult ManageChats()
+        {
+            return View();
+        }
+
+        public IActionResult ManageMessages()
+        {
+            return View();
+        }
+
+        public IActionResult Stats()
+        {
             return View();
         }
     }

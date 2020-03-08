@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewData["Title"] = "_AccountLayout";
+    Layout = "_Layout";
+}
+
+<section>
+    <nav style="background-color:transparent;" class="navbar navbar-expand-sm navbar-light">
+        <div class="container">
+            <div class="navbar-collapse" id="accountNav">
+                <ul class="nav navbar-nav mr-auto">
+                    <li class="nav-item active"><a class="nav-link text-secondary" asp-controller="Account" asp-action="ManageMessages">Manage Messages</a></li>
+                    <li class="nav-item active"><a class="nav-link text-secondary" asp-controller="Account" asp-action="Stats">Stats</a></li>
+                    <li class="nav-item active"><a class="nav-link text-secondary" asp-controller="Account" asp-action="ManageChats">Manage Chats</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    @RenderBody()
+</section>
+
