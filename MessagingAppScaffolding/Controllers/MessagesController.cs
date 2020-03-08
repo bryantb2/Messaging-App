@@ -47,13 +47,13 @@ namespace MessagingApp.Controllers
                 selectChatRoom = chatRooms.Count == 0 ? null : chatRooms[0];
             ViewBag.ChatRoomList = chatRooms; // for dropdown
 
-            if(forumViewModel.MsgViewModel == null && forumViewModel.RplyViewModel == null && forumViewModel.SelectedChat == null)
+            if (forumViewModel.MsgViewModel == null && forumViewModel.RplyViewModel == null && forumViewModel.SelectedChat == null)
             {
                 // build forum view model 
                 ForumViewModel forumVM = new ForumViewModel();
                 forumVM.SelectedChat = selectChatRoom;
                 //forumVM.MsgViewModel = rejectedMsg == null ? null : rejectedMsg;
-               // forumVM.RplyViewModel = rejectedRply == null ? null : rejectedRply;
+                // forumVM.RplyViewModel = rejectedRply == null ? null : rejectedRply;
                 return View(forumVM);
             }
             else
@@ -67,7 +67,7 @@ namespace MessagingApp.Controllers
         public async Task<IActionResult> AddMessage(ForumViewModel forumViewModel, int chatRoomID)
         {
             // forum view model will be used to bind data to msg viewmodel
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var selectedChatRoom = chatRepo.ChatRoomList
                     .Find(chat => chat.ChatRoomID == chatRoomID);
@@ -90,18 +90,18 @@ namespace MessagingApp.Controllers
             else
             {
                 ModelState.AddModelError(nameof(ForumViewModel.MsgViewModel.Title), "Invalid title or body");
-                return RedirectToAction("Forum", new { 
+                return RedirectToAction("Forum", new {
                     id = chatRoomID,
                     forumViewModel = forumViewModel
                 });
-            } 
+            }
         }
 
         // post reply
         [HttpPost]
         public async Task<IActionResult> AddReply(CreateReplyViewModel rply, int msgId, int chatRoomID)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var user = await userManager.GetUserAsync(HttpContext.User);
                 var newRply = new Reply()
@@ -119,6 +119,13 @@ namespace MessagingApp.Controllers
             else
                 ModelState.AddModelError(nameof(CreateReplyViewModel.MessageBody), "Invalid reply body");
             return Redirect("/Message/Forum/" + chatRoomID.ToString());
+        }
+
+        // API ROUTES
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetReplyDataById(int id)
+        {
+
         }
     }
 }
