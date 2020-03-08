@@ -99,14 +99,14 @@ namespace MessagingApp.Controllers
 
         // post reply
         [HttpPost]
-        public async Task<IActionResult> AddReply(CreateReplyViewModel rply, int msgId, int chatRoomID)
+        public async Task<IActionResult> AddReply(ForumViewModel forumViewModel, int msgId, int chatRoomID)
         {
             if (ModelState.IsValid)
             {
                 var user = await userManager.GetUserAsync(HttpContext.User);
                 var newRply = new Reply()
                 {
-                    ReplyContent = rply.MessageBody,
+                    ReplyContent = forumViewModel.RplyViewModel.MessageBody,
                     UnixTimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
                     Poster = user.UserName
                 };
@@ -115,17 +115,17 @@ namespace MessagingApp.Controllers
                 messageRepo.AddReplytoMsg(newRply, msgId);
                 user.AddToReplyHistory(newRply);
                 var result = await userManager.UpdateAsync(user);
+                return RedirectToAction("Forum", new { chatRoomID = chatRoomID });
             }
             else
+            {
                 ModelState.AddModelError(nameof(CreateReplyViewModel.MessageBody), "Invalid reply body");
-            return Redirect("/Message/Forum/" + chatRoomID.ToString());
-        }
-
-        // API ROUTES
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetReplyDataById(int id)
-        {
-
+                return RedirectToAction("Forum", new
+                {
+                    chatRoomID = chatRoomID,
+                    forumViewModel = forumViewModel
+                });
+            }
         }
     }
 }

@@ -55,7 +55,7 @@
             <div class="modal-content">
                 <div class="modal-header row mx-0">
                     <div class="col-10">
-                        <h3 class="modal-title" id="modal-register-label">Create Message</h3>
+                        <h3 class="modal-title" id="modal-register-label">Create Reply</h3>
                     </div>
                     <div class="col-2">
                         <button type="button" class="close" data-dismiss="modal">
@@ -63,22 +63,26 @@
                         </button>
                     </div>
                     <div class="col-12">
-                        <p>Fill out the Fields Below:</p>
+                        <p id="replyResponseTitle">Responding to <b>[Username]</b>'s message title "[message title]", which says:</p>
+                    </div>
+                    <div class="col-12">
+                        <p id="replyResponseContent">[message content]</p>
+                    </div>
+                    <div class="col-12">
+                        <p>
+                            <b>Fill out the Fields Below:</b>
+                        </p>
                     </div>
                 </div>
 
                 <div class="modal-body">
-                    <form role="form" asp-route-chatRoomID=@Model.SelectedChat.ChatRoomID asp-controller="Messages" asp-action="AddMessage" method="post" class="registration-form">
+                    <form id="replyForm" role="form" asp-controller="Messages" asp-action="AddReply" asp-route-chatRoomID=@Model.SelectedChat.ChatRoomID asp-route-msgId="0" method="post" class="registration-form">
                         <div class="form-group">
-                            <label class="sr-only" asp-for="MsgViewModel.Title">Message Title</label>
-                            <input asp-for="MsgViewModel.Title" type="text" placeholder="Message title..." class="form-first-name form-control" id="form-first-name">
+                            <label class="sr-only" asp-for="RplyViewModel.MessageBody">Reply Body</label>
+                            <textarea asp-for="RplyViewModel.MessageBody" placeholder="Reply body..."
+                                      class="form-about-yourself form-control" id="replyBody"></textarea>
                         </div>
-                        <div class="form-group">
-                            <label class="sr-only" asp-for="MsgViewModel.MessageBody">Message Body</label>
-                            <textarea asp-for="MsgViewModel.MessageBody" placeholder="Message body..."
-                                      class="form-about-yourself form-control" id="form-about-yourself"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Post Message</button>
+                        <button type="submit" class="btn btn-primary">Post Reply</button>
                     </form>
                 </div>
             </div>
@@ -125,7 +129,7 @@
                         <p class="digitalSignature">Post by @msg.Poster on @msg.GetTimePosted</p>
                     </div>
                 </div>
-                <button type="button" href="#" class="btn btn-light" data-toggle="modal" data-target="#modal-reply">Reply</button>
+                <button value=@msg.MessageID type="button" class="btn btn-link text-light" data-toggle="modal" data-target="#modal-reply" onclick="replyEvent(event)">Reply</button>
             </div>
             @foreach (MessagingApp.Models.Reply r in msg.GetReplyHistory)
             {
@@ -142,5 +146,5 @@
             }
         }
     }
-
+<script src="~/messagingClient/forumClient.js"></script>
 </section>
