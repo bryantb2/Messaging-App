@@ -46,12 +46,43 @@ namespace MessagingApp.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetMsgById(int id)
         {
-            var user = HttpContext.User;
             var foundMsg = messageRepo.MessageList.Find(msg => msg.MessageID == id);
             if (foundMsg != null)
                 return Ok(foundMsg);
             else
                 return NotFound();
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditMsgById(int id, [FromBody] string msgBody, [FromBody] string msgTitle)
+        {
+            // get user (this ensures a bad user cannot edit another person's msg)
+            var user = await userManager.GetUserAsync(HttpContext.User);
+            // find msg
+            var foundMsg = user.GetMessageList.Find(msg => msg.MessageID == id);
+            if (foundMsg == null)
+                return NotFound();
+            // update msg
+            foundMsg.MessageTitle = msgTitle;
+            foundMsg.MessageContent = msgBody;
+            messageRepo.UpdateMsgById(foundMsg);
+            // return msg
+            return Ok(foundMsg);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMsgById(int id)
+        {
+            // get user (this ensures a bad user cannot edit another person's msg)
+            var user = await userManager.GetUserAsync(HttpContext.User);
+            // find msg
+            var foundMsg = user.GetMessageList.Find(msg => msg.MessageID == id);
+            if (foundMsg == null)
+                return NotFound();
+            // delete msg
+            messageRepo.DeleteMsgFromRepo(id);
+            // return msg
+            return Ok(foundMsg);
         }
     }
 }

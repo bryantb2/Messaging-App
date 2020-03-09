@@ -15,6 +15,8 @@ namespace MessagingApp.Models
         private List<Reply> replyHistory = new List<Reply>();
 
         //PROPERTIES
+        public Int64 DateJoined { get; set; }
+
         public List<Reply> GetReplyHistory
         {
             get { return this.replyHistory; }
@@ -55,6 +57,21 @@ namespace MessagingApp.Models
                 {
                     this.messageHistory.Remove(message);
                 }
+            }
+        }
+
+        public DateTime GetDateJoined
+        {
+            get
+            {
+                //https://stackoverflow.com/questions/249760/how-can-i-convert-a-unix-timestamp-to-datetime-and-vice-versa
+                DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(DateJoined);
+                DateTime date = dateTimeOffset.UtcDateTime;
+                return date.ToLocalTime();
+                // adsf
+                /*DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+                long unixTimeStampInTicks = (long)(this.UnixTimeStamp * TimeSpan.TicksPerSecond);
+                return new DateTime(unixStart.Ticks + unixTimeStampInTicks, System.DateTimeKind.Utc);*/
             }
         }
     }

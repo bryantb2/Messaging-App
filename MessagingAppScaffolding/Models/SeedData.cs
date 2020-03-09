@@ -51,7 +51,8 @@ namespace MessagingApp.Models
                     UserName = "NoobSlayer",
                     NormalizedUserName = "NOOBSLAYER",
                     Email = "abc123@gmail.com",
-                    NormalizedEmail = "ABC123@GMAIL.COM"
+                    NormalizedEmail = "ABC123@GMAIL.COM",
+                    DateJoined = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
                 };
 
                 var user2 = new AppUser
@@ -59,7 +60,8 @@ namespace MessagingApp.Models
                     UserName = "Kalashnikov",
                     NormalizedUserName = "KALASHNIKOV",
                     Email = "ak47@yahoo.com",
-                    NormalizedEmail = "AK47@YAHOO.COM"
+                    NormalizedEmail = "AK47@YAHOO.COM",
+                    DateJoined = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
                 };
 
                 var user3 = new AppUser
@@ -67,7 +69,8 @@ namespace MessagingApp.Models
                     UserName = "ItalianCowboy",
                     NormalizedUserName = "ITALIANCOWBODY",
                     Email = "cowboy@gmail.com",
-                    NormalizedEmail = "COWBOY@GMAIL.COM"
+                    NormalizedEmail = "COWBOY@GMAIL.COM",
+                    DateJoined = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
                 };
 
                 // creating chat repos
