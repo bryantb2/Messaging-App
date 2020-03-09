@@ -1,5 +1,7 @@
 ﻿const THREAD_API = "https://localhost:44387/api/ForumAPI";
 
+/*---------------------------------------- API methods ---------------------------------------------*/
+
 // get reply by id
 const getReply = async (rplyId) => {
     const response = await fetch(THREAD_API + "/GetRplyById/" + rplyId);
@@ -13,6 +15,11 @@ const getMsg = async (msgId) => {
     const final = await response.json();
     return final;
 };
+
+/*------------------------------------- END API methods ---------------------------------------------*/
+
+
+/*---------------------------------------- Forum methods ---------------------------------------------*/
 
 // EVENT HANDLERS
 const replyEvent = async (e) => {
@@ -60,3 +67,5 @@ const setMsgFormId = (msgId) => {
     // set action string
     formElement.action = rebuiltActionStr;
 };
+
+/*---------------------------------------- END Forum methods ---------------------------------------------*/

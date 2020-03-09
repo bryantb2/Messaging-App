@@ -17,5 +17,7 @@ namespace MessagingApp.Repositories
         void AddReplytoMsg(Reply rply, int msgID);
 
         Reply RemoveReplyFromMsg(int replyID, int msgID);
+
+        void UpdateMsgById(Message msg);
     }
 }

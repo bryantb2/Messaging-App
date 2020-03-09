@@ -46,6 +46,7 @@ namespace MessagingApp.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetMsgById(int id)
         {
+            var user = HttpContext.User;
             var foundMsg = messageRepo.MessageList.Find(msg => msg.MessageID == id);
             if (foundMsg != null)
                 return Ok(foundMsg);
