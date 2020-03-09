@@ -22,3 +22,7 @@
     max-width:200px;
     white-space: nowrap;
 }
+
+.hideTitleInput {
+    display: none;
+}

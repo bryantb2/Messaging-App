@@ -46,8 +46,6 @@ const deleteMsgById = async (msgId) => {
     return final;
 };
 
-/*------------------------------------- END API methods ---------------------------------------------*/
-
 
 /*---------------------------------------- Forum methods ---------------------------------------------*/
 
@@ -98,6 +96,61 @@ const setMsgFormId = (msgId) => {
     formElement.action = rebuiltActionStr;
 };
 
-/*---------------------------------------- END Forum methods ---------------------------------------------*/
 
 /*---------------------------------------- BEGIN MANAGE MESSAGES methods ---------------------------------------------*/
+
+// EVENT HANDLERS
+const viewMsgEvent = async (e) => {
+    // check data-type attribute on event
+    // fetch appropriate messaging data
+    // set display to none on modal title if reply
+    // set modal data
+    e.preventDefault();
+    const target = e.target;
+    const dataType = target.getAttribute("data-type");
+    const msgId = target.value;
+
+    const msgTitleGroup = document.getElementById("replyViewGroup");
+    const msgTitleElement = document.getElementById("msgTitleView");
+    const msgContentElement = document.getElementById("msgBodyView");
+
+    if (dataType.toUpperCase() == "REPLY") {
+        const replyData = await getReply(msgId);
+        msgTitleGroup.classList.add("hideTitleInput");
+        msgContentElement.value = replyData.replyContent;
+    } else {
+        const msgData = await getMsg(msgId);
+        //msgTitleElement.value = msgData.msgTitle
+
+    }
+};
+
+const deleteMsgEvent = async (e) => {
+
+};
+
+const editMsgEvent = async (e) => {
+
+};
+
+// UI RENDERING FUNCTIONS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*---------------------------------------- END MANAGE MESSAGES methods ---------------------------------------------*/

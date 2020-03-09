@@ -25,14 +25,14 @@
 
                 <div class="modal-body">
                     <div class="registration-form">
-                        <div class="form-group">
+                        <div id="replyViewGroup" class="form-group">
                             <label class="sr-only" for="msgTitle">Message Title</label>
-                            <input name="msgTitle" type="text" placeholder="Message title..." class="form-first-name form-control" id="msgTitle">
+                            <input name="msgTitle" type="text" placeholder="Message title..." class="form-first-name form-control" id="msgTitleView">
                         </div>
                         <div class="form-group">
                             <label class="sr-only" for="msgBody">Message Body</label>
                             <textarea name="msgBody" placeholder="Message body..."
-                                      class="form-about-yourself form-control" id="msgBody"></textarea>
+                                      class="form-about-yourself form-control" id="msgBodyView"></textarea>
                         </div>
                     </div>
                 </div>
@@ -107,5 +107,6 @@
             </table>
         </div>
     </div>
+    <script src="~/messagingClient/forumClient.js"></script>
 </section>
 
