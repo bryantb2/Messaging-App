@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using MessagingApp.Models;
 using MessagingApp.Repositories;
 using Microsoft.AspNetCore.Identity;
+using MessagingApp.ViewModels;
 
 namespace MessagingApp.Controllers
 {
@@ -23,17 +24,19 @@ namespace MessagingApp.Controllers
             // get user
             var user = await userManager.GetUserAsync(HttpContext.User);
 
-            // get messaging stats
-            var postedMsgCount = GetPostedMsgCount(user.GetMessageList);
-            var postedRplyCount = GetPostedRplyCount(user.GetReplyHistory);
-            var repliesRecievedCount = GetRepliesToMsgCount(user.GetMessageList);
-            var firstPostDate = GetPostDate(user.GetMessageList);
-            var mostRecentPost = GetPostDate(user.GetMessageList, "OLDEST");
-            var dateJoined = user.GetDateJoined;
+            // set messaging stats and info
+            var accountVM = new AccountViewModel();
+            accountVM.PostedMsgCount = GetPostedMsgCount(user.GetMessageList);
+            accountVM.PostedRplyCount = GetPostedRplyCount(user.GetReplyHistory);
+            accountVM.RepliesRecievedCount = GetRepliesToMsgCount(user.GetMessageList);
+            accountVM.FirstPostDate = GetPostDate(user.GetMessageList);
+            accountVM.RecentPostDate = GetPostDate(user.GetMessageList, "OLDEST");
+            accountVM.DateJoined = user.GetDateJoined;
+            accountVM.RegisteredEmail = user.Email;
+            accountVM.Username = user.UserName;
 
-            // 
             ViewBag.BackgroundStyle = "pageContainer5";
-            return View();
+            return View(accountVM);
         }
 
         public IActionResult ManageChats()

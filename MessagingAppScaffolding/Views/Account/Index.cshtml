@@ -3,7 +3,7 @@
     ViewData["Title"] = "Index";
     Layout = "_Layout";
 }
-
+@model AccountViewModel
 <link rel="stylesheet" href="~/css/AccountStyles.css" />
 <section class="my-5">
     <div class="p-4 text-center">
@@ -18,7 +18,7 @@
                             <img class="img-thumbnail rounded-circle shadow-sm" src="~/images/backgroundImages/profileIcon.png" width="100" />
                         </div>
                         <div class="p-2 text-center">
-                            <h4>NoobSlayer44</h4>
+                            <h4>@Model.Username</h4>
                         </div>
                     </div>
                     <hr class="my-2 border-dark" />
@@ -27,7 +27,7 @@
                             Feature Coming - Bio goes here
                         </p>
                         <p class="d-flex p-2 pageParagraph">
-                            Example@gmail.com
+                            @Model.RegisteredEmail
                         </p>
                         <p class="d-flex p-2">
                             <a class="btn-link" href="#">Change Password</a>
@@ -48,13 +48,13 @@
                         <hr class="my-2 border-dark" />
                         <div>
                             <p class="d-flex p-2 pageParagraph">
-                                Joined on: 12/03/2019
+                                Joined on: @Model.DateJoined
                             </p>
                             <p class="d-flex p-2 pageParagraph">
-                                First Post: 12/07/2019
+                                First Post: @Model.FirstPostDate
                             </p>
                             <p class="d-flex p-2 pageParagraph">
-                                Most Recent Post: 3/02/2019
+                                Most Recent Post: @Model.RecentPostDate
                             </p>
                         </div>
                     </div>
@@ -65,7 +65,7 @@
                     <div class="innerProfileContainer p-4 text-dark">
                         <div class="d-flex flex-column justify-content-center">
                             <div class="p-2 text-center">
-                                <h2>200</h2>
+                                <h2>@Model.PostedMsgCount</h2>
                             </div>
                         </div>
                         <hr class="my-2 border-dark" />
@@ -82,7 +82,7 @@
                     <div class="innerProfileContainer p-4 text-dark">
                         <div class="d-flex flex-column justify-content-center">
                             <div class="p-2 text-center">
-                                <h2>500</h2>
+                                <h2>@Model.RepliesRecievedCount</h2>
                             </div>
                         </div>
                         <hr class="my-2 border-dark" />
@@ -99,7 +99,7 @@
                     <div class="innerProfileContainer p-4 text-dark">
                         <div class="d-flex flex-column justify-content-center">
                             <div class="p-2 text-center">
-                                <h2>55</h2>
+                                <h2>@Model.PostedRplyCount</h2>
                             </div>
                         </div>
                         <hr class="my-2 border-dark" />
