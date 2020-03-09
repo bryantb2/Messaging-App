@@ -56,10 +56,18 @@ namespace MessagingApp.Controllers
             return View();
         }
 
-        public IActionResult ManageMessages()
+        public async Task<IActionResult> ManageMessages()
         {
+            // get user
+            var user = await userRepo.GetUserDataAsync(HttpContext.User);
+
+            // set message and reply info
+            var manageMsgVM = new ManageChatsViewModel();
+            manageMsgVM.MessageList = user.GetMessageList;
+            manageMsgVM.ReplyList = user.GetReplyHistory;
+
             ViewBag.BackgroundStyle = "pageContainer6";
-            return View();
+            return View(manageMsgVM);
         }
 
         public IActionResult Stats()

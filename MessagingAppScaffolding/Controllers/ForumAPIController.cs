@@ -18,11 +18,12 @@ namespace MessagingApp.Controllers
         IReplyRepo replyRepo;
         IMessageRepo messageRepo;
         IChatRepo chatRepo;
+        IUserRepo userRepo;
 
         private UserManager<AppUser> userManager;
 
         public ForumAPIController(UserManager<AppUser> usrMgr,
-                IReplyRepo r, IMessageRepo m, IChatRepo c)
+                IReplyRepo r, IMessageRepo m, IChatRepo c, IUserRepo u)
         {
             // repos
             this.replyRepo = r;
@@ -30,6 +31,7 @@ namespace MessagingApp.Controllers
             this.chatRepo = c;
             // user managers
             this.userManager = usrMgr;
+            this.userRepo = u;
         }
 
         // API ROUTES
@@ -53,11 +55,31 @@ namespace MessagingApp.Controllers
                 return NotFound();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetReplyHistory()
+        {
+            // get user from context
+            var user = await userRepo.GetUserDataAsync(HttpContext.User);
+            if (user == null)
+                return NotFound();
+            return Ok(user.GetReplyHistory);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetMessageHistory()
+        {
+            // get user from context
+            var user = await userRepo.GetUserDataAsync(HttpContext.User);
+            if (user == null)
+                return NotFound();
+            return Ok(user.GetMessageList);
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> EditMsgById(int id, string msgBody, string msgTitle)
         {
             // get user (this ensures a bad user cannot edit another person's msg)
-            var user = await userManager.GetUserAsync(HttpContext.User);
+            var user = await userRepo.GetUserDataAsync(HttpContext.User);
             // find msg
             var foundMsg = user.GetMessageList.Find(msg => msg.MessageID == id);
             if (foundMsg == null)
@@ -74,7 +96,7 @@ namespace MessagingApp.Controllers
         public async Task<IActionResult> DeleteMsgById(int id)
         {
             // get user (this ensures a bad user cannot edit another person's msg)
-            var user = await userManager.GetUserAsync(HttpContext.User);
+            var user = await userRepo.GetUserDataAsync(HttpContext.User);
             // find msg
             var foundMsg = user.GetMessageList.Find(msg => msg.MessageID == id);
             if (foundMsg == null)

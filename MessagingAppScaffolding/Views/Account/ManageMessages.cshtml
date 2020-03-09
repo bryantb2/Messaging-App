@@ -3,21 +3,57 @@
     ViewData["Title"] = "ManageMessages";
     Layout = "_Layout";
 }
-
+@model ManageChatsViewModel
 <link rel="stylesheet" href="~/css/AccountStyles.css" />
 <section class="my-5">
+
+    <!-- VIEW MESSAGE/REPLY MODAL -->
+
+    <div class="modal fade" id="viewMsgModal" role="dialog" aria-labelledby="modal-register-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header row mx-0">
+                    <div class="col-10">
+                        <h3 class="modal-title" id="modal-register-label">Viewing Your Message</h3>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+                    <div class="registration-form">
+                        <div class="form-group">
+                            <label class="sr-only" for="msgTitle">Message Title</label>
+                            <input name="msgTitle" type="text" placeholder="Message title..." class="form-first-name form-control" id="msgTitle">
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only" for="msgBody">Message Body</label>
+                            <textarea name="msgBody" placeholder="Message body..."
+                                      class="form-about-yourself form-control" id="msgBody"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- END OF MESSAGE MODAL -->
+
     <div class="p-4 text-center">
         <h1 class="pageHeaderCustom text-light">Message and Reply Management</h1>
     </div>
-    <div class="d-flex flex-row">
-        <div class="mr-5 w-50 container-fluid">
+    <div class="row">
+        <div class="col-6">
             <div class="p-4 text-center">
                 <h2 class="pageHeaderCustom text-light">Post Messages</h2>
             </div>
             <table class="table bg-light table-striped w-100 table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
+                        <th scope="col">ID#</th>
                         <th scope="col">Title</th>
                         <th scope="col">Posted On</th>
                         <th scope="col">View</th>
@@ -26,41 +62,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td class="titleLimit">A bird thinks...</td>
-                        <td>03/03/2020</td>
-                        <td><a href="#"><i class="fa fa-eye"></i></a></td>
-                        <td><a href="#"><i class="fa fa-edit"></i></a></td>
-                        <td><a href="#"><i class="fa fa-trash"></i></a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td class="titleLimit">A bird thinks...</td>
-                        <td>03/03/2020</td>
-                        <td><a href="#"><i class="fa fa-eye"></i></a></td>
-                        <td><a href="#"><i class="fa fa-edit"></i></a></td>
-                        <td><a href="#"><i class="fa fa-trash"></i></a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td class="titleLimit">A bird thinks...</td>
-                        <td>03/03/2020</td>
-                        <td><a href="#"><i class="fa fa-eye"></i></a></td>
-                        <td><a href="#"><i class="fa fa-edit"></i></a></td>
-                        <td><a href="#"><i class="fa fa-trash"></i></a></td>
-                    </tr>
+                    @foreach (Message m in Model.MessageList)
+                    {
+                        <tr>
+                            <th scope="row">@m.MessageID</th>
+                            <td class="titleLimit">@m.MessageContent</td>
+                            <td>@m.GetTimePosted</td>
+                            <td><a data-toggle="modal" data-target="#viewMsgModal" class="view " href="#" data-type="message" value=@m.MessageID><i class="fa fa-eye"></i></a></td>
+                            <td><a class="edit " href="#" data-type="message" value=@m.MessageID><i class="fa fa-edit"></i></a></td>
+                            <td><a class="trash " href="#" data-type="message" value=@m.MessageID><i class="fa fa-trash"></i></a></td>
+                        </tr>
+                    }
                 </tbody>
             </table>
-        </div> 
-        <div class="w-50 container-fluid">
+        </div>
+        <div class="col-6">
             <div class="p-4 text-center">
                 <h2 class="pageHeaderCustom text-light">Post Replies</h2>
             </div>
             <table class="table bg-light table-striped w-100 table-hover">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
+                        <th scope="col">ID#</th>
                         <th scope="col">Title</th>
                         <th scope="col">Posted On</th>
                         <th scope="col">View</th>
@@ -69,30 +92,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td class="titleLimit">A bird thinks...</td>
-                        <td>03/03/2020</td>
-                        <td><a href="#"><i class="fa fa-eye"></i></a></td>
-                        <td><a href="#"><i class="fa fa-edit"></i></a></td>
-                        <td><a href="#"><i class="fa fa-trash"></i></a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td class="titleLimit">A bird thinks...</td>
-                        <td>03/03/2020</td>
-                        <td><a href="#"><i class="fa fa-eye"></i></a></td>
-                        <td><a href="#"><i class="fa fa-edit"></i></a></td>
-                        <td><a href="#"><i class="fa fa-trash"></i></a></td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td class="titleLimit">A bird thinks...</td>
-                        <td>03/03/2020</td>
-                        <td><a href="#"><i class="fa fa-eye"></i></a></td>
-                        <td><a href="#"><i class="fa fa-edit"></i></a></td>
-                        <td><a href="#"><i class="fa fa-trash"></i></a></td>
-                    </tr>
+                    @foreach (Reply r in Model.ReplyList)
+                    {
+                        <tr>
+                            <th scope="row">@r.ReplyID</th>
+                            <td class="titleLimit">@r.ReplyContent</td>
+                            <td>@r.GetTimePosted</td>
+                            <td><a data-toggle="modal" data-target="#viewMsgModal" class="view " href="#" data-type="reply" value=@r.ReplyID><i class="fa fa-eye"></i></a></td>
+                            <td><a class="edit " href="#" data-type="reply" value=@r.ReplyID><i class="fa fa-edit"></i></a></td>
+                            <td><a class="trash " href="#" data-type="reply" value=@r.ReplyID><i class="fa fa-trash"></i></a></td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
