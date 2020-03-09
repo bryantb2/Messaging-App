@@ -85,7 +85,7 @@ namespace MessagingApp.Controllers
             int rplyCounter = 0;
             foreach (Message m in msgList)
                 foreach (Reply rply in m.GetReplyHistory)
-                    rplyCounter += rplyCounter;
+                    rplyCounter += 1;
             return rplyCounter;
         }
 
