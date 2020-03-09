@@ -57,6 +57,7 @@ namespace MessagingAppScaffolding
             services.AddTransient<IReplyRepo, RealReplyRepo>();
             services.AddTransient<IMessageRepo, RealMessageRepo>();
             services.AddTransient<IChatRepo, RealChatRepo>();
+            services.AddTransient<IUserRepo, RealUserRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

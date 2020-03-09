@@ -54,7 +54,7 @@ namespace MessagingApp.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditMsgById(int id, [FromBody] string msgBody, [FromBody] string msgTitle)
+        public async Task<IActionResult> EditMsgById(int id, string msgBody, string msgTitle)
         {
             // get user (this ensures a bad user cannot edit another person's msg)
             var user = await userManager.GetUserAsync(HttpContext.User);

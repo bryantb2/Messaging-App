@@ -8,6 +8,7 @@ using MessagingApp.Models;
 using MessagingApp.Repositories;
 using Microsoft.AspNetCore.Identity;
 using MessagingApp.ViewModels;
+using MessagingApp.Data;
 
 namespace MessagingApp.Controllers
 {
@@ -15,14 +16,20 @@ namespace MessagingApp.Controllers
     public class AccountController : Controller
     {
         private UserManager<AppUser> userManager;
-        public AccountController(UserManager<AppUser> usrMgr)
+        private ApplicationDbContext context;
+        IUserRepo userRepo;
+        public AccountController(UserManager<AppUser> usrMgr, 
+            ApplicationDbContext c, IUserRepo u)
         {
             userManager = usrMgr;
+            context = c;
+            userRepo = u;
         }
         public async Task<IActionResult> Index()
         {
             // get user
-            var user = await userManager.GetUserAsync(HttpContext.User);
+            var user = await userRepo.GetUserDataAsync(HttpContext.User);
+            //var users = userManager.Users.ToList().Find;
 
             // set messaging stats and info
             var accountVM = new AccountViewModel();
