@@ -23,6 +23,7 @@ namespace MessagingApp.Controllers
 
         public IActionResult ManageMessages()
         {
+            ViewBag.BackgroundStyle = "pageContainer6";
             return View();
         }
 

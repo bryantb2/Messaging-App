@@ -155,7 +155,7 @@ a.navigationAnchor:hover {
 
 .pageContainer6 {
     min-height: 100% !important;
-    background-image: url(http://epicwallpaperz.com/wallpaper-hd/star-wars-wallpapers-desktop-background-On-wallpaper-hd.jpg);
+    background-image: url("../images/backgroundImages/mountainBackground.jpg");
     background-size: cover;
     background-repeat: no-repeat;
 }
