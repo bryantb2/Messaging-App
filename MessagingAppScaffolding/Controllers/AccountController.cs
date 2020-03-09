@@ -29,7 +29,6 @@ namespace MessagingApp.Controllers
         {
             // get user
             var user = await userRepo.GetUserDataAsync(HttpContext.User);
-            //var users = userManager.Users.ToList().Find;
 
             // set messaging stats and info
             var accountVM = new AccountViewModel();
@@ -47,6 +46,12 @@ namespace MessagingApp.Controllers
         }
 
         public IActionResult ManageChats()
+        {
+            // TODO: MAKE THIS ROLE BASED
+            return View();
+        }
+
+        public IActionResult ManageAdmins()
         {
             return View();
         }
