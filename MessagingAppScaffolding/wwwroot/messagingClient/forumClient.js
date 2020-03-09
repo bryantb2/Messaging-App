@@ -16,6 +16,36 @@ const getMsg = async (msgId) => {
     return final;
 };
 
+const getMsgHistory = async () => {
+    const response = await fetch(THREAD_API + "/GetMessageHistory");
+    const final = await response.json();
+    return final;
+}
+
+const getRplyHistory = async () => {
+    const response = await fetch(THREAD_API + "/GetReplyHistory");
+    const final = await response.json();
+    return final;
+}
+
+const editMsgbyId = async (msgId, msgUpdateData) => {
+    const response = await fetch(THREAD_API + "/EditMsgById/" + msgId, {
+        method: 'PUT',
+        body: JSON.stringify(msgUpdateData),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    const final = await response.json();
+    return final;
+}
+
+const deleteMsgById = async (msgId) => {
+    const response = await fetch(THREAD_API + "/DeleteMsgById/" + msgId);
+    const final = await response.json();
+    return final;
+};
+
 /*------------------------------------- END API methods ---------------------------------------------*/
 
 
@@ -69,3 +99,5 @@ const setMsgFormId = (msgId) => {
 };
 
 /*---------------------------------------- END Forum methods ---------------------------------------------*/
+
+/*---------------------------------------- BEGIN MANAGE MESSAGES methods ---------------------------------------------*/

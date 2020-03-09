@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MessagingApp.APIModels;
 using MessagingApp.Models;
 using MessagingApp.Repositories;
 using Microsoft.AspNetCore.Authorization;
@@ -76,20 +77,24 @@ namespace MessagingApp.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditMsgById(int id, string msgBody, string msgTitle)
+        public async Task<IActionResult> EditMsgById(int id, [FromBody] MessageEditAPIModel msgModel)
         {
-            // get user (this ensures a bad user cannot edit another person's msg)
-            var user = await userRepo.GetUserDataAsync(HttpContext.User);
-            // find msg
-            var foundMsg = user.GetMessageList.Find(msg => msg.MessageID == id);
-            if (foundMsg == null)
-                return NotFound();
-            // update msg
-            foundMsg.MessageTitle = msgTitle;
-            foundMsg.MessageContent = msgBody;
-            messageRepo.UpdateMsgById(foundMsg);
-            // return msg
-            return Ok(foundMsg);
+            if(ModelState.IsValid)
+            {
+                // get user (this ensures a bad user cannot edit another person's msg)
+                var user = await userRepo.GetUserDataAsync(HttpContext.User);
+                // find msg
+                var foundMsg = user.GetMessageList.Find(msg => msg.MessageID == id);
+                if (foundMsg == null)
+                    return NotFound();
+                // update msg
+                foundMsg.MessageTitle = msgModel.MsgTitle;
+                foundMsg.MessageContent = msgModel.MsgBody;
+                messageRepo.UpdateMsgById(foundMsg);
+                // return msg
+                return Ok(foundMsg);
+            }
+            return BadRequest();
         }
 
         [HttpDelete("{id}")]
