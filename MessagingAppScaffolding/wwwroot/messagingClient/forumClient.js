@@ -178,6 +178,8 @@ const editMsgEvent = async (e) => {
         messageBodyElement.value = replyData.replyContent;
         hideEditTitleInput();
         setEditTitleHeader("Edit Reply");
+        // set form data type
+        setEditModalDataType("REPLY");
     } else {
         const msgId = target.getAttribute("data-value");
         // fetch data
@@ -187,11 +189,18 @@ const editMsgEvent = async (e) => {
         messageBodyElement.value = msgData.messageContent;
         showEditTitleInput();
         setEditTitleHeader("Edit Message");
+        // set form data type
+        setEditModalDataType("MESSAGE");
     }
 };
 
 const submitEditedMsgEvent = async (e) => {
-
+    // parse form data
+    // determine data type
+    // send data to API
+    // reset UI
+    e.preventDefault();
+    const msgTitle
 };
 
 // UI RENDERING FUNCTIONS
@@ -199,19 +208,31 @@ const hideEditTitleInput = () => {
     const messageTitleContainer = document.getElementById("editTitleGroup");
     messageTitleContainer.classList.remove("showTitleInput");
     messageTitleContainer.classList.add("hideTitleInput");
-}
+};
 
 const showEditTitleInput = () => {
     const messageTitleContainer = document.getElementById("editTitleGroup");
     messageTitleContainer.classList.remove("hideTitleInput");
     messageTitleContainer.classList.add("showTitleInput");
-}
+};
 
 const setEditTitleHeader = (headerText) => {
     const titleHeader = document.getElementById("editModal-title");
     titleHeader.innerHTML = headerText;
 };
 
+const clearEditModalInputs = () => {
+    document.getElementById("editMsgBody").value = "";
+    document.getElementById("editMsgTitle").value = "";
+};
+
+const setEditModalDataType = (typeString) => {
+    document.getElementById("editModal-updateButton").value = typeString;
+};
+
+const getEditModalDataType = () => {
+    return document.getElementById("editModal-updateButton").value;
+};
 
 
 
