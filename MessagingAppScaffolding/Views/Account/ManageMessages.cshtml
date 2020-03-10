@@ -38,7 +38,7 @@
                     <div id="replyForm" role="form" class="registration-form">
                         <div class="form-group">
                             <label class="sr-only">Reply Body</label>
-                            <textarea placeholder="Reply body..."
+                            <textarea readonly="readonly" placeholder="Reply body..."
                                       class="form-about-yourself form-control" id="replyBody"></textarea>
                         </div>
                     </div>
@@ -72,11 +72,11 @@
                     <div class="registration-form">
                         <div id="replyViewGroup" class="form-group">
                             <label class="sr-only" for="msgTitle">Message Title</label>
-                            <input name="msgTitle" type="text" placeholder="Message title..." class="form-first-name form-control" id="msgTitleView">
+                            <input readonly="readonly" name="msgTitle" type="text" placeholder="Message title..." class="form-first-name form-control" id="msgTitleView">
                         </div>
                         <div class="form-group">
                             <label class="sr-only" for="msgBody">Message Body</label>
-                            <textarea name="msgBody" placeholder="Message body..."
+                            <textarea name="msgBody" readonly="readonly" placeholder="Message body..."
                                       class="form-about-yourself form-control" id="msgBodyView"></textarea>
                         </div>
                     </div>
@@ -113,9 +113,9 @@
                             <th scope="row">@m.MessageID</th>
                             <td class="titleLimit">@m.MessageContent</td>
                             <td>@m.GetTimePosted</td>
-                            <td><a data-toggle="modal" data-target="#viewMsgModal" class="view " href="#" data-type="message" value=@m.MessageID onclick="viewMsgEvent(event)"><i class="fa fa-eye"></i></a></td>
-                            <td><a class="edit " href="#" data-type="message" value=@m.MessageID><i class="fa fa-edit"></i></a></td>
-                            <td><a class="trash " href="#" data-type="message" value=@m.MessageID><i class="fa fa-trash"></i></a></td>
+                            <td><a data-toggle="modal" data-target="#viewMsgModal" class="view " href="#" data-msg-type="message" data-value=@m.MessageID onclick="viewMsgEvent(event)"><i class="fa fa-eye"></i></a></td>
+                            <td><a class="edit " href="#" data-msg-type="message" data-value=@m.MessageID><i class="fa fa-edit"></i></a></td>
+                            <td><a class="trash " href="#" data-msg-type="message" data-value=@m.MessageID><i class="fa fa-trash"></i></a></td>
                         </tr>
                     }
                 </tbody>
@@ -143,9 +143,9 @@
                             <th scope="row">@r.ReplyID</th>
                             <td class="titleLimit">@r.ReplyContent</td>
                             <td>@r.GetTimePosted</td>
-                            <td><a data-toggle="modal" data-target="#viewRplyModal" class="view " href="#" data-type="reply" value=@r.ReplyID onclick="viewMsgEvent(event)"><i class="fa fa-eye"></i></a></td>
-                            <td><a class="edit " href="#" data-type="reply" value=@r.ReplyID><i class="fa fa-edit"></i></a></td>
-                            <td><a class="trash " href="#" data-type="reply" value=@r.ReplyID><i class="fa fa-trash"></i></a></td>
+                            <td><a data-toggle="modal" data-target="#viewRplyModal" class="view " href="#" data-msg-type="reply" data-value=@r.ReplyID onclick="viewMsgEvent(event)"><i class="fa fa-eye"></i></a></td>
+                            <td><a class="edit " href="#" data-msg-type="reply" data-value=@r.ReplyID><i class="fa fa-edit"></i></a></td>
+                            <td><a class="trash " href="#" data-msg-type="reply" data-value=@r.ReplyID><i class="fa fa-trash"></i></a></td>
                         </tr>
                     }
                 </tbody>

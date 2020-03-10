@@ -84,7 +84,7 @@ namespace MessagingApp.Controllers
             {
                 var isInChat = chat.ChatMessages.Contains(foundMsg) == true ? true : false;
                 if (isInChat)
-                    return Ok(chat.ChatName);
+                    return Ok(chat);
             }
             return BadRequest();
         }

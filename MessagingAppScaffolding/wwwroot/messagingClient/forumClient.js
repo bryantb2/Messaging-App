@@ -123,11 +123,12 @@ const viewMsgEvent = async (e) => {
     // fetch appropriate messaging and related data
     // set modal UI data
     e.preventDefault();
-    const target = e.target;
-    const dataType = target.getAttribute("data-type");
+    const target = e.target.parentElement;
+    //const dataType = target.getAttribute("data-type");
+    const dataType = target.getAttribute("data-msg-type");
 
     if (dataType.toUpperCase() == "REPLY") {
-        const rplyId = target.value;
+        const rplyId = target.getAttribute("data-value");
         // get elements
         const rplyPostingInfo = document.getElementById("replyResponseTitle");
         const parentMsgContentElement = document.getElementById("replyResponseContent");
@@ -136,11 +137,11 @@ const viewMsgEvent = async (e) => {
         const replyData = await getReply(rplyId);
         const parentMsg = await getMsgByRplyId(rplyId);
         // set vals
-        rplyPostingInfo.innerHTML = `Responding to <b>${parentMsg.Poster}</b>'s message titled "${parentMsg.messageTitle}", which says:`;
+        rplyPostingInfo.innerHTML = `Responding to <b>${parentMsg.poster}</b>'s message titled "${parentMsg.messageTitle}", which says:`;
         parentMsgContentElement.innerHTML = parentMsg.messageContent;
         rplyContentElement.value = replyData.replyContent;
     } else {
-        const msgId = target.value;
+        const msgId = target.getAttribute("data-value");
         // get elements
         const msgPostingInfo = document.getElementById("viewMsgModalInfo");
         const msgTitleElement = document.getElementById("msgTitleView");
@@ -149,8 +150,8 @@ const viewMsgEvent = async (e) => {
         const msgData = await getMsg(msgId);
         const locatedChat = await getChatRoomByMsgId(msgId);
         // set vals
-        msgTitleElement.value = msgData.msgTitle;
-        msgPostingInfo.innerHTML = `Posted to ${locatedChat.chatName} Chat on ${msgData.GetTimePosted}`;
+        msgTitleElement.value = msgData.messageTitle;
+        msgPostingInfo.innerHTML = `Posted to <b>${locatedChat.chatName} Chat</b> on ${msgData.getTimePosted}`;
         msgContentElement.value = msgData.messageContent;
     }
 };
