@@ -93,7 +93,7 @@
             <div class="modal-content">
                 <div class="modal-header row mx-0">
                     <div class="col-10">
-                        <h3 class="modal-title" id="modal-register-label">Create Message</h3>
+                        <h3 class="editModal-title" id="modal-register-label">Edit</h3>
                     </div>
                     <div class="col-2">
                         <button type="button" class="close" data-dismiss="modal">
@@ -101,21 +101,23 @@
                         </button>
                     </div>
                     <div class="col-12">
-                        <p>The Message You Posted to [ChatRoom] Chat on [DateTime]</p>
+                        <p>Fill out the Fields Below:</p>
                     </div>
                 </div>
 
                 <div class="modal-body">
-                    <div class="registration-form">
-                        <div class="form-group">
+                    <form role="form" onsubmit="editMsgEvent(event)" method="post" class="registration-form">
+                        <div class="form-group" id="editTitleGroup">
                             <label class="sr-only">Message Title</label>
-                            <input placeholder="Message title..." class="form-first-name form-control" id="msgTitleMsgModal">
+                            <input type="text" placeholder="Edit title..." class="form-first-name form-control" id="editMsgTitle">
                         </div>
                         <div class="form-group">
                             <label class="sr-only">Message Body</label>
-                            <textarea placeholder="Message body..." class="form-about-yourself form-control" id="msgBodyMsgModal"></textarea>
+                            <textarea placeholder="Edit body..."
+                                      class="form-about-yourself form-control" id="editMsgBody"></textarea>
                         </div>
-                    </div>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -150,7 +152,7 @@
                             <td class="titleLimit">@m.MessageContent</td>
                             <td>@m.GetTimePosted</td>
                             <td><a data-toggle="modal" data-target="#viewMsgModal" class="view" href="#" data-msg-type="message" data-value=@m.MessageID onclick="viewMsgEvent(event)"><i class="fa fa-eye"></i></a></td>
-                            <td><a class="edit " href="#" data-msg-type="message" data-value=@m.MessageID onclick="editMsgEvent(event)"><i class="fa fa-edit"></i></a></td>
+                            <td><a data-toggle="modal" data-target="#editModal" class="edit " href="#" data-msg-type="message" data-value=@m.MessageID onclick="editMsgEvent(event)"><i class="fa fa-edit"></i></a></td>
                             <td><a class="trash " href="#" data-msg-type="message" data-value=@m.MessageID><i class="fa fa-trash"></i></a></td>
                         </tr>
                     }
@@ -175,14 +177,14 @@
                 <tbody>
                     @foreach (Reply r in Model.ReplyList)
                     {
-                        <tr>
-                            <th scope="row">@r.ReplyID</th>
-                            <td class="titleLimit">@r.ReplyContent</td>
-                            <td>@r.GetTimePosted</td>
-                            <td><a data-toggle="modal" data-target="#viewRplyModal" class="view " href="#" data-msg-type="reply" data-value=@r.ReplyID onclick="viewMsgEvent(event)"><i class="fa fa-eye"></i></a></td>
-                            <td><a class="edit " href="#" data-msg-type="reply" data-value=@r.ReplyID><i class="fa fa-edit"></i></a></td>
-                            <td><a class="trash " href="#" data-msg-type="reply" data-value=@r.ReplyID><i class="fa fa-trash"></i></a></td>
-                        </tr>
+                    <tr>
+                        <th scope="row">@r.ReplyID</th>
+                        <td class="titleLimit">@r.ReplyContent</td>
+                        <td>@r.GetTimePosted</td>
+                        <td><a data-toggle="modal" data-target="#viewRplyModal" class="view " href="#" data-msg-type="reply" data-value=@r.ReplyID onclick="viewMsgEvent(event)"><i class="fa fa-eye"></i></a></td>
+                        <td><a data-toggle="modal" data-target="#editModal" class="edit " href="#" data-msg-type="reply" data-value=@r.ReplyID onclick="editMsgEvent(event)"><i class="fa fa-edit"></i></a></td>
+                        <td><a class="trash " href="#" data-msg-type="reply" data-value=@r.ReplyID><i class="fa fa-trash"></i></a></td>
+                    </tr>
                     }
                 </tbody>
             </table>

@@ -124,7 +124,6 @@ const viewMsgEvent = async (e) => {
     // set modal UI data
     e.preventDefault();
     const target = e.target.parentElement;
-    //const dataType = target.getAttribute("data-type");
     const dataType = target.getAttribute("data-msg-type");
 
     if (dataType.toUpperCase() == "REPLY") {
@@ -161,10 +160,57 @@ const deleteMsgEvent = async (e) => {
 };
 
 const editMsgEvent = async (e) => {
+    // check data-type attribute on event
+    // fetch appropriate messaging and related data
+    // set modal UI data
+    e.preventDefault();
+    const target = e.target.parentElement;
+    const dataType = target.getAttribute("data-msg-type");
+
+    // get elements
+    const messageBodyElement = document.getElementById("editMsgBody");
+    const messageTitleElement = document.getElementById("editMsgTitle");
+    if (dataType.toUpperCase() == "REPLY") {
+        const rplyId = target.getAttribute("data-value");
+        // fetch data
+        const replyData = await getReply(rplyId);
+        // set vals
+        messageBodyElement.value = replyData.replyContent;
+        hideEditTitleInput();
+        setEditTitleHeader("Edit Reply");
+    } else {
+        const msgId = target.getAttribute("data-value");
+        // fetch data
+        const msgData = await getMsg(msgId);
+        // set vals
+        messageTitleElement.value = msgData.messageTitle;
+        messageBodyElement.value = msgData.messageContent;
+        showEditTitleInput();
+        setEditTitleHeader("Edit Message");
+    }
+};
+
+const submitEditedMsgEvent = async (e) => {
 
 };
 
 // UI RENDERING FUNCTIONS
+const hideEditTitleInput = () => {
+    const messageTitleContainer = document.getElementById("editTitleGroup");
+    messageTitleContainer.classList.remove("showTitleInput");
+    messageTitleContainer.classList.add("hideTitleInput");
+}
+
+const showEditTitleInput = () => {
+    const messageTitleContainer = document.getElementById("editTitleGroup");
+    messageTitleContainer.classList.remove("hideTitleInput");
+    messageTitleContainer.classList.add("showTitleInput");
+}
+
+const setEditTitleHeader = (headerText) => {
+    const titleHeader = document.getElementById("editModal-title");
+    titleHeader.innerHTML = headerText;
+};
 
 
 
@@ -175,13 +221,3 @@ const editMsgEvent = async (e) => {
 
 
 
-
-
-
-
-
-
-
-
-
-/*---------------------------------------- END MANAGE MESSAGES methods ---------------------------------------------*/
