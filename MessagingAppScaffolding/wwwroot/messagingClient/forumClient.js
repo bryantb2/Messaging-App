@@ -16,18 +16,35 @@ const getMsg = async (msgId) => {
     return final;
 };
 
+// get user msg history
 const getMsgHistory = async () => {
     const response = await fetch(THREAD_API + "/GetMessageHistory");
     const final = await response.json();
     return final;
 }
 
+// get msg that reply responded to
+const getMsgByRplyId = async (rplyId) => {
+    const response = await fetch(THREAD_API + "/GetMsgByRplyId/" + rplyId);
+    const final = await response.json();
+    return final;
+}
+
+// get user rply history
 const getRplyHistory = async () => {
     const response = await fetch(THREAD_API + "/GetReplyHistory");
     const final = await response.json();
     return final;
 }
 
+// get chatroom location of msg
+const getChatRoomByMsgId = async (msgId) => {
+    const response = await fetch(THREAD_API + "/GetChatRoomByMsgId/" + msgId);
+    const final = await response.json();
+    return final; 
+}
+
+// edit msg by id
 const editMsgbyId = async (msgId, msgUpdateData) => {
     const response = await fetch(THREAD_API + "/EditMsgById/" + msgId, {
         method: 'PUT',
@@ -40,6 +57,7 @@ const editMsgbyId = async (msgId, msgUpdateData) => {
     return final;
 }
 
+// delete msg by id
 const deleteMsgById = async (msgId) => {
     const response = await fetch(THREAD_API + "/DeleteMsgById/" + msgId);
     const final = await response.json();
@@ -102,26 +120,38 @@ const setMsgFormId = (msgId) => {
 // EVENT HANDLERS
 const viewMsgEvent = async (e) => {
     // check data-type attribute on event
-    // fetch appropriate messaging data
-    // set display to none on modal title if reply
-    // set modal data
+    // fetch appropriate messaging and related data
+    // set modal UI data
     e.preventDefault();
     const target = e.target;
     const dataType = target.getAttribute("data-type");
-    const msgId = target.value;
-
-    const msgTitleGroup = document.getElementById("replyViewGroup");
-    const msgTitleElement = document.getElementById("msgTitleView");
-    const msgContentElement = document.getElementById("msgBodyView");
 
     if (dataType.toUpperCase() == "REPLY") {
-        const replyData = await getReply(msgId);
-        msgTitleGroup.classList.add("hideTitleInput");
-        msgContentElement.value = replyData.replyContent;
+        const rplyId = target.value;
+        // get elements
+        const rplyPostingInfo = document.getElementById("replyResponseTitle");
+        const parentMsgContentElement = document.getElementById("replyResponseContent");
+        const rplyContentElement = document.getElementById("replyBody");
+        // fetch data
+        const replyData = await getReply(rplyId);
+        const parentMsg = await getMsgByRplyId(rplyId);
+        // set vals
+        rplyPostingInfo.innerHTML = `Responding to <b>${parentMsg.Poster}</b>'s message titled "${parentMsg.messageTitle}", which says:`;
+        parentMsgContentElement.innerHTML = parentMsg.messageContent;
+        rplyContentElement.value = replyData.replyContent;
     } else {
+        const msgId = target.value;
+        // get elements
+        const msgPostingInfo = document.getElementById("viewMsgModalInfo");
+        const msgTitleElement = document.getElementById("msgTitleView");
+        const msgContentElement = document.getElementById("msgBodyView");
+        // fetch data
         const msgData = await getMsg(msgId);
-        //msgTitleElement.value = msgData.msgTitle
-
+        const locatedChat = await getChatRoomByMsgId(msgId);
+        // set vals
+        msgTitleElement.value = msgData.msgTitle;
+        msgPostingInfo.innerHTML = `Posted to ${locatedChat.chatName} Chat on ${msgData.GetTimePosted}`;
+        msgContentElement.value = msgData.messageContent;
     }
 };
 

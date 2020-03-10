@@ -47,6 +47,22 @@ namespace MessagingApp.Controllers
         }
 
         [HttpGet("{id}")]
+        public async Task<IActionResult> GetMsgByRplyId(int id)
+        {
+            var foundRply = replyRepo.ReplyList.Find(rply => rply.ReplyID == id);
+            if (foundRply == null)
+                return NotFound();
+            var msgList = messageRepo.MessageList;
+            foreach(Message m in msgList)
+            {
+                foreach (Reply r in m.GetReplyHistory)
+                    if (r.ReplyID == id)
+                        return Ok(m); // return parent if reply is found
+            }
+            return BadRequest();
+        }
+
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetMsgById(int id)
         {
             var foundMsg = messageRepo.MessageList.Find(msg => msg.MessageID == id);
@@ -54,6 +70,23 @@ namespace MessagingApp.Controllers
                 return Ok(foundMsg);
             else
                 return NotFound();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetChatRoomByMsgId(int id)
+        {
+            // find message
+            var foundMsg = messageRepo.MessageList.Find(msg => msg.MessageID == id);
+            if (foundMsg == null)
+                return NotFound();
+            var chatList = chatRepo.ChatRoomList;
+            foreach(ChatRoom chat in chatList)
+            {
+                var isInChat = chat.ChatMessages.Contains(foundMsg) == true ? true : false;
+                if (isInChat)
+                    return Ok(chat.ChatName);
+            }
+            return BadRequest();
         }
 
         [HttpGet]
