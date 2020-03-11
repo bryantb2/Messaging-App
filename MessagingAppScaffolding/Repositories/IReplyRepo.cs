@@ -12,7 +12,7 @@ namespace MessagingApp.Repositories
 
         void AddReplyToRepo(Reply reply);
 
-        Reply DeleteRepFromRepo(int replyId);
+        void DeleteRepFromRepo(int replyId);
 
         void UpdateRplyById(Reply rply);
     }

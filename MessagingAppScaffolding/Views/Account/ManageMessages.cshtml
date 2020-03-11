@@ -144,7 +144,7 @@
                         <th scope="col">Delete</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="messageTableBody">
                     @foreach (Message m in Model.MessageList)
                     {
                         <tr>
@@ -153,7 +153,7 @@
                             <td>@m.GetTimePosted</td>
                             <td><a data-toggle="modal" data-target="#viewMsgModal" class="view" href="#" data-msg-type="message" data-value=@m.MessageID onclick="viewMsgEvent(event)"><i class="fa fa-eye"></i></a></td>
                             <td><a data-toggle="modal" data-target="#editModal" class="edit " href="#" data-msg-type="message" data-value=@m.MessageID onclick="editMsgEvent(event)"><i class="fa fa-edit"></i></a></td>
-                            <td><a class="trash " href="#" data-msg-type="message" data-value=@m.MessageID><i class="fa fa-trash"></i></a></td>
+                            <td><a class="trash " href="#" data-msg-type="message" data-msg-type="message" data-value=@m.MessageID onclick="deleteMsgEvent(event)"><i class="fa fa-trash"></i></a></td>
                         </tr>
                     }
                 </tbody>
@@ -174,7 +174,7 @@
                         <th scope="col">Delete</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="replyTableBody">
                     @foreach (Reply r in Model.ReplyList)
                     {
                     <tr>
@@ -183,7 +183,7 @@
                         <td>@r.GetTimePosted</td>
                         <td><a data-toggle="modal" data-target="#viewRplyModal" class="view " href="#" data-msg-type="reply" data-value=@r.ReplyID onclick="viewMsgEvent(event)"><i class="fa fa-eye"></i></a></td>
                         <td><a data-toggle="modal" data-target="#editModal" class="edit " href="#" data-msg-type="reply" data-value=@r.ReplyID onclick="editMsgEvent(event)"><i class="fa fa-edit"></i></a></td>
-                        <td><a class="trash " href="#" data-msg-type="reply" data-value=@r.ReplyID><i class="fa fa-trash"></i></a></td>
+                        <td><a class="trash " href="#" data-msg-type="reply" data-value=@r.ReplyID onclick="deleteMsgEvent(event)"><i class="fa fa-trash"></i></a></td>
                     </tr>
                     }
                 </tbody>

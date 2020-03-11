@@ -71,7 +71,18 @@ const editRplyById = async (rplyId, msgUpdateData) => {
 
 // delete msg by id
 const deleteMsgById = async (msgId) => {
-    const response = await fetch(THREAD_API + "/DeleteMsgById/" + msgId);
+    const response = await fetch(THREAD_API + "/DeleteMsgById/" + msgId, {
+        method: 'DELETE'
+    });
+    const final = await response.json();
+    return final;
+};
+
+// delete rply by id
+const deleteRplyById = async (rplyId) => {
+    const response = await fetch(THREAD_API + "/DeleteRplyById/" + rplyId, {
+        method: 'DELETE'
+    });
     const final = await response.json();
     return final;
 };
@@ -167,10 +178,6 @@ const viewMsgEvent = async (e) => {
     }
 };
 
-const deleteMsgEvent = async (e) => {
-
-};
-
 const editMsgEvent = async (e) => {
     // check data-type attribute on event
     // fetch appropriate messaging and related data
@@ -212,7 +219,8 @@ const submitEditedMsgEvent = async (e) => {
     // parse form data
     // determine data type
     // send data to API
-    // reset UI
+    // refresh UI
+    // reset modal
     e.preventDefault();
     const target = e.target;
     const msgType = getEditModalDataType();
@@ -223,6 +231,9 @@ const submitEditedMsgEvent = async (e) => {
             MsgBody: msgBody
         };
         const response = await editRplyById(rplyId, msgData);
+        // fetch updated replies
+        const rplyList = await getRplyHistory();
+        rebuildRepliesTable(rplyList);
     } else {
         const msgId = target.getAttribute("data-value");
         const msgTitle = document.getElementById("editMsgTitle").value;
@@ -231,11 +242,75 @@ const submitEditedMsgEvent = async (e) => {
             MsgTitle: msgTitle
         };
         const response = await editMsgbyId(msgId, msgData);
+        // fetch updated messages
+        const msgList = await getMsgHistory();
+        rebuildMessagesTable(msgList);
     }
     clearEditModalInputs();
 };
 
+const deleteMsgEvent = async (e) => {
+    // parse form data
+    // determine data type
+    // send delete request with id to api
+    // refresh UI
+    // reset modal
+    e.preventDefault();
+    const target = e.target.parentElement;
+    const msgType = target.getAttribute("data-msg-type");
+    if (msgType.toUpperCase() == "REPLY") {
+        const rplyId = target.getAttribute("data-value");
+        // fetch data
+        const replyData = await getReply(rplyId);
+        if (confirm("Are You Sure You Want to Delete this Reply, which says " + replyData.replyContent)) {
+            const response = await deleteRplyById(rplyId);
+            const rplyHistory = await getRplyHistory();
+            rebuildMessagesTable(rplyHistory);
+        }
+    } else {
+        const msgId = target.getAttribute("data-value");
+        // fetch data
+        const msgData = await getMsg(msgId);
+        if (confirm("Are You Sure You Want to Delete this Message, titled " + msgData.messageTitle)) {
+            const response = await deleteMsgById(msgId);
+            const msgHistory = await getMsgHistory();
+            rebuildMessagesTable(msgHistory);
+        }
+    }
+    
+};
+
 // UI RENDERING FUNCTIONS
+const rebuildRepliesTable = (replyList) => {
+    const replyTable = document.getElementById("replyTableBody");
+    const tableHTML = msgList.map((reply, index) =>
+        `<tr>
+            <th scope="row">${reply.replyID}</th>
+            <td class="titleLimit">${reply.replyContent}</td>
+            <td>${reply.getTimePosted}</td>
+            <td><a data-toggle="modal" data-target="#viewRplyModal" class="view " href="#" data-msg-type="reply" data-value=${reply.replyID} onclick="viewMsgEvent(event)"><i class="fa fa-eye"></i></a></td>
+            <td><a data-toggle="modal" data-target="#editModal" class="edit " href="#" data-msg-type="reply" data-value=${reply.replyID} onclick="editMsgEvent(event)"><i class="fa fa-edit"></i></a></td>
+            <td><a class="trash " href="#" data-msg-type="reply" data-value=${reply.replyID}><i class="fa fa-trash"></i></a></td>
+        </tr>`
+    );
+    replyTable.innerHTML = tableHTML.join('');
+};
+
+const rebuildMessagesTable = (msgList) => {
+    const msgTable = document.getElementById("messageTableBody");
+    const tableHTML = msgList.map((msg, index) =>
+        `<tr>
+            <th scope="row">${msg.messageID}</th>
+            <td class="titleLimit">${msg.messageTitle}</td>
+            <td>${msg.getTimePosted}</td>
+            <td><a data-toggle="modal" data-target="#viewMsgModal" class="view" href="#" data-msg-type="message" data-value=${msg.messageID} onclick="viewMsgEvent(event)"><i class="fa fa-eye"></i></a></td>
+            <td><a data-toggle="modal" data-target="#editModal" class="edit " href="#" data-msg-type="message" data-value=${msg.messageID} onclick="editMsgEvent(event)"><i class="fa fa-edit"></i></a></td>
+            <td><a class="trash " href="#" data-msg-type="message" data-value=${msg.messageID}><i class="fa fa-trash"></i></a></td>
+        </tr>`
+    );
+    msgTable.innerHTML = tableHTML.join('');
+};
+
 const hideEditTitleInput = () => {
     const messageTitleContainer = document.getElementById("editTitleGroup");
     messageTitleContainer.classList.remove("showTitleInput");
@@ -258,7 +333,7 @@ const clearEditModalInputs = () => {
     document.getElementById("editMsgTitle").value = "";
 };
 
-// update button value setters
+// update button value setters (responsible for priming the data type and msgId values)
 const setEditModalDataType = (typeString) => {
     document.getElementById("editModal-updateButton").value = typeString;
 };
@@ -274,11 +349,3 @@ const setEditModalMsgData = (msgId) => {
 const getEditModalMsgData = () => {
     return document.getElementById("editModal-updateButton").getAttribute("data-value");
 };
-
-
-
-
-
-
-
-

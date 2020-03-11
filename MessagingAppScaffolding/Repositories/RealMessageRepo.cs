@@ -38,21 +38,21 @@ namespace MessagingApp.Repositories
             this.context.SaveChanges();
         }
 
-        public Message DeleteMsgFromRepo(int msgId)
+        public void DeleteMsgFromRepo(int msgId)
         {
             var messages = this.context.Messages;
-            Message removedMsg = null;
+            //Message removedMsg = null;
             foreach (Message m in messages)
             {
                 if (m.MessageID == msgId)
                 {
-                    removedMsg = m;
+                    //removedMsg = m;
                     this.context.Messages.Remove(m);
                     this.context.SaveChanges();
-                    return removedMsg;
+                    //return removedMsg;
                 }
             }
-            return removedMsg;
+            ///return removedMsg;
         }
 
         // reply methods

@@ -162,7 +162,24 @@ namespace MessagingApp.Controllers
             // delete msg
             messageRepo.DeleteMsgFromRepo(id);
             // return msg
-            return Ok(foundMsg);
+            //return Ok(foundMsg);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteRplyById(int id)
+        {
+            // get user (this ensures a bad user cannot edit another person's rply)
+            var user = await userRepo.GetUserDataAsync(HttpContext.User);
+            // find msg
+            var foundRply = user.GetReplyHistory.Find(rply => rply.ReplyID == id);
+            if (foundRply == null)
+                return NotFound();
+            // delete msg
+            replyRepo.DeleteRepFromRepo(id);
+            // return success
+            //return Ok(foundRply);
+            return NoContent();
         }
     }
 }
