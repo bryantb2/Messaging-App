@@ -47,18 +47,14 @@ namespace MessagingApp.Repositories
         public async Task DeleteChatRoom(int chatRoomID)
         {
             var chats = this.context.ChatRooms;
-           // ChatRoom removedChat = null;
             foreach (ChatRoom c in chats)
             {
                 if (c.ChatRoomID == chatRoomID)
                 {
-                    //removedChat = c;
                     this.context.ChatRooms.Remove(c);
-                    await this.context.SaveChangesAsync();
-                    //return removedChat;
                 }
             }
-            //return removedChat;
+            await this.context.SaveChangesAsync();
         }
 
         // messaging methods

@@ -30,12 +30,12 @@ namespace MessagingApp.Controllers
             messageRepo = m;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
         }
-
-        public IActionResult ManageChats()
+        [AllowAnonymous]
+        public async Task<IActionResult> ManageChats(ManageChatsViewModel chatModel = null)
         {
             // add properties to manage chats model
             var chatManageVM = new ManageChatsViewModel();
@@ -46,21 +46,39 @@ namespace MessagingApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddChatRoom(ManageChatsViewModel chatModel)
+        public async Task<IActionResult> AddChatRoom(ManageChatsViewModel chatModel)
         {
             // TODO
             if(ModelState.IsValid)
             {
-
+                // create chat room
+                var newChat = new ChatRoom()
+                {
+                    ChatName = chatModel.Chat.ChatName,
+                    UnixTimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
+                };
+                // add to repo
+                await chatRepo.CreateChatRoom(newChat);
             }
-            return View();
+            else
+            {
+                ModelState.AddModelError(nameof(ManageChatsViewModel.Chat.ChatName), "Invalid title");
+                return RedirectToAction("ManageChats", new
+                {
+                    chatModel = chatModel
+                });
+            }
+            return RedirectToAction("ManageChats");
         }
 
-        [HttpDelete]
-        public IActionResult DeleteChatRoom(int chatRoomID)
+        [HttpGet]
+        public async Task<IActionResult> DeleteChatRoom(int chatRoomID)
         {
-            // TODO
-            return View(); 
+            var foundChat = chatRepo.ChatRoomList.Find(chat => chat.ChatRoomID == chatRoomID);
+            if(foundChat == null)
+                return RedirectToAction("ManageChats");
+            await chatRepo.DeleteChatRoom(chatRoomID);
+            return RedirectToAction("ManageChats");
         }
 
         // view model stat calc methods
@@ -96,7 +114,9 @@ namespace MessagingApp.Controllers
                 chatVM.ChatID = chat.ChatRoomID;
                 chatVM.Name = chat.ChatName;
                 chatVM.DateCreated = chat.GetTimeCreated;
-                chatVM.RecentActivity = GetPostDate(chat.ChatMessages, "RECENT");
+                chatVM.RecentActivity = 
+                    chat.ChatMessages.Count == 0 ?
+                    chat.GetTimeCreated : GetPostDate(chat.ChatMessages, "RECENT");
                 chatVM.NumberOfPosts = chat.ChatMessages.Count;
 
                 // add to list

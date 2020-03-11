@@ -108,7 +108,7 @@
         <button type="button" href="#" class="btn btn-light" data-toggle="modal" data-target="#modal-register">Make Post</button>
     </div>
 
-    @if (Model == null)
+    @if (Model == null || Model.SelectedChat.ChatMessages.Count == 0)
     {
         <div class="jumbotron" style="border-color: transparent; background-color: transparent; min-height: 50vh; display:flex; align-items:center;">
             <div class="container">

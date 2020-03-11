@@ -25,7 +25,7 @@
                     </div>
 
                     <div class="modal-body">
-                        <form role="form" asp-controller="Admin" asp-action="AddMessage" method="post" class="registration-form">
+                        <form role="form" asp-controller="Admin" asp-action="AddChatRoom" method="post" class="registration-form">
                             <div class="form-group">
                                 <label class="sr-only" asp-for="Chat.ChatName">Chat Title</label>
                                 <input asp-for="Chat.ChatName" type="text" placeholder="Chat title..." class="form-first-name form-control" id="chatName">
@@ -68,7 +68,7 @@
                                 <td>@c.RecentActivity</td>
                                 <td>@c.NumberOfPosts</td>
                                 <td><a asp-controller="Messages" asp-action="Forum" asp-route-chatRoomID=@c.ChatID><i class="fa fa-eye"></i></a></td>
-                                <td><a asp-controller="Admin" asp-action="DeleteChatRoom" asp-route-chatRoomID=@c.ChatID><i class="fa fa-trash"></i></a></td>
+                                <td><a asp-controller="Admin" asp-action="DeleteChatRoom" asp-route-chatRoomID=@c.ChatID ><i class="fa fa-trash"></i></a></td>
                             </tr>
                         }
                     </tbody>
@@ -76,8 +76,9 @@
             </div>
             <div class="p-2">
                 <div class="p-4 d-flex justify-content-end">
-                     <button type="submit" class="btn btn-primary">Add Chat</button>
+                     <button data-toggle="modal" data-target="#addChat-modal" type="submit" class="btn btn-primary">Add Chat</button>
                 </div>
             </div>
         </div>
+        <script src="~/messagingClient/forumClient.js"></script>
 </section>

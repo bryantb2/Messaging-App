@@ -349,3 +349,19 @@ const setEditModalMsgData = (msgId) => {
 const getEditModalMsgData = () => {
     return document.getElementById("editModal-updateButton").getAttribute("data-value");
 };
+
+
+
+/*---------------------------------------- BEGIN MANAGE CHATS methods ---------------------------------------------*/
+const deleteChatEvent = async (e) => {
+    const target = e.target.parentElement;
+    //const chatId = target.getAttribute("data-chatRoomID");
+    /*fetch(target.href, {
+        method: 'delete',
+    });*/
+    //target.href = "";
+    //fetch("https://localhost:44387/" + "Admin" + "/DeleteChatRoom?chatRoomID=" + "6", {
+    await fetch(target.href, {
+        method: 'delete',
+    });
+};
