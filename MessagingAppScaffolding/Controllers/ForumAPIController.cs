@@ -176,7 +176,7 @@ namespace MessagingApp.Controllers
             if (foundRply == null)
                 return NotFound();
             // delete msg
-            replyRepo.DeleteRepFromRepo(id);
+            await replyRepo.DeleteRepFromRepo(id);
             // return success
             //return Ok(foundRply);
             return NoContent();

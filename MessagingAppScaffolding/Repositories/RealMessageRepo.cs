@@ -38,7 +38,7 @@ namespace MessagingApp.Repositories
             this.context.SaveChanges();
         }
 
-        public void DeleteMsgFromRepo(int msgId)
+        public async void DeleteMsgFromRepo(int msgId)
         {
             var messages = this.context.Messages;
             //Message removedMsg = null;
@@ -48,7 +48,7 @@ namespace MessagingApp.Repositories
                 {
                     //removedMsg = m;
                     this.context.Messages.Remove(m);
-                    this.context.SaveChanges();
+                    await this.context.SaveChangesAsync();
                     //return removedMsg;
                 }
             }

@@ -33,7 +33,7 @@ namespace MessagingApp.Repositories
             this.context.SaveChanges();
         }
 
-        public void DeleteRepFromRepo(int replyId)
+        public async Task DeleteRepFromRepo(int replyId)
         {
             var replies = this.context.Replies;
             //Reply removedReply = null;
@@ -43,11 +43,13 @@ namespace MessagingApp.Repositories
                 {
                    // removedReply = r;
                     this.context.Replies.Remove(r);
-                    this.context.SaveChanges();
+                    await this.context.SaveChangesAsync();
                     //return removedReply;
+                    //return replyId;
                 }
             }
-           // return removedReply;
+            // return removedReply;
+            //return replyId;
         }
     }
 }
