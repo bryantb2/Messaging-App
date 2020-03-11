@@ -6,9 +6,10 @@ using MessagingApp.Models;
 
 namespace MessagingApp.ViewModels
 {
+    // model combines a create chat VM and a list of chat VMs that are used in the active table
     public class ManageChatsViewModel
     {
-        public CreateChatViewModel chat { get; set; }
-        public List<ChatRoom> activeChats { get; set; }
+        public CreateChatViewModel Chat { get; set; }
+        public List<ChatViewModel> ActiveChats { get; set; }
     }
 }

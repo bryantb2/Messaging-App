@@ -76,17 +76,20 @@ namespace MessagingApp.Models
                 // creating chat repos
                 var chat1 = new ChatRoom()
                 {
-                    ChatName = "General"
+                    ChatName = "General",
+                    UnixTimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
                 };
 
                 var chat2 = new ChatRoom()
                 {
-                    ChatName = "Photography"
+                    ChatName = "Photography",
+                    UnixTimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
                 };
 
                 var chat3 = new ChatRoom()
                 {
-                    ChatName = "Coding"
+                    ChatName = "Coding",
+                    UnixTimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
                 };
 
                 // building password hashes

@@ -162,7 +162,7 @@ a.navigationAnchor:hover {
 
 .pageContainer7 {
     min-height: 100% !important;
-    background-image: url(https://images7.alphacoders.com/394/394105.jpg);
+    background-image: url("../images/backgroundImages/snowMountain.jpg");
     background-size: cover;
     background-repeat: no-repeat;
 }

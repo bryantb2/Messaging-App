@@ -15,6 +15,16 @@ namespace MessagingApp.Models
         public int ChatRoomID { get; set; }
         public String ChatName { get; set; }
         public List<Message> ChatMessages { get { return this.messages; } }
+        public Int64 UnixTimeStamp { get; set; }
+        public DateTime GetTimeCreated
+        {
+            get
+            {
+                DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(UnixTimeStamp);
+                DateTime date = dateTimeOffset.UtcDateTime;
+                return date.ToLocalTime();
+            }
+        }
 
         public void AddMessage(Message msg) => messages.Add(msg);
 

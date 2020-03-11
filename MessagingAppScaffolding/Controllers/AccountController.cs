@@ -75,7 +75,7 @@ namespace MessagingApp.Controllers
 
         }*/
 
-        public IActionResult ManageChats()
+       /* public IActionResult ManageChats()
         {
             // TODO: MAKE THIS ROLE BASED
             return View();
@@ -84,7 +84,7 @@ namespace MessagingApp.Controllers
         public IActionResult ManageAdmins()
         {
             return View();
-        }
+        }*/
 
         public async Task<IActionResult> ManageMessages()
         {
