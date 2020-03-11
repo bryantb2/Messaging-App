@@ -74,8 +74,8 @@ const deleteMsgById = async (msgId) => {
     const response = await fetch(THREAD_API + "/DeleteMsgById/" + msgId, {
         method: 'DELETE'
     });
-    const final = await response.json();
-    return final;
+    //const final = await response.json();
+    //return final;
 };
 
 // delete rply by id
@@ -83,8 +83,8 @@ const deleteRplyById = async (rplyId) => {
     const response = await fetch(THREAD_API + "/DeleteRplyById/" + rplyId, {
         method: 'DELETE'
     });
-    const final = await response.json();
-    return final;
+    //const final = await response.json();
+    //return final;
 };
 
 
@@ -263,16 +263,16 @@ const deleteMsgEvent = async (e) => {
         // fetch data
         const replyData = await getReply(rplyId);
         if (confirm("Are You Sure You Want to Delete this Reply, which says " + replyData.replyContent)) {
-            const response = await deleteRplyById(rplyId);
+            await deleteRplyById(rplyId);
             const rplyHistory = await getRplyHistory();
-            rebuildMessagesTable(rplyHistory);
+            rebuildRepliesTable(rplyHistory);
         }
     } else {
         const msgId = target.getAttribute("data-value");
         // fetch data
         const msgData = await getMsg(msgId);
         if (confirm("Are You Sure You Want to Delete this Message, titled " + msgData.messageTitle)) {
-            const response = await deleteMsgById(msgId);
+            await deleteMsgById(msgId);
             const msgHistory = await getMsgHistory();
             rebuildMessagesTable(msgHistory);
         }
@@ -283,7 +283,7 @@ const deleteMsgEvent = async (e) => {
 // UI RENDERING FUNCTIONS
 const rebuildRepliesTable = (replyList) => {
     const replyTable = document.getElementById("replyTableBody");
-    const tableHTML = msgList.map((reply, index) =>
+    const tableHTML = replyList.map((reply, index) =>
         `<tr>
             <th scope="row">${reply.replyID}</th>
             <td class="titleLimit">${reply.replyContent}</td>
