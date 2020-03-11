@@ -9,6 +9,7 @@ using MessagingApp.Repositories;
 using Microsoft.AspNetCore.Identity;
 using MessagingApp.ViewModels;
 using MessagingApp.Data;
+using MessagingApp.APIModels;
 
 namespace MessagingApp.Controllers
 {
@@ -44,6 +45,35 @@ namespace MessagingApp.Controllers
             ViewBag.BackgroundStyle = "pageContainer5";
             return View(accountVM);
         }
+
+        /*[HttpPut]
+        public async Task<IActionResult> EditMessage(int id, [FromBody] MessageEditAPIModel msgModel)
+        {
+            if (ModelState.IsValid)
+            {
+                // get user (this ensures a bad user cannot edit another person's msg)
+                var user = await userRepo.GetUserDataAsync(HttpContext.User);
+                // find msg
+                var foundRply = user.GetReplyHistory.Find(rply => rply.ReplyID == id);
+                if (foundRply == null)
+                {
+                    ModelState.AddModelError(nameof(MessageEditAPIModel.MsgBody), "Invalid title or body");
+                    return View("ManageMessages", msgModel);
+                }
+                // update msg
+                foundRply.ReplyContent = msgModel.MsgBody;
+                replyRepo.UpdateRplyById(foundRply);
+                // return msg
+                return View(foundRply);
+            }
+            return BadRequest();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> EditReply(int id, [FromBody] MessageEditAPIModel msgModel)
+        {
+
+        }*/
 
         public IActionResult ManageChats()
         {

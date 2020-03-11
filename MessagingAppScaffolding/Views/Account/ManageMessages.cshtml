@@ -93,7 +93,7 @@
             <div class="modal-content">
                 <div class="modal-header row mx-0">
                     <div class="col-10">
-                        <h3 class="editModal-title" id="modal-register-label">Edit</h3>
+                        <h3 class="modal-title" id="editModalTitle">Edit</h3>
                     </div>
                     <div class="col-2">
                         <button type="button" class="close" data-dismiss="modal">
@@ -106,7 +106,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <form role="form" onsubmit="editMsgEvent(event)" method="post" class="registration-form">
+                    <div role="form" class="registration-form">
                         <div class="form-group" id="editTitleGroup">
                             <label class="sr-only">Message Title</label>
                             <input type="text" placeholder="Edit title..." class="form-first-name form-control" id="editMsgTitle">
@@ -116,8 +116,8 @@
                             <textarea placeholder="Edit body..."
                                       class="form-about-yourself form-control" id="editMsgBody"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary" id="editModal-updateButton" data-value="" onclick="submitEditedMsgEvent(event)">Update</button>
-                    </form>
+                        <button class="btn btn-primary" id="editModal-updateButton" data-value="" onclick="submitEditedMsgEvent(event)">Update</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -149,7 +149,7 @@
                     {
                         <tr>
                             <th scope="row">@m.MessageID</th>
-                            <td class="titleLimit">@m.MessageContent</td>
+                            <td class="titleLimit">@m.MessageTitle</td>
                             <td>@m.GetTimePosted</td>
                             <td><a data-toggle="modal" data-target="#viewMsgModal" class="view" href="#" data-msg-type="message" data-value=@m.MessageID onclick="viewMsgEvent(event)"><i class="fa fa-eye"></i></a></td>
                             <td><a data-toggle="modal" data-target="#editModal" class="edit " href="#" data-msg-type="message" data-value=@m.MessageID onclick="editMsgEvent(event)"><i class="fa fa-edit"></i></a></td>
@@ -167,7 +167,7 @@
                 <thead>
                     <tr>
                         <th scope="col">ID#</th>
-                        <th scope="col">Title</th>
+                        <th scope="col">Response</th>
                         <th scope="col">Posted On</th>
                         <th scope="col">View</th>
                         <th scope="col">Edit</th>

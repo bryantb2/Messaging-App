@@ -208,12 +208,13 @@ const editMsgEvent = async (e) => {
     }
 };
 
-const submitEditedMsgEvent = async (e) => {
+const submitEditedMsgEvent = async (e) => {                                                                          
     // parse form data
     // determine data type
     // send data to API
     // reset UI
     e.preventDefault();
+    const target = e.target;
     const msgType = getEditModalDataType();
     const msgBody = document.getElementById("editMsgBody").value;
     if (msgType.toUpperCase() == "REPLY") {
@@ -221,7 +222,7 @@ const submitEditedMsgEvent = async (e) => {
         const msgData = {
             MsgBody: msgBody
         };
-        await editRplyById(rplyId, msgData);
+        const response = await editRplyById(rplyId, msgData);
     } else {
         const msgId = target.getAttribute("data-value");
         const msgTitle = document.getElementById("editMsgTitle").value;
@@ -229,7 +230,7 @@ const submitEditedMsgEvent = async (e) => {
             MsgBody: msgBody,
             MsgTitle: msgTitle
         };
-        await editMsgbyId(rplyId, msgData);
+        const response = await editMsgbyId(msgId, msgData);
     }
     clearEditModalInputs();
 };
@@ -248,7 +249,7 @@ const showEditTitleInput = () => {
 };
 
 const setEditTitleHeader = (headerText) => {
-    const titleHeader = document.getElementById("editModal-title");
+    const titleHeader = document.getElementById("editModalTitle");
     titleHeader.innerHTML = headerText;
 };
 
@@ -267,11 +268,11 @@ const getEditModalDataType = () => {
 };
 
 const setEditModalMsgData = (msgId) => {
-    document.getElementById("editModal-updateButton").setAttribute("data-value").value = msgId;
+    document.getElementById("editModal-updateButton").setAttribute("data-value", msgId);
 };
 
 const getEditModalMsgData = () => {
-    return document.getElementById("editModal-updateButton").getAttribute("data-value").value
+    return document.getElementById("editModal-updateButton").getAttribute("data-value");
 };
 
 
