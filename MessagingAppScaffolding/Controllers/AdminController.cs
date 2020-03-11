@@ -34,6 +34,7 @@ namespace MessagingApp.Controllers
         {
             return View();
         }
+
         [AllowAnonymous]
         public async Task<IActionResult> ManageChats(ManageChatsViewModel chatModel = null)
         {
@@ -71,7 +72,7 @@ namespace MessagingApp.Controllers
             return RedirectToAction("ManageChats");
         }
 
-        [HttpGet]
+        [HttpGet] // jank way of ensuring compat. with anchor tag calls
         public async Task<IActionResult> DeleteChatRoom(int chatRoomID)
         {
             var foundChat = chatRepo.ChatRoomList.Find(chat => chat.ChatRoomID == chatRoomID);
@@ -125,6 +126,4 @@ namespace MessagingApp.Controllers
             return chatVmList;
         }
     }
-
-
 }
