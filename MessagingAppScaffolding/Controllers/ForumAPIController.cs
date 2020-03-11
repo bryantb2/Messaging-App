@@ -123,7 +123,7 @@ namespace MessagingApp.Controllers
                 // update msg
                 foundMsg.MessageTitle = msgModel.MsgTitle;
                 foundMsg.MessageContent = msgModel.MsgBody;
-                messageRepo.UpdateMsgById(foundMsg);
+                await messageRepo.UpdateMsgById(foundMsg);
                 // return msg
                 return Ok(foundMsg);
             }
@@ -143,7 +143,7 @@ namespace MessagingApp.Controllers
                     return NotFound();
                 // update msg
                 foundRply.ReplyContent = msgModel.MsgBody;
-                replyRepo.UpdateRplyById(foundRply);
+                await replyRepo.UpdateRplyById(foundRply);
                 // return msg
                 return Ok(foundRply);
             }
@@ -160,7 +160,7 @@ namespace MessagingApp.Controllers
             if (foundMsg == null)
                 return NotFound();
             // delete msg
-            messageRepo.DeleteMsgFromRepo(id);
+            await messageRepo.DeleteMsgFromRepo(id);
             // return msg
             //return Ok(foundMsg);
             return NoContent();

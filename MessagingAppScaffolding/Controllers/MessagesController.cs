@@ -79,9 +79,9 @@ namespace MessagingApp.Controllers
                     Poster = user.UserName
                 };
                 // add to msg, chat, and user repos
-                messageRepo.AddMsgToRepo(newMsg);
+                await messageRepo.AddMsgToRepo(newMsg);
                 user.AddMessageToHistory(newMsg);
-                chatRepo.AddMsgToChat(chatRoomID, newMsg);
+                await chatRepo.AddMsgToChat(chatRoomID, newMsg);
                 var result = await userManager.UpdateAsync(user);
                 return RedirectToAction("Forum", new { id = chatRoomID });
             }
@@ -109,8 +109,8 @@ namespace MessagingApp.Controllers
                     Poster = user.UserName
                 };
                 // add to reply, msg, and user repos
-                replyRepo.AddReplyToRepo(newRply);
-                messageRepo.AddReplytoMsg(newRply, msgId);
+                await replyRepo.AddReplyToRepo(newRply);
+                await messageRepo.AddReplytoMsg(newRply, msgId);
                 user.AddToReplyHistory(newRply);
                 var result = await userManager.UpdateAsync(user);
                 return RedirectToAction("Forum", new { chatRoomID = chatRoomID });

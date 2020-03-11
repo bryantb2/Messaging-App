@@ -10,12 +10,12 @@ namespace MessagingApp.Repositories
     {
         List<ChatRoom> ChatRoomList { get; }
 
-        void CreateChatRoom(ChatRoom chat);
+        Task CreateChatRoom(ChatRoom chat);
 
-        ChatRoom DeleteChatRoom(int chatRoomID);
+        Task DeleteChatRoom(int chatRoomID);
 
-        void AddMsgToChat(int chatID, Message msg);
+        Task AddMsgToChat(int chatID, Message msg);
 
-        Message RemoveMsgFromChat(int chatID, int msgID);
+        Task RemoveMsgFromChat(int chatID, int msgID);
     }
 }

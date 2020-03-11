@@ -26,46 +26,42 @@ namespace MessagingApp.Repositories
             }
         }
 
-        public void AddMsgToRepo(Message msg)
+        public async Task AddMsgToRepo(Message msg)
         {
             this.context.Messages.Add(msg);
-            this.context.SaveChanges();
+            await this.context.SaveChangesAsync();
         }
 
-        public void UpdateMsgById(Message msg)
+        public async Task UpdateMsgById(Message msg)
         {
             this.context.Messages.Update(msg);
-            this.context.SaveChanges();
+            await this.context.SaveChangesAsync();
         }
 
-        public async void DeleteMsgFromRepo(int msgId)
+        public async Task DeleteMsgFromRepo(int msgId)
         {
             var messages = this.context.Messages;
-            //Message removedMsg = null;
             foreach (Message m in messages)
             {
                 if (m.MessageID == msgId)
                 {
-                    //removedMsg = m;
                     this.context.Messages.Remove(m);
-                    await this.context.SaveChangesAsync();
-                    //return removedMsg;
                 }
             }
-            ///return removedMsg;
+            await this.context.SaveChangesAsync();
         }
 
         // reply methods
-        public void AddReplytoMsg(Reply rply, int msgID)
+        public async Task AddReplytoMsg(Reply rply, int msgID)
         {
             var message = this.context.Messages.ToList()
                 .Find(msg => msg.MessageID == msgID);
             message.AddToReplyHistory(rply);
             this.context.Messages.Update(message);
-            this.context.SaveChanges();
+            await this.context.SaveChangesAsync();
         }
 
-        public Reply RemoveReplyFromMsg(int replyID, int msgID)
+        public async Task<Reply> RemoveReplyFromMsg(int replyID, int msgID)
         {
             // find message
             var selectedMsg = this.context.Messages.ToList()
@@ -78,7 +74,7 @@ namespace MessagingApp.Repositories
             // remove message and update context
             selectedMsg.RemoveReplyHistory(replyID);
             this.context.Messages.Update(selectedMsg);
-            this.context.SaveChanges();
+            await this.context.SaveChangesAsync();
 
             return foundReply;
         }

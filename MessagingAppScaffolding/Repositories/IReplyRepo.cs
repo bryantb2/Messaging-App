@@ -10,10 +10,10 @@ namespace MessagingApp.Repositories
     {
         List<Reply> ReplyList { get; }
 
-        void AddReplyToRepo(Reply reply);
+        Task AddReplyToRepo(Reply reply);
 
         Task DeleteRepFromRepo(int replyId);
 
-        void UpdateRplyById(Reply rply);
+        Task UpdateRplyById(Reply rply);
     }
 }

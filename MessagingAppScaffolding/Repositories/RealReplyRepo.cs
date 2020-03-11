@@ -21,35 +21,29 @@ namespace MessagingApp.Repositories
             }
         }
 
-        public void AddReplyToRepo(Reply reply)
+        public async Task AddReplyToRepo(Reply reply)
         {
             this.context.Replies.Add(reply);
-            this.context.SaveChanges();
+            await this.context.SaveChangesAsync();
         }
 
-        public void UpdateRplyById(Reply rply)
+        public async Task UpdateRplyById(Reply rply)
         {
             this.context.Replies.Update(rply);
-            this.context.SaveChanges();
+            await this.context.SaveChangesAsync();
         }
 
         public async Task DeleteRepFromRepo(int replyId)
         {
             var replies = this.context.Replies;
-            //Reply removedReply = null;
             foreach (Reply r in replies)
             {
                 if (r.ReplyID == replyId)
                 {
-                   // removedReply = r;
                     this.context.Replies.Remove(r);
-                    await this.context.SaveChangesAsync();
-                    //return removedReply;
-                    //return replyId;
                 }
             }
-            // return removedReply;
-            //return replyId;
+            await this.context.SaveChangesAsync();
         }
     }
 }
