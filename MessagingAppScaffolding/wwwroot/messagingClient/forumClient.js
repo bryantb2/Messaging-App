@@ -57,6 +57,18 @@ const editMsgbyId = async (msgId, msgUpdateData) => {
     return final;
 }
 
+const editRplyById = async (rplyId, msgUpdateData) => {
+    const response = await fetch(THREAD_API + "/EditRplyById/" + rplyId, {
+        method: 'PUT',
+        body: JSON.stringify(msgUpdateData),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    const final = await response.json();
+    return final;
+}
+
 // delete msg by id
 const deleteMsgById = async (msgId) => {
     const response = await fetch(THREAD_API + "/DeleteMsgById/" + msgId);
@@ -180,6 +192,7 @@ const editMsgEvent = async (e) => {
         setEditTitleHeader("Edit Reply");
         // set form data type
         setEditModalDataType("REPLY");
+        setEditModalMsgData(rplyId);
     } else {
         const msgId = target.getAttribute("data-value");
         // fetch data
@@ -191,6 +204,7 @@ const editMsgEvent = async (e) => {
         setEditTitleHeader("Edit Message");
         // set form data type
         setEditModalDataType("MESSAGE");
+        setEditModalMsgData(msgId);
     }
 };
 
@@ -200,7 +214,24 @@ const submitEditedMsgEvent = async (e) => {
     // send data to API
     // reset UI
     e.preventDefault();
-    const msgTitle
+    const msgType = getEditModalDataType();
+    const msgBody = document.getElementById("editMsgBody").value;
+    if (msgType.toUpperCase() == "REPLY") {
+        const rplyId = target.getAttribute("data-value");
+        const msgData = {
+            MsgBody: msgBody
+        };
+        await editRplyById(rplyId, msgData);
+    } else {
+        const msgId = target.getAttribute("data-value");
+        const msgTitle = document.getElementById("editMsgTitle").value;
+        const msgData = {
+            MsgBody: msgBody,
+            MsgTitle: msgTitle
+        };
+        await editMsgbyId(rplyId, msgData);
+    }
+    clearEditModalInputs();
 };
 
 // UI RENDERING FUNCTIONS
@@ -226,6 +257,7 @@ const clearEditModalInputs = () => {
     document.getElementById("editMsgTitle").value = "";
 };
 
+// update button value setters
 const setEditModalDataType = (typeString) => {
     document.getElementById("editModal-updateButton").value = typeString;
 };
@@ -234,6 +266,13 @@ const getEditModalDataType = () => {
     return document.getElementById("editModal-updateButton").value;
 };
 
+const setEditModalMsgData = (msgId) => {
+    document.getElementById("editModal-updateButton").setAttribute("data-value").value = msgId;
+};
+
+const getEditModalMsgData = () => {
+    return document.getElementById("editModal-updateButton").getAttribute("data-value").value
+};
 
 
 

@@ -130,6 +130,26 @@ namespace MessagingApp.Controllers
             return BadRequest();
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditRplyById(int id, [FromBody] MessageEditAPIModel msgModel)
+        {
+            if (ModelState.IsValid)
+            {
+                // get user (this ensures a bad user cannot edit another person's msg)
+                var user = await userRepo.GetUserDataAsync(HttpContext.User);
+                // find msg
+                var foundRply = user.GetReplyHistory.Find(rply => rply.ReplyID == id);
+                if (foundRply == null)
+                    return NotFound();
+                // update msg
+                foundRply.ReplyContent = msgModel.MsgBody;
+                replyRepo.UpdateRplyById(foundRply);
+                // return msg
+                return Ok(foundRply);
+            }
+            return BadRequest();
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMsgById(int id)
         {

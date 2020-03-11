@@ -8,7 +8,6 @@ namespace MessagingApp.APIModels
 {
     public class MessageEditAPIModel
     {
-        [Required]
         public string MsgTitle { get; set; }
 
         [Required]

@@ -27,6 +27,12 @@ namespace MessagingApp.Repositories
             this.context.SaveChanges();
         }
 
+        public void UpdateRplyById(Reply rply)
+        {
+            this.context.Replies.Update(rply);
+            this.context.SaveChanges();
+        }
+
         public Reply DeleteRepFromRepo(int replyId)
         {
             var replies = this.context.Replies;
