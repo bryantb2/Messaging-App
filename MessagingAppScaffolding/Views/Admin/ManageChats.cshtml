@@ -7,7 +7,7 @@
     <section class="my-5">
         <!-- MESSAGE MODAL -->
 
-        <div class="modal fade" id="modal-register" role="dialog" aria-labelledby="modal-register-label" aria-hidden="true">
+        <div class="modal fade" id="addChat-modal" role="dialog" aria-labelledby="modal-register-label" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header row mx-0">
@@ -27,8 +27,8 @@
                     <div class="modal-body">
                         <form role="form" asp-controller="Admin" asp-action="AddMessage" method="post" class="registration-form">
                             <div class="form-group">
-                                <label class="sr-only" asp-for="chat.ChatName">Chat Title</label>
-                                <input asp-for="chat.ChatName" type="text" placeholder="Chat title..." class="form-first-name form-control" id="chatName">
+                                <label class="sr-only" asp-for="Chat.ChatName">Chat Title</label>
+                                <input asp-for="Chat.ChatName" type="text" placeholder="Chat title..." class="form-first-name form-control" id="chatName">
                             </div>
                             <button type="submit" class="btn btn-primary">Build ChatRoom</button>
                         </form>
@@ -41,8 +41,8 @@
         <div class="p-4 text-center">
             <h1 class="pageHeaderCustom text-light">Chatroom Management</h1>
         </div>
-        <div class="row">
-            <div class="col-6 col-md-12">
+        <div class="d-flex flex-column">
+            <div class="p-2">
                 <div class="p-4 text-center">
                     <h2 class="pageHeaderCustom text-light">Active Chats</h2>
                 </div>
@@ -65,13 +65,19 @@
                                 <th scope="row">@c.ChatID</th>
                                 <td class="titleLimit">@c.Name</td>
                                 <td>@c.DateCreated</td>
-                                <td><a data-toggle="modal" data-target="#viewMsgModal" class="view" href="#" data-msg-type="message" data-value=@m.MessageID onclick="viewMsgEvent(event)"><i class="fa fa-eye"></i></a></td>
-                                <td><a data-toggle="modal" data-target="#editModal" class="edit " href="#" data-msg-type="message" data-value=@m.MessageID onclick="editMsgEvent(event)"><i class="fa fa-edit"></i></a></td>
-                                <td><a class="trash " href="#" data-msg-type="message" data-value=@m.MessageID onclick="deleteMsgEvent(event)"><i class="fa fa-trash"></i></a></td>
+                                <td>@c.RecentActivity</td>
+                                <td>@c.NumberOfPosts</td>
+                                <td><a asp-controller="Messages" asp-action="Forum" asp-route-chatRoomID=@c.ChatID><i class="fa fa-eye"></i></a></td>
+                                <td><a asp-controller="Admin" asp-action="DeleteChatRoom" asp-route-chatRoomID=@c.ChatID><i class="fa fa-trash"></i></a></td>
                             </tr>
                         }
                     </tbody>
                 </table>
+            </div>
+            <div class="p-2">
+                <div class="p-4 d-flex justify-content-end">
+                     <button type="submit" class="btn btn-primary">Add Chat</button>
+                </div>
             </div>
         </div>
 </section>
