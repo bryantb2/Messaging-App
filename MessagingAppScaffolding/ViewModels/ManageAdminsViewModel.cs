@@ -6,9 +6,9 @@ using MessagingApp.Models;
 
 namespace MessagingApp.ViewModels
 {
-    public class ManageChatsViewModel
+    public class ManageAdminsViewModel
     {
-        public CreateChatViewModel chat { get; set; }
-        public List<ChatRoom> activeChats { get; set; }
+        public List<AppUser> userList { get; set; }
+        public List<AppUser> adminList { get; set; }
     }
 }

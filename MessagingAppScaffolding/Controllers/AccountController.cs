@@ -92,7 +92,7 @@ namespace MessagingApp.Controllers
             var user = await userRepo.GetUserDataAsync(HttpContext.User);
 
             // set message and reply info
-            var manageMsgVM = new ManageChatsViewModel();
+            var manageMsgVM = new ManageMessageViewModel();
             manageMsgVM.MessageList = user.GetMessageList;
             manageMsgVM.ReplyList = user.GetReplyHistory;
 
