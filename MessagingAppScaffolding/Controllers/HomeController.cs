@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace MessagingApp.Controllers
 {
-    [Authorize]
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private UserManager<AppUser> userManager;
@@ -24,6 +24,10 @@ namespace MessagingApp.Controllers
         {
             ViewBag.BackgroundStyle = "pageContainer";
             var user = await userManager.GetUserAsync(HttpContext.User);
+            var userExist = true;
+            if (user == null)
+                userExist = false;
+            ViewBag.VisitorStatus = userExist;
             return View(user);
         }
 
