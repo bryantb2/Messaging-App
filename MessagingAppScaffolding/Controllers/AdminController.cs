@@ -34,9 +34,10 @@ namespace MessagingApp.Controllers
         public async Task<IActionResult> Index()
         {
             // this route will take users to manage admins page
+            var excludedWhenSearchingStandardUsers = new List<String>() { "admin" };
             var appUserList = userRepo.GetAllUsersAndData();
             var adminList = await GenerateUserRoleList(appUserList, "admin");
-            var peasantList = await GenerateUserRoleList(appUserList, "standard");
+            var peasantList = await GenerateUserRoleList(appUserList, "standard", excludedWhenSearchingStandardUsers);
 
             // build view model
             var manageAdminVM = new ManageAdminsViewModel()
@@ -49,16 +50,26 @@ namespace MessagingApp.Controllers
             return View(manageAdminVM);
         }
 
-        public async Task<IActionResult> AddAdmin(int userId)
+        public async Task<IActionResult> AddAdmin(String userId)
         {
-            // TODO return redirect to index after adding admin
-            throw new NotImplementedException();
+            // find and add user to admin role
+            var user = await userManager.FindByIdAsync(userId);
+            if(user != null)
+            {
+                await userManager.AddToRoleAsync(user, "admin");
+            }
+            return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> RemoveAdmin(int userId)
+        public async Task<IActionResult> RemoveAdmin(String userId)
         {
-            // TODO return redirect to index after removing admin
-            throw new NotImplementedException();
+            // find and remove user from admin role
+            var user = await userManager.FindByIdAsync(userId);
+            if (user != null)
+            {
+                await userManager.RemoveFromRoleAsync(user, "admin");
+            }
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> ManageChats(ManageChatsViewModel chatModel = null)
@@ -171,15 +182,35 @@ namespace MessagingApp.Controllers
             return adminVMList;
         }
 
-        private async Task<List<AppUser>> GenerateUserRoleList(List<AppUser> userList, string role)
+        private async Task<List<AppUser>> GenerateUserRoleList(List<AppUser> userList, string role, List<String> excludeRoles = null)
         {
+            // takes in userList, role to search for, and optional roles to exclude
+            // example: the site owner may want the list of just standard users, but an admin might also be a standard user
+            // therefore we include an AppUser object in the hasRoleList ONLY if it is a standard user
             List<AppUser> hasRoleList = new List<AppUser>();
             for(var i = 0; i < userList.Count; i++)
             {
                 var currentUser = userList[i];
                 if(await userManager.IsInRoleAsync(currentUser, role))
                 {
-                    hasRoleList.Add(currentUser);
+                    // check excluded roles
+                    if (excludeRoles != null)
+                    {
+                        var addUserToList = true;
+                        for (var j = 0; j < excludeRoles.Count; j++)
+                        {
+                            // set add user bool to false if the user has an excluded role
+                            var excludedRole = excludeRoles[j];
+                            if (await userManager.IsInRoleAsync(currentUser, excludedRole))
+                                addUserToList = false;
+                        }
+                        if(addUserToList)
+                            hasRoleList.Add(currentUser);
+                    } 
+                    else
+                    {
+                        hasRoleList.Add(currentUser);
+                    }
                 }
             }
             return hasRoleList;
