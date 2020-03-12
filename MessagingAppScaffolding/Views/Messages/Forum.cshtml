@@ -1,0 +1,149 @@
+﻿
+@{
+    ViewData["Title"] = "Home";
+    Layout = "_Layout";
+}
+@model ForumViewModel
+
+<link rel="stylesheet" href="~/css/ModalStyles.css">
+
+<section>
+
+    <!-- MESSAGE MODAL -->
+
+    <div class="modal fade" id="modal-register" role="dialog" aria-labelledby="modal-register-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header row mx-0">
+                    <div class="col-10">
+                        <h3 class="modal-title" id="modal-register-label">Create Message</h3>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                    <div class="col-12">
+                        <p>Fill out the Fields Below:</p>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+                    <form role="form" asp-route-chatRoomID=@Model.SelectedChat.ChatRoomID asp-controller="Messages" asp-action="AddMessage" method="post" class="registration-form">
+                        <div class="form-group">
+                            <label class="sr-only" asp-for="MsgViewModel.Title">Message Title</label>
+                            <input asp-for="MsgViewModel.Title" type="text" placeholder="Message title..." class="form-first-name form-control" id="form-first-name">
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only" asp-for="MsgViewModel.MessageBody">Message Body</label>
+                            <textarea asp-for="MsgViewModel.MessageBody" placeholder="Message body..."
+                                      class="form-about-yourself form-control" id="form-about-yourself"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Post Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- END OF MESSAGE MODAL -->
+    <!-- REPLY MODAL -->
+
+    <div class="modal fade" id="modal-reply" role="dialog" aria-labelledby="modal-register-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header row mx-0">
+                    <div class="col-10">
+                        <h3 class="modal-title" id="modal-register-label">Create Reply</h3>
+                    </div>
+                    <div class="col-2">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+                        </button>
+                    </div>
+                    <div class="col-12">
+                        <p id="replyResponseTitle">Responding to <b>[Username]</b>'s message title "[message title]", which says:</p>
+                    </div>
+                    <div class="col-12">
+                        <p id="replyResponseContent">[message content]</p>
+                    </div>
+                    <div class="col-12">
+                        <p>
+                            <b>Fill out the Fields Below:</b>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="modal-body">
+                    <form id="replyForm" role="form" asp-controller="Messages" asp-action="AddReply" asp-route-chatRoomID=@Model.SelectedChat.ChatRoomID asp-route-msgId="0" method="post" class="registration-form">
+                        <div class="form-group">
+                            <label class="sr-only" asp-for="RplyViewModel.MessageBody">Reply Body</label>
+                            <textarea asp-for="RplyViewModel.MessageBody" placeholder="Reply body..."
+                                      class="form-about-yourself form-control" id="replyBody"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Post Reply</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- END OF REPLY MODAL -->
+
+    <h1 class="text-light text-center mt-5">@Model.SelectedChat.ChatName Chat</h1>
+    <div class="row mt-4">
+
+        <br />
+        <div class="dropdown ml-3 mr-5">
+            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Select Chat
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                @foreach (ChatRoom c in ViewBag.ChatRoomList)
+                {
+                    <a class="dropdown-item" asp-action="Forum" asp-controller="Messages" asp-route-chatRoomID=@c.ChatRoomID>@c.ChatName</a>
+                }
+            </div>
+        </div>
+        <button type="button" href="#" class="btn btn-light" data-toggle="modal" data-target="#modal-register">Make Post</button>
+    </div>
+
+    @if (Model == null || Model.SelectedChat.ChatMessages.Count == 0)
+    {
+        <div class="jumbotron" style="border-color: transparent; background-color: transparent; min-height: 50vh; display:flex; align-items:center;">
+            <div class="container">
+                <h1 class="text-light text-center">There are no messages in this chat</h1>
+            </div>
+        </div>
+    }
+    else
+    {
+        @foreach (Message msg in Model.SelectedChat.ChatMessages)
+        {
+            <div class="overflow-auto mt-4">
+                <div class="userMessage text-light darkParagraphBackground p-4">
+                    <h1 class="messageTitle">@msg.MessageTitle</h1>
+                    <p class="pageParagraph">@msg.MessageContent</p>
+                    <div class="d-flex flex-row">
+                        <p class="digitalSignature">Post by @msg.Poster on @msg.GetTimePosted</p>
+                    </div>
+                </div>
+                <button value=@msg.MessageID type="button" class="btn btn-link text-light" data-toggle="modal" data-target="#modal-reply" onclick="replyEvent(event)">Reply</button>
+            </div>
+            @foreach (MessagingApp.Models.Reply r in msg.GetReplyHistory)
+            {
+                <div class="pt-4 container">
+                    <div class="row justify-content-end">
+                        <div class="col-6 reply p-2 my-3 bg-dark p-4">
+                            <p class="pageParagraph text-light">@r.ReplyContent</p>
+                            <div class="d-flex flex-row">
+                                <p class="digitalSignature text-light">Post by @r.Poster on @r.GetTimePosted</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    }
+    <script src="~/messagingClient/forumClient.js"></script>
+</section>

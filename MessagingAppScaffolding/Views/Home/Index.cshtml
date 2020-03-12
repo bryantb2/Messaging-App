@@ -1,8 +1,22 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@{ 
+    ViewData["Title"] = "Home";
+    Layout = "_Layout";
 }
+@model AppUser
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="pageContainerCenter justify-content-center">
+    <article class="contextBoxRestricted text-light">
+        <div class="d-flex p-4 justify-content-left"><h1 class="pageHeaderCustom">Welcome to the Messaging App, @Model.UserName</h1></div>
+        <p class="d-flex p-4 pageParagraph">
+            The goal of this project to provide a lightweight forum and communication system for users. In the future, our
+            hope is to utilize web sockets, a technology that allows for more continuous and constant refreshing of page data.
+            In other words, your messages will come to you faster and in real-time! For now, however, just refresh the page to see
+            message updates.
+        </p>
+        <br/>
+        <p class="d-flex pl-4 pageParagraph">
+            Now go forward, and explore what we have to offer!
+        </p>
+    </article>
+</section>
+

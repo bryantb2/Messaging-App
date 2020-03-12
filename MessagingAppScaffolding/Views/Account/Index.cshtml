@@ -1,0 +1,117 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_Layout";
+}
+@model AccountViewModel
+<link rel="stylesheet" href="~/css/AccountStyles.css" />
+<section class="my-5">
+    <div class="p-4 text-center">
+        <h1 style="font-size:40pt; margin-left: 200px;" class="pageHeaderCustom text-light">Account Overview</h1>
+    </div>
+    <div class="d-flex flex-row">
+        <div class="mr-5">
+            <article class="profileContainer rounded shadow-lg bg-light">
+                <div class="innerProfileContainer p-4 text-dark">
+                    <div class="d-flex flex-column justify-content-center">
+                        <div class="p-2 d-flex justify-content-center">
+                            <img class="img-thumbnail rounded-circle shadow-sm" src="~/images/backgroundImages/profileIcon.png" width="100" />
+                        </div>
+                        <div class="p-2 text-center">
+                            <h4>@Model.Username</h4>
+                        </div>
+                    </div>
+                    <hr class="my-2 border-dark" />
+                    <div>
+                        <p class="d-flex p-2 pageParagraph">
+                            Feature Coming - Bio goes here
+                        </p>
+                        <p class="d-flex p-2 pageParagraph">
+                            @Model.RegisteredEmail
+                        </p>
+                        <p class="d-flex p-2">
+                            <a class="btn-link" href="#">Change Password</a>
+                        </p>
+                    </div>
+                </div>
+            </article>
+        </div>
+        <div class="row">
+            <div class="col-12 mb-4">
+                <article class="profileContainer rounded shadow-lg bg-light w-100">
+                    <div class="innerProfileContainer p-4 text-dark">
+                        <div class="d-flex flex-column justify-content-center">
+                            <div class="p-2 text-center">
+                                <h2>General Info</h2>
+                            </div>
+                        </div>
+                        <hr class="my-2 border-dark" />
+                        <div>
+                            <p class="d-flex p-2 pageParagraph">
+                                <b>Joined on:</b> @Model.DateJoined
+                            </p>
+                            <p class="d-flex p-2 pageParagraph">
+                                <b>First Post:</b> @Model.FirstPostDate
+                            </p>
+                            <p class="d-flex p-2 pageParagraph">
+                                <b>Most Recent Post:</b> @Model.RecentPostDate
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="col-4">
+                <article class="profileContainer rounded shadow-lg bg-light w-100">
+                    <div class="innerProfileContainer p-4 text-dark">
+                        <div class="d-flex flex-column justify-content-center">
+                            <div class="p-2 text-center">
+                                <h2>@Model.PostedMsgCount</h2>
+                            </div>
+                        </div>
+                        <hr class="my-2 border-dark" />
+                        <div>
+                            <p class="d-flex p-2 pageParagraph">
+                                Posted Messages
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="col-4">
+                <article class="profileContainer rounded shadow-lg bg-light w-100">
+                    <div class="innerProfileContainer p-4 text-dark">
+                        <div class="d-flex flex-column justify-content-center">
+                            <div class="p-2 text-center">
+                                <h2>@Model.RepliesRecievedCount</h2>
+                            </div>
+                        </div>
+                        <hr class="my-2 border-dark" />
+                        <div>
+                            <p class="d-flex p-2 pageParagraph">
+                                Recieved Comments
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="col-4">
+                <article class="profileContainer rounded shadow-lg bg-light w-100">
+                    <div class="innerProfileContainer p-4 text-dark">
+                        <div class="d-flex flex-column justify-content-center">
+                            <div class="p-2 text-center">
+                                <h2>@Model.PostedRplyCount</h2>
+                            </div>
+                        </div>
+                        <hr class="my-2 border-dark" />
+                        <div>
+                            <p class="d-flex p-2 pageParagraph">
+                                Posted Comments
+                            </p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MessagingAppScaffolding.Data.Migrations
+namespace MessagingApp.Data.Migrations
 {
     public partial class scaffolding : Migration
     {

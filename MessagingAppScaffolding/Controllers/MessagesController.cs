@@ -5,149 +5,125 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using CommunityWebsite.Models;
-using MessagingAppScaffolding.Data;
+using MessagingApp.Models;
+using MessagingApp.Data;
+using MessagingApp.Repositories;
+using MessagingApp.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
-namespace MessagingAppScaffolding.Controllers
+namespace MessagingApp.Controllers
 {
+    [Authorize]
     public class MessagesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        IReplyRepo replyRepo;
+        IMessageRepo messageRepo;
+        IChatRepo chatRepo;
 
-        public MessagesController(ApplicationDbContext context)
+        private UserManager<AppUser> userManager;
+
+        public MessagesController(UserManager<AppUser> usrMgr,
+                IReplyRepo r, IMessageRepo m, IChatRepo c)
         {
-            _context = context;
+            // repos
+            this.replyRepo = r;
+            this.messageRepo = m;
+            this.chatRepo = c;
+            // user managers
+            this.userManager = usrMgr;
         }
 
-        // GET: Messages
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public IActionResult Forum(int? chatRoomID = null, ForumViewModel forumViewModel = null) //CreateMessageViewModel rejectedMsg = null, CreateReplyViewModel rejectedRply = null)
         {
-            return View(await _context.Messages.ToListAsync());
-        }
+            // allows for user to select which chat room they want
+            ViewBag.BackgroundStyle = "parallaxEffect";
+            List<ChatRoom> chatRooms = chatRepo.ChatRoomList;
+            ChatRoom selectChatRoom;
+            if (chatRoomID != null)
+                selectChatRoom = chatRooms.Find(chat => chat.ChatRoomID == chatRoomID);
+            else
+                selectChatRoom = chatRooms.Count == 0 ? null : chatRooms[0];
+            ViewBag.ChatRoomList = chatRooms; // for dropdown
 
-        // GET: Messages/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+            if (forumViewModel.MsgViewModel == null && forumViewModel.RplyViewModel == null && forumViewModel.SelectedChat == null)
             {
-                return NotFound();
+                // build forum view model 
+                ForumViewModel forumVM = new ForumViewModel();
+                forumVM.SelectedChat = selectChatRoom;
+                return View(forumVM);
             }
-
-            var message = await _context.Messages
-                .FirstOrDefaultAsync(m => m.MessageID == id);
-            if (message == null)
+            else
             {
-                return NotFound();
+                return View(forumViewModel);
             }
-
-            return View(message);
         }
 
-        // GET: Messages/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Messages/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // post message
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Topic,MessageID,UnixTimeStamp,MessageContent,MessageTitle,UserNameSignature")] Message message)
+        public async Task<IActionResult> AddMessage(ForumViewModel forumViewModel, int chatRoomID)
+        {
+            // forum view model will be used to bind data to msg viewmodel
+            if (ModelState.IsValid)
+            {
+                var selectedChatRoom = chatRepo.ChatRoomList
+                    .Find(chat => chat.ChatRoomID == chatRoomID);
+                var user = await userManager.GetUserAsync(HttpContext.User);
+                var newMsg = new Message()
+                {
+                    Topic = selectedChatRoom.ChatName,
+                    MessageTitle = forumViewModel.MsgViewModel.Title,
+                    MessageContent = forumViewModel.MsgViewModel.MessageBody,
+                    UnixTimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+                    Poster = user.UserName
+                };
+                // add to msg, chat, and user repos
+                await messageRepo.AddMsgToRepo(newMsg);
+                user.AddMessageToHistory(newMsg);
+                await chatRepo.AddMsgToChat(chatRoomID, newMsg);
+                var result = await userManager.UpdateAsync(user);
+                return RedirectToAction("Forum", new { id = chatRoomID });
+            }
+            else
+            {
+                ModelState.AddModelError(nameof(ForumViewModel.MsgViewModel.Title), "Invalid title or body");
+                return RedirectToAction("Forum", new {
+                    chatRoomID = chatRoomID,
+                    forumViewModel = forumViewModel
+                });
+            }
+        }
+
+        // post reply
+        [HttpPost]
+        public async Task<IActionResult> AddReply(ForumViewModel forumViewModel, int msgId, int chatRoomID)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(message);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(message);
-        }
-
-        // GET: Messages/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var message = await _context.Messages.FindAsync(id);
-            if (message == null)
-            {
-                return NotFound();
-            }
-            return View(message);
-        }
-
-        // POST: Messages/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Topic,MessageID,UnixTimeStamp,MessageContent,MessageTitle,UserNameSignature")] Message message)
-        {
-            if (id != message.MessageID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+                var user = await userManager.GetUserAsync(HttpContext.User);
+                var newRply = new Reply()
                 {
-                    _context.Update(message);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
+                    ReplyContent = forumViewModel.RplyViewModel.MessageBody,
+                    UnixTimeStamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+                    Poster = user.UserName
+                };
+                // add to reply, msg, and user repos
+                await replyRepo.AddReplyToRepo(newRply);
+                await messageRepo.AddReplytoMsg(newRply, msgId);
+                user.AddToReplyHistory(newRply);
+                var result = await userManager.UpdateAsync(user);
+                return RedirectToAction("Forum", new { chatRoomID = chatRoomID });
+            }
+            else
+            {
+                ModelState.AddModelError(nameof(CreateReplyViewModel.MessageBody), "Invalid reply body");
+                return RedirectToAction("Forum", new
                 {
-                    if (!MessageExists(message.MessageID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                    chatRoomID = chatRoomID,
+                    forumViewModel = forumViewModel
+                });
             }
-            return View(message);
-        }
-
-        // GET: Messages/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var message = await _context.Messages
-                .FirstOrDefaultAsync(m => m.MessageID == id);
-            if (message == null)
-            {
-                return NotFound();
-            }
-
-            return View(message);
-        }
-
-        // POST: Messages/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var message = await _context.Messages.FindAsync(id);
-            _context.Messages.Remove(message);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool MessageExists(int id)
-        {
-            return _context.Messages.Any(e => e.MessageID == id);
         }
     }
 }

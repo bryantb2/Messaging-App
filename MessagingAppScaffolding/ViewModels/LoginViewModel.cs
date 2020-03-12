@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 
 
-namespace MessagingAppScaffolding.ViewModels
+namespace MessagingApp.ViewModels
 {
     public class LoginViewModel
     {

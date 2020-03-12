@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace CommunityWebsite.Models
+namespace MessagingApp.Models
 {
     public class AppUser : IdentityUser  
     {
@@ -15,6 +15,8 @@ namespace CommunityWebsite.Models
         private List<Reply> replyHistory = new List<Reply>();
 
         //PROPERTIES
+        public Int64 DateJoined { get; set; }
+
         public List<Reply> GetReplyHistory
         {
             get { return this.replyHistory; }
@@ -44,10 +46,7 @@ namespace CommunityWebsite.Models
 
         public void AddMessageToHistory(Message message)
         {
-            //if(message.UserNameSignature == this.userName)
-            //{
-                this.messageHistory.Add(message);
-            //}
+            this.messageHistory.Add(message);
         }
 
         public void RemoveMessageFromHistory(int messageID)
@@ -61,34 +60,19 @@ namespace CommunityWebsite.Models
             }
         }
 
-        //public void AddReplyToMessage(int messageID, Reply externalReply)
-        //{
-        //    //this methods syncs another person's response to the message itself
-        //    foreach(Message m in messageHistory)
-        //    {
-        //        if(m.MessageID == messageID)
-        //        {
-        //            m.AddToReplyHistory(externalReply);
-        //        }
-        //    }
-        //}
-
-        //public void RemoveReplyFromMessage(int messageID, int replyID)
-        //{
-        //    foreach (Message m in messageHistory)
-        //    {
-        //        if (m.MessageID == messageID)
-        //        {
-        //            List<Reply> replyHistory = m.GetReplyHistory;
-        //            for(int i = 0; i < replyHistory.Count();i++)
-        //            {
-        //                if(replyHistory[i].ReplyID == replyID)
-        //                {
-        //                    m.RemoveReplyHistory(replyID);
-        //                }
-        //            }
-        //        }
-        //    }
-        //}
+        public DateTime GetDateJoined
+        {
+            get
+            {
+                //https://stackoverflow.com/questions/249760/how-can-i-convert-a-unix-timestamp-to-datetime-and-vice-versa
+                DateTimeOffset dateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(DateJoined);
+                DateTime date = dateTimeOffset.UtcDateTime;
+                return date.ToLocalTime();
+                // adsf
+                /*DateTime unixStart = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+                long unixTimeStampInTicks = (long)(this.UnixTimeStamp * TimeSpan.TicksPerSecond);
+                return new DateTime(unixStart.Ticks + unixTimeStampInTicks, System.DateTimeKind.Utc);*/
+            }
+        }
     }
 }

@@ -1,0 +1,13 @@
+﻿
+.messageTitle {
+    font-family: 'FuturaPT-Bold';
+    font-size: 19pt;
+}
+
+.reply {
+    max-width: 60%;
+}
+
+.replyContentJustify {
+    justify-content: flex-end;
+}
