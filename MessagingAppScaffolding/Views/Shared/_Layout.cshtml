@@ -28,28 +28,35 @@
                     <li class="nav-item active"><a class="nav-link text-secondary" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li class="nav-item active"><a class="nav-link text-secondary" asp-area="" asp-controller="Messages" asp-action="Forum">Forum</a></li>
                     <li class="nav-item active"><a class="nav-link text-secondary" asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-secondary" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
-                            Account
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item text-secondary" asp-controller="Account" asp-action="Index">View Account</a>
-                            <a class="dropdown-item text-secondary" asp-controller="Account" asp-action="ManageMessages">Manage Messages</a>
-                            <div class="dropdown-divider"></div>
-                            @if (User.IsInRole("owner") || User.IsInRole("admin"))
-                            {
-                                <a class="dropdown-item text-secondary" asp-controller="Admin" asp-action="ManageChats">Manage Chats</a>
-                            }
-                            @if (User.IsInRole("owner"))
-                            {
-                                <a class="dropdown-item text-secondary" asp-controller="Admin" asp-action="Index">Manage Admins</a>
-                            }
-                            @if (User.IsInRole("owner") || User.IsInRole("admin") || User.IsInRole("standard"))
-                            {
-                                <a class="dropdown-item text-secondary" asp-controller="Login" asp-action="SignoutUser">Signout</a>
-                            }
-                        </div>
-                    </li>
+                    @if (!User.IsInRole("owner") && !User.IsInRole("admin") && !User.IsInRole("standard"))
+                    {
+                        <li class="nav-item active"><a class="nav-link text-secondary" asp-controller="Login" asp-action="Index">Login</a></li>
+                    }
+                    else
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-secondary" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
+                                Account
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item text-secondary" asp-controller="Account" asp-action="Index">View Account</a>
+                                <a class="dropdown-item text-secondary" asp-controller="Account" asp-action="ManageMessages">Manage Messages</a>
+                                <div class="dropdown-divider"></div>
+                                @if (User.IsInRole("owner") || User.IsInRole("admin"))
+                                {
+                                    <a class="dropdown-item text-secondary" asp-controller="Admin" asp-action="ManageChats">Manage Chats</a>
+                                }
+                                @if (User.IsInRole("owner"))
+                                {
+                                    <a class="dropdown-item text-secondary" asp-controller="Admin" asp-action="Index">Manage Admins</a>
+                                }
+                                @if (User.IsInRole("owner") || User.IsInRole("admin") || User.IsInRole("standard"))
+                                {
+                                    <a class="dropdown-item text-secondary" asp-controller="Login" asp-action="SignoutUser">Signout</a>
+                                }
+                            </div>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>

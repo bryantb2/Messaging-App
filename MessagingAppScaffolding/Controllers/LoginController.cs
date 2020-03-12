@@ -72,7 +72,7 @@ namespace MessagingApp.Controllers
                 if(model.ConfirmPassword == model.Password)
                 {
                     // ensuring unique username
-                    var preSearchUser = await userManager.FindByIdAsync(model.Username);
+                    var preSearchUser = await userManager.FindByNameAsync(model.Username);
                     if(preSearchUser == null)
                     {
                         AppUser user = new AppUser
