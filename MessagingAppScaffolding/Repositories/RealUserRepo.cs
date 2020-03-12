@@ -20,6 +20,16 @@ namespace MessagingApp.Repositories
             this.userManager = usrMgr;
         }
 
+        public List<AppUser> GetAllUsersAndData()
+        {
+            var userList = userManager.Users
+                .Include(usr => usr.GetMessageList)
+                .ThenInclude(msg => msg.GetReplyHistory)
+            .Include(usr => usr.GetReplyHistory)
+                .ToList();
+            return userList;
+        }
+
         public async Task<AppUser> GetUserDataAsync(ClaimsPrincipal User)
         {
             // get user async to extract id

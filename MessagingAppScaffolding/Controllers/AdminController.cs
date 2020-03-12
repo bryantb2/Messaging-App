@@ -34,10 +34,31 @@ namespace MessagingApp.Controllers
         public async Task<IActionResult> Index()
         {
             // this route will take users to manage admins page
+            var appUserList = userRepo.GetAllUsersAndData();
+            var adminList = await GenerateUserRoleList(appUserList, "admin");
+            var peasantList = await GenerateUserRoleList(appUserList, "standard");
 
+            // build view model
+            var manageAdminVM = new ManageAdminsViewModel()
+            {
+                AdminList = GenerateAdminViewModels(adminList),
+                UserList = GenerateAdminViewModels(peasantList)
+            };
 
             ViewBag.BackgroundStyle = "pageContainer8";
-            return View();
+            return View(manageAdminVM);
+        }
+
+        public async Task<IActionResult> AddAdmin(int userId)
+        {
+            // TODO return redirect to index after adding admin
+            throw new NotImplementedException();
+        }
+
+        public async Task<IActionResult> RemoveAdmin(int userId)
+        {
+            // TODO return redirect to index after removing admin
+            throw new NotImplementedException();
         }
 
         public async Task<IActionResult> ManageChats(ManageChatsViewModel chatModel = null)
@@ -128,6 +149,62 @@ namespace MessagingApp.Controllers
                 chatVmList.Add(chatVM);
             }
             return chatVmList;
+        }
+
+        private List<AdminViewModel> GenerateAdminViewModels(List<AppUser> userList)
+        {
+            // list method is responsible for parsing user data into view models for the manage admins page
+            List<AdminViewModel> adminVMList = new List<AdminViewModel>();
+            for (var i = 0; i < userList.Count; i++)
+            {
+                var currentUser = userList[i];
+                var adminVM = new AdminViewModel()
+                {
+                    UserID = currentUser.Id,
+                    Username = currentUser.UserName,
+                    DateJoined = currentUser.GetDateJoined,
+                    RecentActivity = GetPostActivityDate(currentUser.GetMessageList, "RECENT"),
+                    NumberOfPosts = currentUser.GetMessageList.Count
+                };
+                adminVMList.Add(adminVM);
+            }
+            return adminVMList;
+        }
+
+        private async Task<List<AppUser>> GenerateUserRoleList(List<AppUser> userList, string role)
+        {
+            List<AppUser> hasRoleList = new List<AppUser>();
+            for(var i = 0; i < userList.Count; i++)
+            {
+                var currentUser = userList[i];
+                if(await userManager.IsInRoleAsync(currentUser, role))
+                {
+                    hasRoleList.Add(currentUser);
+                }
+            }
+            return hasRoleList;
+        }
+
+        private DateTime GetPostActivityDate(List<Message> msgList, string operation = "RECENT")
+        {
+            // will return most recent by default
+            Message selectedMsg = msgList[0];
+            foreach (Message m in msgList)
+            {
+                if (operation.ToUpper() == "RECENT")
+                {
+                    // compare and set recent
+                    if (m.UnixTimeStamp > selectedMsg.UnixTimeStamp)
+                        selectedMsg = m;
+                }
+                else
+                {
+                    // compare and set oldest
+                    if (m.UnixTimeStamp < selectedMsg.UnixTimeStamp)
+                        selectedMsg = m;
+                }
+            }
+            return selectedMsg.GetTimePosted;
         }
     }
 }

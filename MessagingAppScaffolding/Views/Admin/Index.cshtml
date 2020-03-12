@@ -1,7 +1,74 @@
 ﻿
 @{
     ViewData["Title"] = "ManageAdmins";
+    Layout = "_Layout";
 }
+@model ManageAdminsViewModel
 
-<h1>ManageAdmins</h1>
+<div class="p-4 text-center">
+    <h1 class="pageHeaderCustom text-light">Admin Management</h1>
+</div>
+<div class="row">
+    <div class="col-6 col-sm-12">
+        <div class="p-4 text-center">
+            <h2 class="pageHeaderCustom text-light">Current Admins</h2>
+        </div>
+        <table class="table bg-light table-striped w-100 table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">ID#</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Joined On</th>
+                    <th scope="col">Most Recent Activity</th>
+                    <th scope="col"># of Posts</th>
+                    <th scope="col">Make Admin</th>
+                </tr>
+            </thead>
+            <tbody id="standardUserTable">
+                @foreach (ChatViewModel c in Model.ActiveChats)
+                {
+                    <tr>
+                        <th scope="row">@c.ChatID</th>
+                        <td class="titleLimit">@c.Name</td>
+                        <td>@c.DateCreated</td>
+                        <td>@c.RecentActivity</td>
+                        <td>@c.NumberOfPosts</td>
+                        <td><a asp-controller="Messages" asp-action="Forum" asp-route-chatRoomID=@c.ChatID><i class="fa fa-eye"></i></a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-6 col-sm-12">
+        <div class="p-4 text-center">
+            <h2 class="pageHeaderCustom text-light">Standard Users</h2>
+        </div>
+        <table class="table bg-light table-striped w-100 table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">ID#</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Joined On</th>
+                    <th scope="col">Most Recent Activity</th>
+                    <th scope="col"># of Posts</th>
+                    <th scope="col">Make Admin</th>
+                </tr>
+            </thead>
+            <tbody id="standardUserTable">
+                @foreach (ChatViewModel c in Model.ActiveChats)
+                {
+                    <tr>
+                        <th scope="row">@c.ChatID</th>
+                        <td class="titleLimit">@c.Name</td>
+                        <td>@c.DateCreated</td>
+                        <td>@c.RecentActivity</td>
+                        <td>@c.NumberOfPosts</td>
+                        <td><a asp-controller="Messages" asp-action="Forum" asp-route-chatRoomID=@c.ChatID><i class="fa fa-eye"></i></a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
