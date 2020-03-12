@@ -71,24 +71,35 @@ namespace MessagingApp.Controllers
             {
                 if(model.ConfirmPassword == model.Password)
                 {
-                    AppUser user = new AppUser
+                    // ensuring unique username
+                    var preSearchUser = await userManager.FindByIdAsync(model.Username);
+                    if(preSearchUser == null)
                     {
-                        UserName = model.Username,
-                        Email = model.Email
-                    };
-                    IdentityResult result
-                        = await userManager.CreateAsync(user, model.Password);
+                        AppUser user = new AppUser
+                        {
+                            UserName = model.Username,
+                            Email = model.Email
+                        };
+                        IdentityResult result
+                            = await userManager.CreateAsync(user, model.Password);
 
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Index");
+                        if (result.Succeeded)
+                        {
+                            var newUser = await userManager.FindByNameAsync(user.UserName);
+                            await userManager.AddToRoleAsync(user, "standard");
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            foreach (IdentityError error in result.Errors)
+                            {
+                                ModelState.AddModelError("", error.Description);
+                            }
+                        }
                     }
                     else
                     {
-                        foreach (IdentityError error in result.Errors)
-                        {
-                            ModelState.AddModelError("", error.Description);
-                        }
+                        ModelState.AddModelError(nameof(CreateUserViewModel.Username), "Username must be unique");
                     }
                 }
                 else
