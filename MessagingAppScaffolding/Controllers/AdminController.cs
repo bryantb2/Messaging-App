@@ -32,6 +32,10 @@ namespace MessagingApp.Controllers
 
         public async Task<IActionResult> Index()
         {
+            // this route will take users to manage admins page
+
+
+            ViewBag.BackgroundStyle = "pageContainer8";
             return View();
         }
 

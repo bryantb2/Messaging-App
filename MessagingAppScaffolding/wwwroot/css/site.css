@@ -170,7 +170,7 @@ a.navigationAnchor:hover {
 
 .pageContainer8 {
     min-height: 100% !important;
-    background-image: url(http://getwallpapers.com/wallpaper/full/8/9/5/635703.jpg);
+    background-image: url("../images/backgroundImages/elephantBackground.jpg");
     background-size: cover;
     background-repeat: no-repeat;
 }
