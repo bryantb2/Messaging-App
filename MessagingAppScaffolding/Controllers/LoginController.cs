@@ -118,7 +118,7 @@ namespace MessagingApp.Controllers
             {
                 await signInManager.SignOutAsync();
             }
-            return RedirectToAction("Signout");
+            return RedirectToAction("Index", "Home", new { area = "" });
         }
     }
 }
