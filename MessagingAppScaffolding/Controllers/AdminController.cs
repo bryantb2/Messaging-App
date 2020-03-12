@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace MessagingApp.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "admin, owner")]
     public class AdminController : Controller
     {
         private UserManager<AppUser> userManager;
@@ -30,6 +30,7 @@ namespace MessagingApp.Controllers
             messageRepo = m;
         }
 
+        [Authorize(Roles = "owner")]
         public async Task<IActionResult> Index()
         {
             // this route will take users to manage admins page
@@ -39,7 +40,6 @@ namespace MessagingApp.Controllers
             return View();
         }
 
-        [AllowAnonymous]
         public async Task<IActionResult> ManageChats(ManageChatsViewModel chatModel = null)
         {
             // add properties to manage chats model

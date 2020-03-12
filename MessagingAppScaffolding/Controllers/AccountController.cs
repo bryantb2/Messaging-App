@@ -60,11 +60,6 @@ namespace MessagingApp.Controllers
             return View(manageMsgVM);
         }
 
-        /* public IActionResult Stats()
-        {
-            return View();
-        } */
-
         // message statistical logic
         private int GetPostedMsgCount(List<Message> msgList)
         {

@@ -7,6 +7,7 @@ using MessagingApp.ViewModels;
 
 namespace MessagingApp.Controllers
 {
+    [AllowAnonymous]
     public class LoginController : Controller
     {
         private UserManager<AppUser> userManager;
@@ -38,7 +39,6 @@ namespace MessagingApp.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
         {
@@ -60,7 +60,6 @@ namespace MessagingApp.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public async Task<IActionResult> Signup(CreateUserViewModel model)
         {
             if (ModelState.IsValid)
