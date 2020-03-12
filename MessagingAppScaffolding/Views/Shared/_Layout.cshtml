@@ -1,10 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Messaging App</title>
-
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="~/css/site.css" />
@@ -35,9 +36,18 @@
                             <a class="dropdown-item text-secondary" asp-controller="Account" asp-action="Index">View Account</a>
                             <a class="dropdown-item text-secondary" asp-controller="Account" asp-action="ManageMessages">Manage Messages</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item text-secondary" asp-controller="Admin" asp-action="ManageChats">Manage Chats</a>
-                            <a class="dropdown-item text-secondary" asp-controller="Admin" asp-action="Index">Manage Admins</a>
-                            <a class="dropdown-item text-secondary" asp-controller="Login" asp-action="SignoutUser">Signout</a>
+                            @if (User.IsInRole("owner") || User.IsInRole("admin"))
+                            {
+                                <a class="dropdown-item text-secondary" asp-controller="Admin" asp-action="ManageChats">Manage Chats</a>
+                            }
+                            @if (User.IsInRole("owner"))
+                            {
+                                <a class="dropdown-item text-secondary" asp-controller="Admin" asp-action="Index">Manage Admins</a>
+                            }
+                            @if (User.IsInRole("owner") || User.IsInRole("admin") || User.IsInRole("standard"))
+                            {
+                                <a class="dropdown-item text-secondary" asp-controller="Login" asp-action="SignoutUser">Signout</a>
+                            }
                         </div>
                     </li>
                 </ul>
