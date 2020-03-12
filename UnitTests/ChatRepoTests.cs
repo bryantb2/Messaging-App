@@ -3,7 +3,7 @@ using Xunit;
 
 namespace UnitTests
 {
-    public class MessageAPITests
+    public class ChatRepoTests
     {
 
 
