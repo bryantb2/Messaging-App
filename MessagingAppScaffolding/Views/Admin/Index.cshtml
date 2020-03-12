@@ -1,7 +1,71 @@
 ﻿
 @{
     ViewData["Title"] = "ManageAdmins";
+    Layout = "_Layout";
 }
+@model ManageAdminsViewModel
+<section class="my-5">
+    <div class="p-4 text-center">
+        <h1 class="pageHeaderCustom text-light">Admin Management</h1>
+    </div>
+    <div class="row">
+        <div class="col-6 col-sm-12">
+            <div class="p-4 text-center">
+                <h2 class="pageHeaderCustom text-light">Current Admins</h2>
+            </div>
+            <table class="table bg-light table-striped w-100 table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">Joined On</th>
+                        <th scope="col">Most Recent Activity</th>
+                        <th scope="col"># of Posts</th>
+                        <th scope="col">Revoke Admin</th>
+                    </tr>
+                </thead>
+                <tbody id="standardUserTable">
+                    @foreach (AdminViewModel a in Model.AdminList)
+                    {
+                        <tr>
+                            <th scope="row">@a.Username</th>
+                            <td>@a.DateJoined</td>
+                            <td>@a.RecentActivity</td>
+                            <td>@a.NumberOfPosts</td>
+                            <td><a asp-controller="Admin" asp-action="RemoveAdmin" asp-route-userId=@a.UserID><i class="fa fa-minus-circle"></i></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-6 col-sm-12">
+            <div class="p-4 text-center">
+                <h2 class="pageHeaderCustom text-light">Current Peasants</h2>
+            </div>
+            <table class="table bg-light table-striped w-100 table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Username</th>
+                        <th scope="col">Joined On</th>
+                        <th scope="col">Most Recent Activity</th>
+                        <th scope="col"># of Posts</th>
+                        <th scope="col">Make Admin</th>
+                    </tr>
+                </thead>
+                <tbody id="standardUserTable">
+                    @foreach (AdminViewModel a in Model.UserList)
+                    {
+                        <tr>
+                            <th scope="row">@a.Username</th>
+                            <td>@a.DateJoined</td>
+                            <td>@a.RecentActivity</td>
+                            <td>@a.NumberOfPosts</td>
+                            <td><a asp-controller="Admin" asp-action="AddAdmin" asp-route-userId=@a.UserID><i class="fa fa-plus-square"></i></a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
 
-<h1>ManageAdmins</h1>
 

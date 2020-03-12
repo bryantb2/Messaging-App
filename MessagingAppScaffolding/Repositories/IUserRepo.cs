@@ -10,5 +10,7 @@ namespace MessagingApp.Repositories
     public interface IUserRepo
     {
         Task<AppUser> GetUserDataAsync(ClaimsPrincipal User);
+
+        List<AppUser> GetAllUsersAndData();
     }
 }

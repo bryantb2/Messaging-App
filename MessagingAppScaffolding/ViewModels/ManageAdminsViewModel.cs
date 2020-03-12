@@ -8,7 +8,7 @@ namespace MessagingApp.ViewModels
 {
     public class ManageAdminsViewModel
     {
-        public List<AppUser> userList { get; set; }
-        public List<AppUser> adminList { get; set; }
+        public List<AdminViewModel> UserList { get; set; }
+        public List<AdminViewModel> AdminList { get; set; }
     }
 }

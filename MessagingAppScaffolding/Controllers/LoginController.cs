@@ -7,6 +7,7 @@ using MessagingApp.ViewModels;
 
 namespace MessagingApp.Controllers
 {
+    [AllowAnonymous]
     public class LoginController : Controller
     {
         private UserManager<AppUser> userManager;
@@ -27,18 +28,22 @@ namespace MessagingApp.Controllers
             passwordValidator = passValid;
             passwordHasher = passwordHash;
         }
-        public ViewResult Index()
+        public async Task<ViewResult> Index()
         {
             return View();
         }
 
-        public ViewResult Signup()
+        public async Task<ViewResult> Signup()
+        {
+            return View();
+        }
+
+        public async Task<ViewResult> Signout()
         {
             return View();
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
         {
@@ -60,31 +65,41 @@ namespace MessagingApp.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public async Task<IActionResult> Signup(CreateUserViewModel model)
         {
             if (ModelState.IsValid)
             {
                 if(model.ConfirmPassword == model.Password)
                 {
-                    AppUser user = new AppUser
+                    // ensuring unique username
+                    var preSearchUser = await userManager.FindByNameAsync(model.Username);
+                    if(preSearchUser == null)
                     {
-                        UserName = model.Username,
-                        Email = model.Email
-                    };
-                    IdentityResult result
-                        = await userManager.CreateAsync(user, model.Password);
+                        AppUser user = new AppUser
+                        {
+                            UserName = model.Username,
+                            Email = model.Email
+                        };
+                        IdentityResult result
+                            = await userManager.CreateAsync(user, model.Password);
 
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Index");
+                        if (result.Succeeded)
+                        {
+                            var newUser = await userManager.FindByNameAsync(user.UserName);
+                            await userManager.AddToRoleAsync(user, "standard");
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            foreach (IdentityError error in result.Errors)
+                            {
+                                ModelState.AddModelError("", error.Description);
+                            }
+                        }
                     }
                     else
                     {
-                        foreach (IdentityError error in result.Errors)
-                        {
-                            ModelState.AddModelError("", error.Description);
-                        }
+                        ModelState.AddModelError(nameof(CreateUserViewModel.Username), "Username must be unique");
                     }
                 }
                 else
@@ -93,6 +108,17 @@ namespace MessagingApp.Controllers
                 }
             }
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SignoutUser()
+        {
+            var currentUser = userManager.GetUserAsync(HttpContext.User);
+            if(currentUser != null)
+            {
+                await signInManager.SignOutAsync();
+            }
+            return RedirectToAction("Index", "Home", new { area = "" });
         }
     }
 }

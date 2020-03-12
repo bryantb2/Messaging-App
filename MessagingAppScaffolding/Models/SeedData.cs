@@ -14,11 +14,6 @@ namespace MessagingApp.Models
 {
     public static class SeedData
     {
-       /* public static void SeedDBAsync(ApplicationDbContext c, IServiceProvider prov)
-        {
-            SeedDB(c, prov).Wait();
-        }
-        */
         private static async Task<IdentityResult> AddUserAsync(UserManager<AppUser> userManager, AppUser user)
         {
             return await userManager.CreateAsync(user);
@@ -33,14 +28,10 @@ namespace MessagingApp.Models
             if(!context.ChatRooms.Any())
             {
                 UserManager<AppUser> userManager = null;
-                /*using (var serviceScope = prov.CreateScope())
-                {
-                    userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
-                }*/
+                RoleManager<IdentityRole> roleManager = null;
                 userManager = prov.GetRequiredService<UserManager<AppUser>>();
+                roleManager = prov.GetRequiredService<RoleManager<IdentityRole>>();
                 // repos
-                //var userStore = new UserStore<AppUser>(context);
-                //var userManager = prov.GetRequiredService<UserManager<AppUser>>();
                 RealChatRepo chatRepo = new RealChatRepo(context);
                 RealMessageRepo msgRepo = new RealMessageRepo(context);
                 RealReplyRepo rplyRepo = new RealReplyRepo(context);
@@ -95,21 +86,41 @@ namespace MessagingApp.Models
                 // building password hashes
                 var userPasswordArr = new String[3] { "WhoaDude123!", "MotherRussia123!", "MeatBallRevolver123!" };
                 var userArr = new AppUser[3] { user1, user2, user3 };
-                //List<Task<IdentityResult>> tasks = new List<Task<IdentityResult>>()
                 for (var i = 0; i < userPasswordArr.Length; i++)
                 {
                     var hasher = new PasswordHasher<AppUser>();
                     var hashedPassword = hasher.HashPassword(userArr[i], userPasswordArr[i]);
                     userArr[i].PasswordHash = hashedPassword;
 
-                    // var result = await userManager.CreateAsync(userArr[i]);
-                   await AddUserAsync(userManager, userArr[i]);
+                    // add user
+                    await AddUserAsync(userManager, userArr[i]);
+                }
+
+                // building and assigning roles
+                var roles = new String[3] { "owner", "admin", "standard" };
+                for (var i = 0; i < roles.Length; i++)
+                {
+                    var currentUser = userArr[i];
+                    var currentRole = roles[i];
+
+                    // building roles
+                    if(await roleManager.FindByNameAsync(currentRole) == null)
+                    {
+                        await roleManager.CreateAsync(new IdentityRole(currentRole));
+                    }
+
+                    // find users
+                    var foundAppUser = await userManager.FindByNameAsync(currentUser.UserName);
+                    if (foundAppUser != null)
+                    {
+                        await userManager.AddToRoleAsync(foundAppUser, currentRole);
+                    }
                 }
 
                 // adding users and chat rooms to DB
-                chatRepo.CreateChatRoom(chat1);
-                chatRepo.CreateChatRoom(chat2);
-                chatRepo.CreateChatRoom(chat3);
+                await chatRepo.CreateChatRoom(chat1);
+                await chatRepo.CreateChatRoom(chat2);
+                await chatRepo.CreateChatRoom(chat3);
                 
                 // message content
                 var msgTitleArr = new String[5] { "test 1", "test 2", "test 3", "test 4", "test 5" };
@@ -127,8 +138,6 @@ namespace MessagingApp.Models
                 // add messages to chat repos
                 // add replies to messages
                 // add messages and replies to user history
-
-                //var chatRooms = new ChatRoom[3] { chat1, chat2, chat3 };
                 for(var i = 0; i < msgTitleArr.Length; i++)
                 {
                     var msgChatRoom = msgChatRoomArr[i];
@@ -155,10 +164,10 @@ namespace MessagingApp.Models
                         UnixTimeStamp = rplyTimeStamp
                     };
 
-                    msgRepo.AddMsgToRepo(msg);
-                    rplyRepo.AddReplyToRepo(rply);
-                    msgRepo.AddReplytoMsg(rply, msg.MessageID);
-                    chatRepo.AddMsgToChat(msgChatRoom.ChatRoomID, msg);
+                    await msgRepo.AddMsgToRepo(msg);
+                    await rplyRepo.AddReplyToRepo(rply);
+                    await msgRepo.AddReplytoMsg(rply, msg.MessageID);
+                    await chatRepo.AddMsgToChat(msgChatRoom.ChatRoomID, msg);
 
                     msgPoster.AddMessageToHistory(msg);
                     rplyPoster.AddToReplyHistory(rply);
