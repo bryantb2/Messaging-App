@@ -123,7 +123,7 @@ namespace MessagingApp.Controllers
                 // update msg
                 foundMsg.MessageTitle = msgModel.MsgTitle;
                 foundMsg.MessageContent = msgModel.MsgBody;
-                await messageRepo.UpdateMsgById(foundMsg);
+                await messageRepo.UpdateMsg(foundMsg);
                 // return msg
                 return Ok(foundMsg);
             }
