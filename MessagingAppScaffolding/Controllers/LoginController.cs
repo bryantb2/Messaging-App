@@ -28,12 +28,17 @@ namespace MessagingApp.Controllers
             passwordValidator = passValid;
             passwordHasher = passwordHash;
         }
-        public ViewResult Index()
+        public async Task<ViewResult> Index()
         {
             return View();
         }
 
-        public ViewResult Signup()
+        public async Task<ViewResult> Signup()
+        {
+            return View();
+        }
+
+        public async Task<ViewResult> Signout()
         {
             return View();
         }
@@ -92,6 +97,17 @@ namespace MessagingApp.Controllers
                 }
             }
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SignoutUser()
+        {
+            var currentUser = userManager.GetUserAsync(HttpContext.User);
+            if(currentUser != null)
+            {
+                await signInManager.SignOutAsync();
+            }
+            return RedirectToAction("Signout");
         }
     }
 }
