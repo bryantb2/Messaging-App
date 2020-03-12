@@ -14,8 +14,8 @@ namespace MessagingApp.Repositories
 
         Task DeleteChatRoom(int chatRoomID);
 
-        Task AddMsgToChat(int chatID, Message msg);
+        Task AddMsgToChat(int chatRoomID, Message msg);
 
-        Task RemoveMsgFromChat(int chatID, int msgID);
+        Task RemoveMsgFromChat(int chatRoomID, int msgID);
     }
 }
