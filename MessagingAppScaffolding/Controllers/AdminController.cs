@@ -56,6 +56,7 @@ namespace MessagingApp.Controllers
             var user = await userManager.FindByIdAsync(userId);
             if(user != null)
             {
+                await userManager.RemoveFromRoleAsync(user, "standard");
                 await userManager.AddToRoleAsync(user, "admin");
             }
             return RedirectToAction("Index");
@@ -68,6 +69,7 @@ namespace MessagingApp.Controllers
             if (user != null)
             {
                 await userManager.RemoveFromRoleAsync(user, "admin");
+                await userManager.AddToRoleAsync(user, "standard");
             }
             return RedirectToAction("Index");
         }
