@@ -13,7 +13,7 @@ namespace MessagingApp.Controllers
 {
     [ApiController]
     [Route("api/[controller]/[action]")]
-    [Authorize]
+    ///[Authorize]
     public class ForumAPIController : Controller
     {
         IReplyRepo replyRepo;
