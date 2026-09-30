@@ -14,10 +14,10 @@ namespace MessagingApp.Repositories
 
         Task DeleteMsgFromRepo(int msgId);
 
-        Task AddReplytoMsg(Reply rply, int msgID);
+        Task AddReplytoMsg(Reply rply, int msgId);
 
-        Task<Reply> RemoveReplyFromMsg(int replyID, int msgID);
+        Task<Reply> RemoveReplyFromMsg(int replyID, int msgId);
 
-        Task UpdateMsgById(Message msg);
+        Task UpdateMsg(Message msg);
     }
 }

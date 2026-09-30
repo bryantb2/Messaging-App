@@ -32,7 +32,7 @@ namespace MessagingApp.Repositories
             await this.context.SaveChangesAsync();
         }
 
-        public async Task UpdateMsgById(Message msg)
+        public async Task UpdateMsg(Message msg)
         {
             this.context.Messages.Update(msg);
             await this.context.SaveChangesAsync();
